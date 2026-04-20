@@ -1,0 +1,125 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: AbsoluteTranslate 2026.4.4\n"
+"Report-Msgid-Bugs-To: chaicm75@gmail.com\n"
+"POT-Creation-Date: 2026-04-20 08:29+0700\n"
+"PO-Revision-Date: \n"
+"Last-Translator: chaiBot and Malee Yamazaki\n"
+"Language-Team: Hebrew\n"
+"Language: he\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: DevOn Addon\n"
+
+#: long_translation_dialog.py:141
+msgid "&Continue	Alt+C"
+msgstr "&המשך	Alt+C"
+
+#: long_translation_dialog.py:275
+msgid "&Continue	Alt+C ({} / {})"
+msgstr "&המשך	Alt+C ({} / {})"
+
+#: long_translation_dialog.py:146
+msgid "&Swap	Alt+S"
+msgstr "&החלפה	Alt+S"
+
+#: setting.py:79
+msgid "Absolute Translate"
+msgstr "Absolute Translate"
+
+#: setting.py:134
+msgid "Append translations only in long translation (if text >2000 chars)"
+msgstr "הוסף תרגומים רק בתרגום ארוך (אם הטקסט > 2000 תווים)"
+
+#: clipboard_utils.py:225
+msgid "Appended"
+msgstr "נוסף"
+
+#: setting.py:104
+msgid "Automatically swap when source matches target"
+msgstr "החלף אוטומטית כאשר המקור תואם ליעד"
+
+#: long_translation_dialog.py:151
+msgid "Cancel	Alt+X"
+msgstr "ביטול	Alt+X"
+
+#: clipboard_utils.py:201
+msgid "Cannot append to non-text clipboard content"
+msgstr "לא ניתן להוסיף לתוכן לוח שאינו טקסט"
+
+#: __init__.py:184
+msgid "Cannot open settings dialog"
+msgstr "לא ניתן לפתוח את דיאלוג ההגדרות"
+
+#: long_translation_dialog.py:287
+msgid "Close	Alt+X"
+msgstr "סגירה	Alt+X"
+
+#: long_translation_dialog.py:18
+msgid "Continuous Translation"
+msgstr "תרגום רציף"
+
+#: setting.py:128
+msgid "Continuous translation"
+msgstr "תרגום רציף"
+
+#: clipboard_utils.py:225
+msgid "Copied"
+msgstr "הועתק"
+
+#: long_translation_dialog.py:66
+msgid "Document language ({}) matches target. Auto-swapping to {}."
+msgstr "שפת המסמך ({}) תואמת ליעד. מחליף אוטומטית ל-{}"
+
+#: long_translation_dialog.py:279
+msgid "Error during translation process."
+msgstr "שגיאה במהלך תהליך התרגום."
+
+#: clipboard_utils.py:232
+msgid "Error writing to clipboard"
+msgstr "שגיאה בכתיבה ללוח"
+
+#: __init__.py:137
+msgid "No spoken text captured."
+msgstr "לא נתפס טקסט מדובר."
+
+#: __init__.py:113
+msgid "No text selected."
+msgstr "לא נבחר טקסט."
+
+#: __init__.py:166
+msgid "No text to translate."
+msgstr "אין טקסט לתרגום."
+
+#: __init__.py:87
+msgid "No translation result."
+msgstr "אין תוצאת תרגום."
+
+#: setting.py:121
+msgid "Save translations to clipboard"
+msgstr "שמור תרגומים ללוח"
+
+#: setting.py:90
+msgid "Source language (Auto Detect = auto):"
+msgstr "שפת מקור (זיהוי אוטומטי = auto):"
+
+#: setting.py:109
+msgid "Swap to language:"
+msgstr "החלף לשפה:"
+
+#: long_translation_dialog.py:201
+msgid "Swapped"
+msgstr "הוחלף"
+
+#: setting.py:97
+msgid "Target language:"
+msgstr "שפת יעד:"
+
+#: __init__.py:187
+msgid "Translates Selected Text (Single Tap), Translates Last Speech (Double Tap), Open Absolute Translate Settings (Tripple Tap)"
+msgstr "מתרגם טקסט שנבחר (לחיצה אחת), מתרגם דיבור אחרון (לחיצה כפולה), פותח הגדרות Absolute Translate (לחיצה משולשת)"
+
+#: long_translation_dialog.py:237
+msgid "Translation failed."
+msgstr "התרגום נכשל."

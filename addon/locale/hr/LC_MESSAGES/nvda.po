@@ -1,0 +1,125 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: AbsoluteTranslate 2026.4.4\n"
+"Report-Msgid-Bugs-To: chaicm75@gmail.com\n"
+"POT-Creation-Date: 2026-04-20 08:29+0700\n"
+"PO-Revision-Date: \n"
+"Last-Translator: chaiBot and Malee Yamazaki\n"
+"Language-Team: Croatian\n"
+"Language: hr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: DevOn Addon\n"
+
+#: long_translation_dialog.py:141
+msgid "&Continue	Alt+C"
+msgstr "&Nastavi	Alt+C"
+
+#: long_translation_dialog.py:275
+msgid "&Continue	Alt+C ({} / {})"
+msgstr "&Nastavi	Alt+C ({} / {})"
+
+#: long_translation_dialog.py:146
+msgid "&Swap	Alt+S"
+msgstr "&Zamijeni	Alt+S"
+
+#: setting.py:79
+msgid "Absolute Translate"
+msgstr "Absolute Translate"
+
+#: setting.py:134
+msgid "Append translations only in long translation (if text >2000 chars)"
+msgstr "Dodaj prijevode samo u dugom prijevodu (ako je tekst > 2000 znakova)"
+
+#: clipboard_utils.py:225
+msgid "Appended"
+msgstr "Dodano"
+
+#: setting.py:104
+msgid "Automatically swap when source matches target"
+msgstr "Automatski zamijeni kada se izvor podudara s ciljem"
+
+#: long_translation_dialog.py:151
+msgid "Cancel	Alt+X"
+msgstr "Odustani	Alt+X"
+
+#: clipboard_utils.py:201
+msgid "Cannot append to non-text clipboard content"
+msgstr "Nije moguće dodati sadržaju međuspremnika koji nije tekst"
+
+#: __init__.py:184
+msgid "Cannot open settings dialog"
+msgstr "Nije moguće otvoriti prozor postavki"
+
+#: long_translation_dialog.py:287
+msgid "Close	Alt+X"
+msgstr "Zatvori	Alt+X"
+
+#: long_translation_dialog.py:18
+msgid "Continuous Translation"
+msgstr "Kontinuirani prijevod"
+
+#: setting.py:128
+msgid "Continuous translation"
+msgstr "Kontinuirani prijevod"
+
+#: clipboard_utils.py:225
+msgid "Copied"
+msgstr "Kopirano"
+
+#: long_translation_dialog.py:66
+msgid "Document language ({}) matches target. Auto-swapping to {}."
+msgstr "Jezik dokumenta ({}) podudara se s ciljem. Automatska zamjena na {}."
+
+#: long_translation_dialog.py:279
+msgid "Error during translation process."
+msgstr "Pogreška tijekom procesa prevođenja."
+
+#: clipboard_utils.py:232
+msgid "Error writing to clipboard"
+msgstr "Pogreška pri pisanju u međuspremnik"
+
+#: __init__.py:137
+msgid "No spoken text captured."
+msgstr "Nije uhvaćen govorni tekst."
+
+#: __init__.py:113
+msgid "No text selected."
+msgstr "Nijedan tekst nije odabran."
+
+#: __init__.py:166
+msgid "No text to translate."
+msgstr "Nema teksta za prijevod."
+
+#: __init__.py:87
+msgid "No translation result."
+msgstr "Nema rezultata prijevoda."
+
+#: setting.py:121
+msgid "Save translations to clipboard"
+msgstr "Spremi prijevode u međuspremnik"
+
+#: setting.py:90
+msgid "Source language (Auto Detect = auto):"
+msgstr "Izvorni jezik (Auto detekcija = auto):"
+
+#: setting.py:109
+msgid "Swap to language:"
+msgstr "Zamijeni na jezik:"
+
+#: long_translation_dialog.py:201
+msgid "Swapped"
+msgstr "Zamijenjeno"
+
+#: setting.py:97
+msgid "Target language:"
+msgstr "Ciljni jezik:"
+
+#: __init__.py:187
+msgid "Translates Selected Text (Single Tap), Translates Last Speech (Double Tap), Open Absolute Translate Settings (Tripple Tap)"
+msgstr "Prevodi odabrani tekst (jedan dodir), prevodi zadnji govor (dvostruki dodir), otvara postavke Absolute Translate (trostruki dodir)"
+
+#: long_translation_dialog.py:237
+msgid "Translation failed."
+msgstr "Prijevod nije uspio."

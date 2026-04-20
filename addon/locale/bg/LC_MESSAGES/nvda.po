@@ -1,0 +1,125 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: AbsoluteTranslate 2026.4.4\n"
+"Report-Msgid-Bugs-To: chaicm75@gmail.com\n"
+"POT-Creation-Date: 2026-04-20 08:29+0700\n"
+"PO-Revision-Date: \n"
+"Last-Translator: chaiBot and Malee Yamazaki\n"
+"Language-Team: Bulgarian\n"
+"Language: bg\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: DevOn Addon\n"
+
+#: long_translation_dialog.py:141
+msgid "&Continue	Alt+C"
+msgstr "&Продължи	Alt+C"
+
+#: long_translation_dialog.py:275
+msgid "&Continue	Alt+C ({} / {})"
+msgstr "&Продължи	Alt+C ({} / {})"
+
+#: long_translation_dialog.py:146
+msgid "&Swap	Alt+S"
+msgstr "&Размени	Alt+S"
+
+#: setting.py:79
+msgid "Absolute Translate"
+msgstr "Absolute Translate"
+
+#: setting.py:134
+msgid "Append translations only in long translation (if text >2000 chars)"
+msgstr "Добавяне на преводи само при дълъг превод (ако текстът е >2000 знака)"
+
+#: clipboard_utils.py:225
+msgid "Appended"
+msgstr "Добавено"
+
+#: setting.py:104
+msgid "Automatically swap when source matches target"
+msgstr "Автоматична размяна, когато източникът съвпада с целта"
+
+#: long_translation_dialog.py:151
+msgid "Cancel	Alt+X"
+msgstr "Отказ	Alt+X"
+
+#: clipboard_utils.py:201
+msgid "Cannot append to non-text clipboard content"
+msgstr "Не може да се добавя към нетекстово съдържание на клипборда"
+
+#: __init__.py:184
+msgid "Cannot open settings dialog"
+msgstr "Настройките не могат да бъдат отворени"
+
+#: long_translation_dialog.py:287
+msgid "Close	Alt+X"
+msgstr "Затвори	Alt+X"
+
+#: long_translation_dialog.py:18
+msgid "Continuous Translation"
+msgstr "Непрекъснат превод"
+
+#: setting.py:128
+msgid "Continuous translation"
+msgstr "Непрекъснат превод"
+
+#: clipboard_utils.py:225
+msgid "Copied"
+msgstr "Копирано"
+
+#: long_translation_dialog.py:66
+msgid "Document language ({}) matches target. Auto-swapping to {}."
+msgstr "Езикът на документа ({}) съвпада с целевия. Автоматична размяна на {}."
+
+#: long_translation_dialog.py:279
+msgid "Error during translation process."
+msgstr "Грешка по време на превода."
+
+#: clipboard_utils.py:232
+msgid "Error writing to clipboard"
+msgstr "Грешка при запис в клипборда"
+
+#: __init__.py:137
+msgid "No spoken text captured."
+msgstr "Няма уловен говор."
+
+#: __init__.py:113
+msgid "No text selected."
+msgstr "Няма избран текст."
+
+#: __init__.py:166
+msgid "No text to translate."
+msgstr "Няма текст за превод."
+
+#: __init__.py:87
+msgid "No translation result."
+msgstr "Няма резултат от превода."
+
+#: setting.py:121
+msgid "Save translations to clipboard"
+msgstr "Запазване на преводите в клипборда"
+
+#: setting.py:90
+msgid "Source language (Auto Detect = auto):"
+msgstr "Изходен език (Автоматично разпознаване = auto):"
+
+#: setting.py:109
+msgid "Swap to language:"
+msgstr "Размяна към език:"
+
+#: long_translation_dialog.py:201
+msgid "Swapped"
+msgstr "Разменено"
+
+#: setting.py:97
+msgid "Target language:"
+msgstr "Целев език:"
+
+#: __init__.py:187
+msgid "Translates Selected Text (Single Tap), Translates Last Speech (Double Tap), Open Absolute Translate Settings (Tripple Tap)"
+msgstr "Превежда избран текст (еднократно докосване), превежда последната реч (двукратно докосване), отваря настройките на Absolute Translate (трикратно докосване)"
+
+#: long_translation_dialog.py:237
+msgid "Translation failed."
+msgstr "Преводът е неуспешен."

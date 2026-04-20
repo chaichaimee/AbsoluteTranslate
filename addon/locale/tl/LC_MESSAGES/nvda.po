@@ -1,0 +1,125 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: AbsoluteTranslate 2026.4.4\n"
+"Report-Msgid-Bugs-To: chaicm75@gmail.com\n"
+"POT-Creation-Date: 2026-04-20 08:29+0700\n"
+"PO-Revision-Date: \n"
+"Last-Translator: chaiBot and Malee Yamazaki\n"
+"Language-Team: Tagalog\n"
+"Language: tl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: DevOn Addon\n"
+
+#: long_translation_dialog.py:141
+msgid "&Continue	Alt+C"
+msgstr "I-&continue	Alt+C"
+
+#: long_translation_dialog.py:275
+msgid "&Continue	Alt+C ({} / {})"
+msgstr "I-&continue	Alt+C ({} / {})"
+
+#: long_translation_dialog.py:146
+msgid "&Swap	Alt+S"
+msgstr "I-&swap	Alt+S"
+
+#: setting.py:79
+msgid "Absolute Translate"
+msgstr "Absolute Translate"
+
+#: setting.py:134
+msgid "Append translations only in long translation (if text >2000 chars)"
+msgstr "I-append lang ang mga salin sa mahabang pagsasalin (kung ang teksto ay >2000 chars)"
+
+#: clipboard_utils.py:225
+msgid "Appended"
+msgstr "Na-append na"
+
+#: setting.py:104
+msgid "Automatically swap when source matches target"
+msgstr "Awtomatikong i-swap kapag tumugma ang pinagmulan sa target"
+
+#: long_translation_dialog.py:151
+msgid "Cancel	Alt+X"
+msgstr "Kanselahin	Alt+X"
+
+#: clipboard_utils.py:201
+msgid "Cannot append to non-text clipboard content"
+msgstr "Hindi maaring i-append sa hindi-tekstong nilalaman ng clipboard"
+
+#: __init__.py:184
+msgid "Cannot open settings dialog"
+msgstr "Hindi mabuksan ang settings dialog"
+
+#: long_translation_dialog.py:287
+msgid "Close	Alt+X"
+msgstr "Isara	Alt+X"
+
+#: long_translation_dialog.py:18
+msgid "Continuous Translation"
+msgstr "Patuloy na Pagsasalin"
+
+#: setting.py:128
+msgid "Continuous translation"
+msgstr "Patuloy na pagsasalin"
+
+#: clipboard_utils.py:225
+msgid "Copied"
+msgstr "Nakopya na"
+
+#: long_translation_dialog.py:66
+msgid "Document language ({}) matches target. Auto-swapping to {}."
+msgstr "Ang wika ng dokumento ({}) ay tumutugma sa target. Awtomatikong nag-so-swap sa {}."
+
+#: long_translation_dialog.py:279
+msgid "Error during translation process."
+msgstr "Error habang isinasagawa ang pagsasalin."
+
+#: clipboard_utils.py:232
+msgid "Error writing to clipboard"
+msgstr "Error sa pagsusulat sa clipboard"
+
+#: __init__.py:137
+msgid "No spoken text captured."
+msgstr "Walang nakuhang sinalitang teksto."
+
+#: __init__.py:113
+msgid "No text selected."
+msgstr "Walang tekstong napili."
+
+#: __init__.py:166
+msgid "No text to translate."
+msgstr "Walang tekstong isasalin."
+
+#: __init__.py:87
+msgid "No translation result."
+msgstr "Walang resulta ng pagsasalin."
+
+#: setting.py:121
+msgid "Save translations to clipboard"
+msgstr "I-save ang mga salin sa clipboard"
+
+#: setting.py:90
+msgid "Source language (Auto Detect = auto):"
+msgstr "Pinagmulang wika (Auto Detect = auto):"
+
+#: setting.py:109
+msgid "Swap to language:"
+msgstr "I-swap sa wika:"
+
+#: long_translation_dialog.py:201
+msgid "Swapped"
+msgstr "Na-swap na"
+
+#: setting.py:97
+msgid "Target language:"
+msgstr "Target na wika:"
+
+#: __init__.py:187
+msgid "Translates Selected Text (Single Tap), Translates Last Speech (Double Tap), Open Absolute Translate Settings (Tripple Tap)"
+msgstr "Isasalin ang Piniling Teksto (Isang Tap), Isasalin ang Huling Pananalita (Dalawang Tap), Bubuksan ang Absolute Translate Settings (Tatlong Tap)"
+
+#: long_translation_dialog.py:237
+msgid "Translation failed."
+msgstr "Bigo ang pagsasalin."

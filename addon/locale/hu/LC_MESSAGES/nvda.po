@@ -1,0 +1,125 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: AbsoluteTranslate 2026.4.4\n"
+"Report-Msgid-Bugs-To: chaicm75@gmail.com\n"
+"POT-Creation-Date: 2026-04-20 08:29+0700\n"
+"PO-Revision-Date: \n"
+"Last-Translator: chaiBot and Malee Yamazaki\n"
+"Language-Team: Hungarian\n"
+"Language: hu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: DevOn Addon\n"
+
+#: long_translation_dialog.py:141
+msgid "&Continue	Alt+C"
+msgstr "&Folytatás	Alt+C"
+
+#: long_translation_dialog.py:275
+msgid "&Continue	Alt+C ({} / {})"
+msgstr "&Folytatás	Alt+C ({} / {})"
+
+#: long_translation_dialog.py:146
+msgid "&Swap	Alt+S"
+msgstr "&Felcserélés	Alt+S"
+
+#: setting.py:79
+msgid "Absolute Translate"
+msgstr "Absolute Translate"
+
+#: setting.py:134
+msgid "Append translations only in long translation (if text >2000 chars)"
+msgstr "Fordítások hozzáfűzése csak hosszú fordításnál (ha a szöveg > 2000 kar.)"
+
+#: clipboard_utils.py:225
+msgid "Appended"
+msgstr "Hozzáfűzve"
+
+#: setting.py:104
+msgid "Automatically swap when source matches target"
+msgstr "Automatikus felcserélés, ha a forrás megegyezik a céllal"
+
+#: long_translation_dialog.py:151
+msgid "Cancel	Alt+X"
+msgstr "Mégse	Alt+X"
+
+#: clipboard_utils.py:201
+msgid "Cannot append to non-text clipboard content"
+msgstr "Nem lehet hozzáfűzni nem szöveges vágólap-tartalomhoz"
+
+#: __init__.py:184
+msgid "Cannot open settings dialog"
+msgstr "Nem sikerült megnyitni a beállítások ablakot"
+
+#: long_translation_dialog.py:287
+msgid "Close	Alt+X"
+msgstr "Bezárás	Alt+X"
+
+#: long_translation_dialog.py:18
+msgid "Continuous Translation"
+msgstr "Folyamatos fordítás"
+
+#: setting.py:128
+msgid "Continuous translation"
+msgstr "Folyamatos fordítás"
+
+#: clipboard_utils.py:225
+msgid "Copied"
+msgstr "Másolva"
+
+#: long_translation_dialog.py:66
+msgid "Document language ({}) matches target. Auto-swapping to {}."
+msgstr "A dokumentum nyelve ({}) megegyezik a céllal. Automatikus felcserélés erre: {}."
+
+#: long_translation_dialog.py:279
+msgid "Error during translation process."
+msgstr "Hiba a fordítási folyamat során."
+
+#: clipboard_utils.py:232
+msgid "Error writing to clipboard"
+msgstr "Hiba a vágólapra íráskor"
+
+#: __init__.py:137
+msgid "No spoken text captured."
+msgstr "Nincs rögzített beszéd."
+
+#: __init__.py:113
+msgid "No text selected."
+msgstr "Nincs kiválasztott szöveg."
+
+#: __init__.py:166
+msgid "No text to translate."
+msgstr "Nincs fordítandó szöveg."
+
+#: __init__.py:87
+msgid "No translation result."
+msgstr "Nincs fordítási eredmény."
+
+#: setting.py:121
+msgid "Save translations to clipboard"
+msgstr "Fordítások mentése a vágólapra"
+
+#: setting.py:90
+msgid "Source language (Auto Detect = auto):"
+msgstr "Forrásnyelv (Automatikus felismerés = auto):"
+
+#: setting.py:109
+msgid "Swap to language:"
+msgstr "Felcserélés erre a nyelvre:"
+
+#: long_translation_dialog.py:201
+msgid "Swapped"
+msgstr "Felcserélve"
+
+#: setting.py:97
+msgid "Target language:"
+msgstr "Célnyelv:"
+
+#: __init__.py:187
+msgid "Translates Selected Text (Single Tap), Translates Last Speech (Double Tap), Open Absolute Translate Settings (Tripple Tap)"
+msgstr "Kijelölt szöveg fordítása (egy koppintás), utolsó beszéd fordítása (dupla koppintás), Absolute Translate beállítások (tripla koppintás)"
+
+#: long_translation_dialog.py:237
+msgid "Translation failed."
+msgstr "A fordítás sikertelen."

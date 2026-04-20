@@ -1,0 +1,125 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: AbsoluteTranslate 2026.4.4\n"
+"Report-Msgid-Bugs-To: chaicm75@gmail.com\n"
+"POT-Creation-Date: 2026-04-20 08:29+0700\n"
+"PO-Revision-Date: \n"
+"Last-Translator: chaiBot and Malee Yamazaki\n"
+"Language-Team: Tamil\n"
+"Language: ta\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: DevOn Addon\n"
+
+#: long_translation_dialog.py:141
+msgid "&Continue	Alt+C"
+msgstr "&தொடரவும்	Alt+C"
+
+#: long_translation_dialog.py:275
+msgid "&Continue	Alt+C ({} / {})"
+msgstr "&தொடரவும்	Alt+C ({} / {})"
+
+#: long_translation_dialog.py:146
+msgid "&Swap	Alt+S"
+msgstr "&மாற்றவும்	Alt+S"
+
+#: setting.py:79
+msgid "Absolute Translate"
+msgstr "Absolute Translate"
+
+#: setting.py:134
+msgid "Append translations only in long translation (if text >2000 chars)"
+msgstr "நீண்ட மொழிபெயர்ப்பில் மட்டும் மொழிபெயர்ப்புகளைச் சேர்க்கவும் (உரை >2000 எழுத்துகள் இருந்தால்)"
+
+#: clipboard_utils.py:225
+msgid "Appended"
+msgstr "சேர்க்கப்பட்டது"
+
+#: setting.py:104
+msgid "Automatically swap when source matches target"
+msgstr "மூலம் இலக்குடன் பொருந்தும்போது தானாகவே மாற்றவும்"
+
+#: long_translation_dialog.py:151
+msgid "Cancel	Alt+X"
+msgstr "ரத்து செய்	Alt+X"
+
+#: clipboard_utils.py:201
+msgid "Cannot append to non-text clipboard content"
+msgstr "உரை அல்லாத கிளிப்போர்டு உள்ளடக்கத்தில் சேர்க்க முடியாது"
+
+#: __init__.py:184
+msgid "Cannot open settings dialog"
+msgstr "அமைப்புகள் சாளரத்தைத் திறக்க முடியவில்லை"
+
+#: long_translation_dialog.py:287
+msgid "Close	Alt+X"
+msgstr "மூடு	Alt+X"
+
+#: long_translation_dialog.py:18
+msgid "Continuous Translation"
+msgstr "தொடர்ச்சியான மொழிபெயர்ப்பு"
+
+#: setting.py:128
+msgid "Continuous translation"
+msgstr "தொடர்ச்சியான மொழிபெயர்ப்பு"
+
+#: clipboard_utils.py:225
+msgid "Copied"
+msgstr "நகலெடுக்கப்பட்டது"
+
+#: long_translation_dialog.py:66
+msgid "Document language ({}) matches target. Auto-swapping to {}."
+msgstr "ஆவண மொழி ({}) இலக்குடன் பொருந்துகிறது. தானாகவே {} க்கு மாற்றப்படுகிறது."
+
+#: long_translation_dialog.py:279
+msgid "Error during translation process."
+msgstr "மொழிபெயர்ப்புச் செயல்பாட்டின் போது பிழை."
+
+#: clipboard_utils.py:232
+msgid "Error writing to clipboard"
+msgstr "கிளிப்போர்டில் எழுதுவதில் பிழை"
+
+#: __init__.py:137
+msgid "No spoken text captured."
+msgstr "பேச்சு உரை எதுவும் பிடிக்கப்படவில்லை."
+
+#: __init__.py:113
+msgid "No text selected."
+msgstr "உரை எதுவும் தேர்ந்தெடுக்கப்படவில்லை."
+
+#: __init__.py:166
+msgid "No text to translate."
+msgstr "மொழிபெயர்க்க உரை இல்லை."
+
+#: __init__.py:87
+msgid "No translation result."
+msgstr "மொழிபெயர்ப்பு முடிவு இல்லை."
+
+#: setting.py:121
+msgid "Save translations to clipboard"
+msgstr "மொழிபெயர்ப்புகளை கிளிப்போர்டில் சேமிக்கவும்"
+
+#: setting.py:90
+msgid "Source language (Auto Detect = auto):"
+msgstr "மூல மொழி (தானாகக் கண்டறிதல் = auto):"
+
+#: setting.py:109
+msgid "Swap to language:"
+msgstr "மொழிக்கு மாற்றவும்:"
+
+#: long_translation_dialog.py:201
+msgid "Swapped"
+msgstr "மாற்றப்பட்டது"
+
+#: setting.py:97
+msgid "Target language:"
+msgstr "இலக்கு மொழி:"
+
+#: __init__.py:187
+msgid "Translates Selected Text (Single Tap), Translates Last Speech (Double Tap), Open Absolute Translate Settings (Tripple Tap)"
+msgstr "தேர்ந்தெடுக்கப்பட்ட உரையை மொழிபெயர்க்கவும் (ஒரு முறை தட்டவும்), கடைசியாகப் பேசியதை மொழிபெயர்க்கவும் (இரண்டு முறை தட்டவும்), Absolute Translate அமைப்புகளைத் திறக்கவும் (மூன்று முறை தட்டவும்)"
+
+#: long_translation_dialog.py:237
+msgid "Translation failed."
+msgstr "மொழிபெயர்ப்பு தோல்வியடைந்தது."

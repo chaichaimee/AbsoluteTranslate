@@ -1,0 +1,125 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: AbsoluteTranslate 2026.4.4\n"
+"Report-Msgid-Bugs-To: chaicm75@gmail.com\n"
+"POT-Creation-Date: 2026-04-20 08:29+0700\n"
+"PO-Revision-Date: \n"
+"Last-Translator: chaiBot and Malee Yamazaki\n"
+"Language-Team: Sinhala\n"
+"Language: si\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: DevOn Addon\n"
+
+#: long_translation_dialog.py:141
+msgid "&Continue	Alt+C"
+msgstr "&ප්‍රගතිය	Alt+C"
+
+#: long_translation_dialog.py:275
+msgid "&Continue	Alt+C ({} / {})"
+msgstr "&ප්‍රගතිය	Alt+C ({} / {})"
+
+#: long_translation_dialog.py:146
+msgid "&Swap	Alt+S"
+msgstr "&මාරු කරන්න	Alt+S"
+
+#: setting.py:79
+msgid "Absolute Translate"
+msgstr "Absolute Translate"
+
+#: setting.py:134
+msgid "Append translations only in long translation (if text >2000 chars)"
+msgstr "දිගු පරිවර්තනයකදී පමණක් පරිවර්තන එක් කරන්න (අක්ෂර 2000 ට වැඩි නම්)"
+
+#: clipboard_utils.py:225
+msgid "Appended"
+msgstr "එක් කරන ලදී"
+
+#: setting.py:104
+msgid "Automatically swap when source matches target"
+msgstr "මූලාශ්‍රය ඉලක්කය හා ගැළපෙන විට ස්වයංක්‍රීයව මාරු කරන්න"
+
+#: long_translation_dialog.py:151
+msgid "Cancel	Alt+X"
+msgstr "අවලංගු කරන්න	Alt+X"
+
+#: clipboard_utils.py:201
+msgid "Cannot append to non-text clipboard content"
+msgstr "පෙළ නොවන පසුරු පුවරු අන්තර්ගතයට එක් කළ නොහැක"
+
+#: __init__.py:184
+msgid "Cannot open settings dialog"
+msgstr "සැකසුම් විවෘත කළ නොහැක"
+
+#: long_translation_dialog.py:287
+msgid "Close	Alt+X"
+msgstr "වසා දමන්න	Alt+X"
+
+#: long_translation_dialog.py:18
+msgid "Continuous Translation"
+msgstr "අඛණ්ඩ පරිවර්තනය"
+
+#: setting.py:128
+msgid "Continuous translation"
+msgstr "අඛණ්ඩ පරිවර්තනය"
+
+#: clipboard_utils.py:225
+msgid "Copied"
+msgstr "පිටපත් කරන ලදී"
+
+#: long_translation_dialog.py:66
+msgid "Document language ({}) matches target. Auto-swapping to {}."
+msgstr "ලේඛන භාෂාව ({}) ඉලක්කය හා ගැළපේ. ස්වයංක්‍රීයව {} වෙත මාරු වේ."
+
+#: long_translation_dialog.py:279
+msgid "Error during translation process."
+msgstr "පරිවර්තන ක්‍රියාවලියේදී දෝෂයක් ඇති විය."
+
+#: clipboard_utils.py:232
+msgid "Error writing to clipboard"
+msgstr "පසුරු පුවරුවට ලිවීමේ දෝෂයක්"
+
+#: __init__.py:137
+msgid "No spoken text captured."
+msgstr "කථන පෙළ කිසිවක් හමු නොවීය."
+
+#: __init__.py:113
+msgid "No text selected."
+msgstr "පෙළ කිසිවක් තෝරා නැත."
+
+#: __init__.py:166
+msgid "No text to translate."
+msgstr "පරිවර්තනය කිරීමට පෙළ නැත."
+
+#: __init__.py:87
+msgid "No translation result."
+msgstr "පරිවර්තන ප්‍රතිඵල නැත."
+
+#: setting.py:121
+msgid "Save translations to clipboard"
+msgstr "පරිවර්තන පසුරු පුවරුවට සුරකින්න"
+
+#: setting.py:90
+msgid "Source language (Auto Detect = auto):"
+msgstr "මූලාශ්‍ර භාෂාව (ස්වයංක්‍රීයව හඳුනාගැනීම = auto):"
+
+#: setting.py:109
+msgid "Swap to language:"
+msgstr "මෙම භාෂාවට මාරු කරන්න:"
+
+#: long_translation_dialog.py:201
+msgid "Swapped"
+msgstr "මාරු කරන ලදී"
+
+#: setting.py:97
+msgid "Target language:"
+msgstr "ඉලක්ක භාෂාව:"
+
+#: __init__.py:187
+msgid "Translates Selected Text (Single Tap), Translates Last Speech (Double Tap), Open Absolute Translate Settings (Tripple Tap)"
+msgstr "තෝරාගත් පෙළ පරිවර්තනය කරයි (එක් වරක් ස්පර්ශය), අවසාන කථනය පරිවර්තනය කරයි (දෙවරක් ස්පර්ශය), Absolute Translate සැකසුම් විවෘත කරයි (තෙවරක් ස්පර්ශය)"
+
+#: long_translation_dialog.py:237
+msgid "Translation failed."
+msgstr "පරිවර්තනය අසාර්ථක විය."

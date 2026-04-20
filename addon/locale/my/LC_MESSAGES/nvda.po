@@ -1,0 +1,125 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: AbsoluteTranslate 2026.4.4\n"
+"Report-Msgid-Bugs-To: chaicm75@gmail.com\n"
+"POT-Creation-Date: 2026-04-20 08:29+0700\n"
+"PO-Revision-Date: \n"
+"Last-Translator: chaiBot and Malee Yamazaki\n"
+"Language-Team: Burmese\n"
+"Language: my\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: DevOn Addon\n"
+
+#: long_translation_dialog.py:141
+msgid "&Continue	Alt+C"
+msgstr "&ဆက်လုပ်ရန်	Alt+C"
+
+#: long_translation_dialog.py:275
+msgid "&Continue	Alt+C ({} / {})"
+msgstr "&ဆက်လုပ်ရန်	Alt+C ({} / {})"
+
+#: long_translation_dialog.py:146
+msgid "&Swap	Alt+S"
+msgstr "&ပြောင်းလဲရန်	Alt+S"
+
+#: setting.py:79
+msgid "Absolute Translate"
+msgstr "Absolute Translate"
+
+#: setting.py:134
+msgid "Append translations only in long translation (if text >2000 chars)"
+msgstr "ရှည်လျားသော ဘာသာပြန်ဆိုမှုများတွင်သာ (စာလုံးရေ ၂၀၀၀ ကျော်လျှင်) ဘာသာပြန်ချက်များကို ပေါင်းထည့်ပါ"
+
+#: clipboard_utils.py:225
+msgid "Appended"
+msgstr "ပေါင်းထည့်ပြီး"
+
+#: setting.py:104
+msgid "Automatically swap when source matches target"
+msgstr "မူရင်းဘာသာစကားသည် ပစ်မှတ်နှင့် ကိုက်ညီပါက အလိုအလျောက် ပြောင်းလဲပါ"
+
+#: long_translation_dialog.py:151
+msgid "Cancel	Alt+X"
+msgstr "ပယ်ဖျက်ရန်	Alt+X"
+
+#: clipboard_utils.py:201
+msgid "Cannot append to non-text clipboard content"
+msgstr "စာသားမဟုတ်သော ကလစ်ဘုတ်အကြောင်းအရာများသို့ ပေါင်းထည့်၍မရပါ"
+
+#: __init__.py:184
+msgid "Cannot open settings dialog"
+msgstr "ဆက်တင်များ ဒိုင်ယာလော့ဂ်ကို ဖွင့်၍မရပါ"
+
+#: long_translation_dialog.py:287
+msgid "Close	Alt+X"
+msgstr "ပိတ်ရန်	Alt+X"
+
+#: long_translation_dialog.py:18
+msgid "Continuous Translation"
+msgstr "စဉ်ဆက်မပြတ် ဘာသာပြန်ဆိုခြင်း"
+
+#: setting.py:128
+msgid "Continuous translation"
+msgstr "စဉ်ဆက်မပြတ် ဘာသာပြန်ဆိုခြင်း"
+
+#: clipboard_utils.py:225
+msgid "Copied"
+msgstr "ကူးယူပြီး"
+
+#: long_translation_dialog.py:66
+msgid "Document language ({}) matches target. Auto-swapping to {}."
+msgstr "စာရွက်စာတမ်း ဘာသာစကား ({}) သည် ပစ်မှတ်နှင့် ကိုက်ညီနေပါသည်။ {} သို့ အလိုအလျောက် ပြောင်းလဲနေသည်။"
+
+#: long_translation_dialog.py:279
+msgid "Error during translation process."
+msgstr "ဘာသာပြန်ဆိုစဉ်အတွင်း အမှားအယွင်း ဖြစ်ပေါ်ခဲ့သည်။"
+
+#: clipboard_utils.py:232
+msgid "Error writing to clipboard"
+msgstr "ကလစ်ဘုတ်သို့ ရေးသားရာတွင် အမှားအယွင်းရှိသည်"
+
+#: __init__.py:137
+msgid "No spoken text captured."
+msgstr "ပြောဆိုသောစာသားကို ဖမ်းယူ၍မရပါ။"
+
+#: __init__.py:113
+msgid "No text selected."
+msgstr "စာသားရွေးချယ်ထားခြင်းမရှိပါ။"
+
+#: __init__.py:166
+msgid "No text to translate."
+msgstr "ဘာသာပြန်ရန် စာသားမရှိပါ။"
+
+#: __init__.py:87
+msgid "No translation result."
+msgstr "ဘာသာပြန်ဆိုချက် ရလဒ်မရှိပါ။"
+
+#: setting.py:121
+msgid "Save translations to clipboard"
+msgstr "ဘာသာပြန်ချက်များကို ကလစ်ဘုတ်သို့ သိမ်းဆည်းပါ"
+
+#: setting.py:90
+msgid "Source language (Auto Detect = auto):"
+msgstr "မူရင်းဘာသာစကား (အလိုအလျောက် ရှာဖွေခြင်း = auto):"
+
+#: setting.py:109
+msgid "Swap to language:"
+msgstr "ဘာသာစကား ပြောင်းလဲရန်-"
+
+#: long_translation_dialog.py:201
+msgid "Swapped"
+msgstr "ပြောင်းလဲပြီး"
+
+#: setting.py:97
+msgid "Target language:"
+msgstr "ပစ်မှတ်ဘာသာစကား-"
+
+#: __init__.py:187
+msgid "Translates Selected Text (Single Tap), Translates Last Speech (Double Tap), Open Absolute Translate Settings (Tripple Tap)"
+msgstr "ရွေးချယ်ထားသောစာသားကို ဘာသာပြန်ရန် (တစ်ချက်နှိပ်)၊ နောက်ဆုံးပြောစကားကို ဘာသာပြန်ရန် (နှစ်ချက်နှိပ်)၊ Absolute Translate ဆက်တင်များကို ဖွင့်ရန် (သုံးချက်နှိပ်)"
+
+#: long_translation_dialog.py:237
+msgid "Translation failed."
+msgstr "ဘာသာပြန်ဆိုမှု မအောင်မြင်ပါ။"

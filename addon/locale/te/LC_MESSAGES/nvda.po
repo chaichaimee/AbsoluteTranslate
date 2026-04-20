@@ -1,0 +1,125 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: AbsoluteTranslate 2026.4.4\n"
+"Report-Msgid-Bugs-To: chaicm75@gmail.com\n"
+"POT-Creation-Date: 2026-04-20 08:29+0700\n"
+"PO-Revision-Date: \n"
+"Last-Translator: chaiBot and Malee Yamazaki\n"
+"Language-Team: Telugu\n"
+"Language: te\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: DevOn Addon\n"
+
+#: long_translation_dialog.py:141
+msgid "&Continue	Alt+C"
+msgstr "&కొనసాగించు	Alt+C"
+
+#: long_translation_dialog.py:275
+msgid "&Continue	Alt+C ({} / {})"
+msgstr "&కొనసాగించు	Alt+C ({} / {})"
+
+#: long_translation_dialog.py:146
+msgid "&Swap	Alt+S"
+msgstr "&మార్చు	Alt+S"
+
+#: setting.py:79
+msgid "Absolute Translate"
+msgstr "Absolute Translate"
+
+#: setting.py:134
+msgid "Append translations only in long translation (if text >2000 chars)"
+msgstr "సుదీర్ఘ అనువాదంలో మాత్రమే అనువాదాలను జోడించు (వచనం >2000 అక్షరాలు ఉంటే)"
+
+#: clipboard_utils.py:225
+msgid "Appended"
+msgstr "జోడించబడింది"
+
+#: setting.py:104
+msgid "Automatically swap when source matches target"
+msgstr "మూలం మరియు లక్ష్యం సరిపోలినప్పుడు స్వయంచాలక మార్పు"
+
+#: long_translation_dialog.py:151
+msgid "Cancel	Alt+X"
+msgstr "రద్దు చేయి	Alt+X"
+
+#: clipboard_utils.py:201
+msgid "Cannot append to non-text clipboard content"
+msgstr "వచనం లేని క్లిప్‌బోర్డ్ కంటెంట్‌కి జోడించడం సాధ్యం కాదు"
+
+#: __init__.py:184
+msgid "Cannot open settings dialog"
+msgstr "సెట్టింగ్‌ల డైలాగ్‌ను తెరవడం సాధ్యం కాలేదు"
+
+#: long_translation_dialog.py:287
+msgid "Close	Alt+X"
+msgstr "మూసివేయి	Alt+X"
+
+#: long_translation_dialog.py:18
+msgid "Continuous Translation"
+msgstr "నిరంతర అనువాదం"
+
+#: setting.py:128
+msgid "Continuous translation"
+msgstr "నిరంతర అనువాదం"
+
+#: clipboard_utils.py:225
+msgid "Copied"
+msgstr "కాపీ చేయబడింది"
+
+#: long_translation_dialog.py:66
+msgid "Document language ({}) matches target. Auto-swapping to {}."
+msgstr "పత్రం భాష ({}) లక్ష్యంతో సరిపోలుతుంది. స్వయంచాలకంగా {}కి మారుతోంది."
+
+#: long_translation_dialog.py:279
+msgid "Error during translation process."
+msgstr "అనువాద ప్రక్రియలో లోపం."
+
+#: clipboard_utils.py:232
+msgid "Error writing to clipboard"
+msgstr "క్లిప్‌బోర్డ్‌కు రాయడంలో లోపం"
+
+#: __init__.py:137
+msgid "No spoken text captured."
+msgstr "మాట్లాడిన వచనం ఏదీ క్యాప్చర్ చేయబడలేదు."
+
+#: __init__.py:113
+msgid "No text selected."
+msgstr "వచనం ఏదీ ఎంచుకోబడలేదు."
+
+#: __init__.py:166
+msgid "No text to translate."
+msgstr "అనువదించడానికి వచనం లేదు."
+
+#: __init__.py:87
+msgid "No translation result."
+msgstr "అనువాద ఫలితం లేదు."
+
+#: setting.py:121
+msgid "Save translations to clipboard"
+msgstr "అనువాదాలను క్లిప్‌బోర్డ్‌కు సేవ్ చేయి"
+
+#: setting.py:90
+msgid "Source language (Auto Detect = auto):"
+msgstr "మూల భాష (ఆటో డిటెక్ట్ = auto):"
+
+#: setting.py:109
+msgid "Swap to language:"
+msgstr "భాషకు మార్చు:"
+
+#: long_translation_dialog.py:201
+msgid "Swapped"
+msgstr "మార్చబడింది"
+
+#: setting.py:97
+msgid "Target language:"
+msgstr "లక్ష్య భాష:"
+
+#: __init__.py:187
+msgid "Translates Selected Text (Single Tap), Translates Last Speech (Double Tap), Open Absolute Translate Settings (Tripple Tap)"
+msgstr "ఎంచుకున్న వచనాన్ని అనువదించు (ఒక్కసారి ట్యాప్), చివరి ప్రసంగాన్ని అనువదించు (రెండుసార్లు ట్యాప్), Absolute Translate సెట్టింగ్‌లను తెరువు (మూడుసార్లు ట్యాప్)"
+
+#: long_translation_dialog.py:237
+msgid "Translation failed."
+msgstr "అనువాదం విఫలమైంది."

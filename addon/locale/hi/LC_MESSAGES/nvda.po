@@ -1,0 +1,125 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: AbsoluteTranslate 2026.4.4\n"
+"Report-Msgid-Bugs-To: chaicm75@gmail.com\n"
+"POT-Creation-Date: 2026-04-20 08:29+0700\n"
+"PO-Revision-Date: \n"
+"Last-Translator: chaiBot and Malee Yamazaki\n"
+"Language-Team: Hindi\n"
+"Language: hi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: DevOn Addon\n"
+
+#: long_translation_dialog.py:141
+msgid "&Continue	Alt+C"
+msgstr "&जारी रखें	Alt+C"
+
+#: long_translation_dialog.py:275
+msgid "&Continue	Alt+C ({} / {})"
+msgstr "&जारी रखें	Alt+C ({} / {})"
+
+#: long_translation_dialog.py:146
+msgid "&Swap	Alt+S"
+msgstr "&बदलें	Alt+S"
+
+#: setting.py:79
+msgid "Absolute Translate"
+msgstr "Absolute Translate"
+
+#: setting.py:134
+msgid "Append translations only in long translation (if text >2000 chars)"
+msgstr "केवल लंबे अनुवाद में अनुवाद जोड़ें (यदि टेक्स्ट > 2000 वर्ण है)"
+
+#: clipboard_utils.py:225
+msgid "Appended"
+msgstr "जोड़ा गया"
+
+#: setting.py:104
+msgid "Automatically swap when source matches target"
+msgstr "स्रोत और लक्ष्य मिलने पर स्वचालित रूप से बदलें"
+
+#: long_translation_dialog.py:151
+msgid "Cancel	Alt+X"
+msgstr "रद्द करें	Alt+X"
+
+#: clipboard_utils.py:201
+msgid "Cannot append to non-text clipboard content"
+msgstr "गैर-टेक्स्ट क्लिपबोर्ड सामग्री में नहीं जोड़ा जा सकता"
+
+#: __init__.py:184
+msgid "Cannot open settings dialog"
+msgstr "सेटिंग्स डायलॉग नहीं खोला जा सकता"
+
+#: long_translation_dialog.py:287
+msgid "Close	Alt+X"
+msgstr "बंद करें	Alt+X"
+
+#: long_translation_dialog.py:18
+msgid "Continuous Translation"
+msgstr "निरंतर अनुवाद"
+
+#: setting.py:128
+msgid "Continuous translation"
+msgstr "निरंतर अनुवाद"
+
+#: clipboard_utils.py:225
+msgid "Copied"
+msgstr "कॉपी किया गया"
+
+#: long_translation_dialog.py:66
+msgid "Document language ({}) matches target. Auto-swapping to {}."
+msgstr "दस्तावेज़ की भाषा ({}) लक्ष्य से मेल खाती है। स्वचालित रूप से {} पर बदला जा रहा है।"
+
+#: long_translation_dialog.py:279
+msgid "Error during translation process."
+msgstr "अनुवाद प्रक्रिया के दौरान त्रुटि।"
+
+#: clipboard_utils.py:232
+msgid "Error writing to clipboard"
+msgstr "क्लिपबोर्ड पर लिखने में त्रुटि"
+
+#: __init__.py:137
+msgid "No spoken text captured."
+msgstr "कोई बोला गया टेक्स्ट कैप्चर नहीं किया गया।"
+
+#: __init__.py:113
+msgid "No text selected."
+msgstr "कोई टेक्स्ट नहीं चुना गया।"
+
+#: __init__.py:166
+msgid "No text to translate."
+msgstr "अनुवाद के लिए कोई टेक्स्ट नहीं है।"
+
+#: __init__.py:87
+msgid "No translation result."
+msgstr "कोई अनुवाद परिणाम नहीं।"
+
+#: setting.py:121
+msgid "Save translations to clipboard"
+msgstr "अनुवाद को क्लिपबोर्ड में सहेजें"
+
+#: setting.py:90
+msgid "Source language (Auto Detect = auto):"
+msgstr "स्रोत भाषा (ऑटो डिटेक्ट = auto):"
+
+#: setting.py:109
+msgid "Swap to language:"
+msgstr "भाषा बदलें:"
+
+#: long_translation_dialog.py:201
+msgid "Swapped"
+msgstr "बदला गया"
+
+#: setting.py:97
+msgid "Target language:"
+msgstr "लक्ष्य भाषा:"
+
+#: __init__.py:187
+msgid "Translates Selected Text (Single Tap), Translates Last Speech (Double Tap), Open Absolute Translate Settings (Tripple Tap)"
+msgstr "चुने गए टेक्स्ट का अनुवाद करें (एक बार टैप), अंतिम भाषण का अनुवाद करें (दो बार टैप), Absolute Translate सेटिंग्स खोलें (तीन बार टैप)"
+
+#: long_translation_dialog.py:237
+msgid "Translation failed."
+msgstr "अनुवाद विफल रहा।"

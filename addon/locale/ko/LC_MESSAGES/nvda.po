@@ -1,0 +1,125 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: AbsoluteTranslate 2026.4.4\n"
+"Report-Msgid-Bugs-To: chaicm75@gmail.com\n"
+"POT-Creation-Date: 2026-04-20 08:29+0700\n"
+"PO-Revision-Date: \n"
+"Last-Translator: chaiBot and Malee Yamazaki\n"
+"Language-Team: Korean\n"
+"Language: ko\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: DevOn Addon\n"
+
+#: long_translation_dialog.py:141
+msgid "&Continue	Alt+C"
+msgstr "계속(&C)	Alt+C"
+
+#: long_translation_dialog.py:275
+msgid "&Continue	Alt+C ({} / {})"
+msgstr "계속(&C)	Alt+C ({} / {})"
+
+#: long_translation_dialog.py:146
+msgid "&Swap	Alt+S"
+msgstr "교체(&S)	Alt+S"
+
+#: setting.py:79
+msgid "Absolute Translate"
+msgstr "Absolute Translate"
+
+#: setting.py:134
+msgid "Append translations only in long translation (if text >2000 chars)"
+msgstr "긴 번역(2000자 초과)인 경우에만 번역 추가"
+
+#: clipboard_utils.py:225
+msgid "Appended"
+msgstr "추가됨"
+
+#: setting.py:104
+msgid "Automatically swap when source matches target"
+msgstr "소스가 대상과 일치할 때 자동으로 교체"
+
+#: long_translation_dialog.py:151
+msgid "Cancel	Alt+X"
+msgstr "취소	Alt+X"
+
+#: clipboard_utils.py:201
+msgid "Cannot append to non-text clipboard content"
+msgstr "텍스트가 아닌 클립보드 내용에는 추가할 수 없습니다"
+
+#: __init__.py:184
+msgid "Cannot open settings dialog"
+msgstr "설정 대화 상자를 열 수 없습니다"
+
+#: long_translation_dialog.py:287
+msgid "Close	Alt+X"
+msgstr "닫기	Alt+X"
+
+#: long_translation_dialog.py:18
+msgid "Continuous Translation"
+msgstr "연속 번역"
+
+#: setting.py:128
+msgid "Continuous translation"
+msgstr "연속 번역"
+
+#: clipboard_utils.py:225
+msgid "Copied"
+msgstr "복사됨"
+
+#: long_translation_dialog.py:66
+msgid "Document language ({}) matches target. Auto-swapping to {}."
+msgstr "문서 언어({})가 대상과 일치합니다. 자동으로 {}로 교체합니다."
+
+#: long_translation_dialog.py:279
+msgid "Error during translation process."
+msgstr "번역 과정 중 오류가 발생했습니다."
+
+#: clipboard_utils.py:232
+msgid "Error writing to clipboard"
+msgstr "클립보드 쓰기 오류"
+
+#: __init__.py:137
+msgid "No spoken text captured."
+msgstr "캡처된 음성 텍스트가 없습니다."
+
+#: __init__.py:113
+msgid "No text selected."
+msgstr "선택된 텍스트가 없습니다."
+
+#: __init__.py:166
+msgid "No text to translate."
+msgstr "번역할 텍스트가 없습니다."
+
+#: __init__.py:87
+msgid "No translation result."
+msgstr "번역 결과가 없습니다."
+
+#: setting.py:121
+msgid "Save translations to clipboard"
+msgstr "번역을 클립보드에 저장"
+
+#: setting.py:90
+msgid "Source language (Auto Detect = auto):"
+msgstr "소스 언어(자동 감지 = auto):"
+
+#: setting.py:109
+msgid "Swap to language:"
+msgstr "언어 교체:"
+
+#: long_translation_dialog.py:201
+msgid "Swapped"
+msgstr "교체됨"
+
+#: setting.py:97
+msgid "Target language:"
+msgstr "대상 언어:"
+
+#: __init__.py:187
+msgid "Translates Selected Text (Single Tap), Translates Last Speech (Double Tap), Open Absolute Translate Settings (Tripple Tap)"
+msgstr "선택한 텍스트 번역(한 번 탭), 마지막 음성 번역(두 번 탭), Absolute Translate 설정 열기(세 번 탭)"
+
+#: long_translation_dialog.py:237
+msgid "Translation failed."
+msgstr "번역에 실패했습니다."

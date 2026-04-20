@@ -1,0 +1,125 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: AbsoluteTranslate 2026.4.4\n"
+"Report-Msgid-Bugs-To: chaicm75@gmail.com\n"
+"POT-Creation-Date: 2026-04-20 08:29+0700\n"
+"PO-Revision-Date: \n"
+"Last-Translator: chaiBot and Malee Yamazaki\n"
+"Language-Team: Portuguese\n"
+"Language: pt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: DevOn Addon\n"
+
+#: long_translation_dialog.py:141
+msgid "&Continue	Alt+C"
+msgstr "&Continuar	Alt+C"
+
+#: long_translation_dialog.py:275
+msgid "&Continue	Alt+C ({} / {})"
+msgstr "&Continuar	Alt+C ({} / {})"
+
+#: long_translation_dialog.py:146
+msgid "&Swap	Alt+S"
+msgstr "&Inverter	Alt+S"
+
+#: setting.py:79
+msgid "Absolute Translate"
+msgstr "Absolute Translate"
+
+#: setting.py:134
+msgid "Append translations only in long translation (if text >2000 chars)"
+msgstr "Anexar traduções apenas em traduções longas (se texto > 2000 car.)"
+
+#: clipboard_utils.py:225
+msgid "Appended"
+msgstr "Anexado"
+
+#: setting.py:104
+msgid "Automatically swap when source matches target"
+msgstr "Inverter automaticamente quando a origem coincidir com o destino"
+
+#: long_translation_dialog.py:151
+msgid "Cancel	Alt+X"
+msgstr "Cancelar	Alt+X"
+
+#: clipboard_utils.py:201
+msgid "Cannot append to non-text clipboard content"
+msgstr "Não é possível anexar a conteúdo da área de transferência que não seja texto"
+
+#: __init__.py:184
+msgid "Cannot open settings dialog"
+msgstr "Não foi possível abrir o diálogo de definições"
+
+#: long_translation_dialog.py:287
+msgid "Close	Alt+X"
+msgstr "Fechar	Alt+X"
+
+#: long_translation_dialog.py:18
+msgid "Continuous Translation"
+msgstr "Tradução Contínua"
+
+#: setting.py:128
+msgid "Continuous translation"
+msgstr "Tradução contínua"
+
+#: clipboard_utils.py:225
+msgid "Copied"
+msgstr "Copiado"
+
+#: long_translation_dialog.py:66
+msgid "Document language ({}) matches target. Auto-swapping to {}."
+msgstr "O idioma do documento ({}) coincide com o destino. A inverter automaticamente para {}."
+
+#: long_translation_dialog.py:279
+msgid "Error during translation process."
+msgstr "Erro durante o processo de tradução."
+
+#: clipboard_utils.py:232
+msgid "Error writing to clipboard"
+msgstr "Erro ao escrever na área de transferência"
+
+#: __init__.py:137
+msgid "No spoken text captured."
+msgstr "Nenhum texto falado capturado."
+
+#: __init__.py:113
+msgid "No text selected."
+msgstr "Nenhum texto selecionado."
+
+#: __init__.py:166
+msgid "No text to translate."
+msgstr "Nenhum texto para traduzir."
+
+#: __init__.py:87
+msgid "No translation result."
+msgstr "Nenhum resultado de tradução."
+
+#: setting.py:121
+msgid "Save translations to clipboard"
+msgstr "Guardar traduções na área de transferência"
+
+#: setting.py:90
+msgid "Source language (Auto Detect = auto):"
+msgstr "Idioma de origem (Deteção auto = auto):"
+
+#: setting.py:109
+msgid "Swap to language:"
+msgstr "Inverter para o idioma:"
+
+#: long_translation_dialog.py:201
+msgid "Swapped"
+msgstr "Invertido"
+
+#: setting.py:97
+msgid "Target language:"
+msgstr "Idioma de destino:"
+
+#: __init__.py:187
+msgid "Translates Selected Text (Single Tap), Translates Last Speech (Double Tap), Open Absolute Translate Settings (Tripple Tap)"
+msgstr "Traduz o texto selecionado (um toque), traduz a última fala (dois toques), abre as definições do Absolute Translate (três toques)"
+
+#: long_translation_dialog.py:237
+msgid "Translation failed."
+msgstr "A tradução falhou."
