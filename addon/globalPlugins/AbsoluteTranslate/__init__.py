@@ -11,7 +11,10 @@ import time
 import wx
 import speech
 import gui
+import core
 from logHandler import log
+import threading
+import weakref
 
 from . import translate
 from . import setting
@@ -36,6 +39,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		self._last_tap_time = 0
 		self._double_tap_threshold = 0.5
 		self._action_timer = None
+		self._is_processing = False
 		
 		translate.load_cache()
 		setting.load_config()
@@ -55,7 +59,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
 	def terminate(self):
 		log.info("AbsoluteTranslate: Terminating")
-		self.speech_history.restore_patch()
+		if hasattr(self, 'speech_history'):
+			self.speech_history.restore_patch()
 		translate.save_cache()
 		if self._action_timer:
 			self._action_timer.Stop()
@@ -66,14 +71,23 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 				panels.remove(AbsoluteTranslateSettingsPanel)
 		except Exception:
 			pass
+		self._is_processing = False
+
+	def _get_selected_text_async(self, callback):
+		def worker():
+			try:
+				obj = api.getFocusObject()
+				text = self.clipboard_handler.get_selected_text(obj)
+				core.callLater(0, callback, text)
+			except Exception as e:
+				log.error(f"Get selected text failed: {e}")
+				core.callLater(0, callback, "")
+		
+		threading.Thread(target=worker, daemon=True).start()
 
 	def _get_selected_text(self):
 		obj = api.getFocusObject()
-		text = self.clipboard_handler.get_selected_text(obj)
-		if text:
-			log.info(f"Selected text: {text[:100]}...")
-			return text
-		return ""
+		return self.clipboard_handler.get_selected_text(obj)
 
 	def _get_last_spoken_text(self):
 		text = self.speech_history.get_latest()
@@ -105,6 +119,12 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 				log.error(f"Clipboard copy failed: {e}")
 
 	def _execute_translate_action(self):
+		if self._is_processing:
+			ui.message(_("Translation in progress, please wait."))
+			return
+		
+		self._is_processing = True
+		
 		try:
 			if self._tap_count == 1:
 				log.info("Single tap: selected text")
@@ -112,6 +132,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 				if not full_text:
 					ui.message(_("No text selected."))
 					return
+				
 				src = setting.config.get("source_lang", "auto")
 				tgt = setting.config["target_lang"]
 				swap = setting.config.get("swap_lang", "en")
@@ -121,14 +142,17 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 				append_mode = setting.config.get("append_translations", False)
 				
 				if continuous and len(full_text) > 1500:
-					self._translate_long_text_with_prompt(
-						full_text, tgt, src, swap, auto_swap,
-						copy_to_clipboard=copy_mode,
-						append_translations=append_mode
-					)
+					def show_dialog():
+						dlg = LongTranslationDialog(
+							None, [full_text], tgt, src, swap, auto_swap,
+							copy_mode, append_mode, self.clipboard_handler
+						)
+						dlg.start_translation()
+						dlg.ShowModal()
+						self._is_processing = False
+					wx.CallAfter(show_dialog)
 				else:
-					translated = translate.translate_text(full_text, tgt, src, swap, auto_swap)
-					self._output_translation(translated, do_copy=copy_mode, do_append=False)
+					self._translate_and_output(full_text, tgt, src, swap, auto_swap, copy_mode)
 					
 			elif self._tap_count == 2:
 				log.info("Double tap: last spoken")
@@ -136,42 +160,37 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 				if not full_text:
 					ui.message(_("No spoken text captured."))
 					return
+				
 				src = setting.config.get("source_lang", "auto")
 				tgt = setting.config["target_lang"]
 				swap = setting.config.get("swap_lang", "en")
 				auto_swap = setting.config.get("auto_swap", False)
 				copy_mode = setting.config.get("copy_to_clipboard", False)
-				continuous = setting.config.get("continuous_translation", False)
-				append_mode = setting.config.get("append_translations", False)
 				
-				if continuous and len(full_text) > 1500:
-					self._translate_long_text_with_prompt(
-						full_text, tgt, src, swap, auto_swap,
-						copy_to_clipboard=copy_mode,
-						append_translations=append_mode
-					)
-				else:
-					translated = translate.translate_text(full_text, tgt, src, swap, auto_swap)
-					self._output_translation(translated, do_copy=copy_mode, do_append=False)
+				self._translate_and_output(full_text, tgt, src, swap, auto_swap, copy_mode)
 					
 			elif self._tap_count >= 3:
 				log.info("Triple tap: open settings")
 				self._open_settings()
+				self._is_processing = False
+		except Exception as e:
+			log.error(f"Execute translate action failed: {e}")
+			self._is_processing = False
 		finally:
 			self._tap_count = 0
 
-	def _translate_long_text_with_prompt(self, full_text, target_lang, source_lang, swap_lang, auto_swap, copy_to_clipboard, append_translations):
-		chunks = translate.split_text_into_chunks(full_text, max_chars=translate.MAX_CHARS)
-		if not chunks:
-			ui.message(_("No text to translate."))
-			return
+	def _translate_and_output(self, text, target_lang, source_lang, swap_lang, auto_swap, copy_mode):
+		def worker():
+			try:
+				translated = translate.translate_text(text, target_lang, source_lang, swap_lang, auto_swap)
+				core.callLater(0, self._output_translation, translated, copy_mode, False)
+			except Exception as e:
+				log.error(f"Translation worker failed: {e}")
+				core.callLater(0, ui.message, _("Translation failed."))
+			finally:
+				self._is_processing = False
 		
-		dlg = LongTranslationDialog(
-			None, chunks, target_lang, source_lang, swap_lang, auto_swap,
-			copy_to_clipboard, append_translations, self.clipboard_handler
-		)
-		dlg.start_translation()
-		dlg.ShowModal()
+		threading.Thread(target=worker, daemon=True).start()
 
 	def _open_settings(self):
 		try:
@@ -182,6 +201,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		except Exception as e:
 			log.error(f"Open settings failed: {e}")
 			ui.message(_("Cannot open settings dialog"))
+		finally:
+			self._is_processing = False
 
 	@script(
 		description=_("Translates Selected Text (Single Tap), Translates Last Speech (Double Tap), Open Absolute Translate Settings (Tripple Tap)"),

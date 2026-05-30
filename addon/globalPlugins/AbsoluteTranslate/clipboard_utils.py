@@ -10,15 +10,18 @@ import time
 import keyboardHandler
 import textInfos
 import browseMode
-import logging
+import logHandler
 import hashlib
 import sys
+import threading
+import core
+from logHandler import log
 
 class ClipboardHandler:
 	
 	def __init__(self):
-		self.logger = logging.getLogger(__name__)
-	
+		self._logger = log
+
 	def normalize_text(self, text):
 		if not text:
 			return ""
@@ -35,10 +38,10 @@ class ClipboardHandler:
 			with winUser.openClipboard(gui.mainFrame.Handle):
 				winUser.emptyClipboard()
 				winUser.setClipboardData(winUser.CF_UNICODETEXT, text.replace('\n', '\r\n'))
-			self.logger.info("Clipboard set with new text")
+			self._logger.info("Clipboard set with new text")
 			return True
 		except Exception as e:
-			self.logger.error(f"set_clipboard_text failed: {e}")
+			self._logger.error(f"set_clipboard_text failed: {e}")
 			return False
 	
 	def get_selected_text(self, obj_param):
@@ -48,7 +51,6 @@ class ClipboardHandler:
 			return self._get_selected_text_2025(obj_param)
 	
 	def _get_selected_text_2025(self, obj_param):
-		self.logger.info("SimpleCopy: get_selected_text started (2025).")
 		current_obj = obj_param
 		selected_text = None
 		
@@ -56,7 +58,6 @@ class ClipboardHandler:
 			target_obj_for_text = None
 			if hasattr(current_obj, 'treeInterceptor') and isinstance(current_obj.treeInterceptor, browseMode.BrowseModeDocumentTreeInterceptor):
 				target_obj_for_text = current_obj.treeInterceptor
-				self.logger.info("Using treeInterceptor for text info.")
 			elif hasattr(current_obj, 'makeTextInfo'):
 				target_obj_for_text = current_obj
 			
@@ -66,50 +67,27 @@ class ClipboardHandler:
 					if info and not info.isCollapsed:
 						selected_text = info.clipboardText
 						if selected_text:
-							self.logger.info(f"makeTextInfo retrieved: {repr(selected_text[:50])}...")
 							return selected_text.replace('\r\n', '\n').replace('\r', '\n').strip()
 				except (RuntimeError, NotImplementedError) as e:
-					self.logger.warning(f"makeTextInfo selection failed: {str(e)}")
-			else:
-				self.logger.info("No makeTextInfo available.")
+					self._logger.warning(f"makeTextInfo selection failed: {str(e)}")
 		
 		except Exception as e_info:
-			self.logger.error(f"Error with makeTextInfo attempt: {str(e_info)}")
+			self._logger.error(f"Error with makeTextInfo attempt: {str(e_info)}")
 		
-		self.logger.info("makeTextInfo failed, attempting Ctrl+C fallback.")
-		original_clipboard_data = ""
-		try:
-			with winUser.openClipboard(gui.mainFrame.Handle):
-				original_clipboard_data = winUser.getClipboardData(winUser.CF_UNICODETEXT) or ""
-				winUser.emptyClipboard()
-			
-			keyboardHandler.KeyboardInputGesture.fromName("control+c").send()
-			time.sleep(0.05)
-			
-			with winUser.openClipboard(gui.mainFrame.Handle):
-				clipboard_text = winUser.getClipboardData(winUser.CF_UNICODETEXT) or ""
-			
-			if clipboard_text:
-				selected_text = clipboard_text
-				self.logger.info(f"Ctrl+C fallback retrieved: {repr(selected_text[:50])}...")
-				return selected_text.replace('\r\n', '\n').replace('\r', '\n').strip()
+		if selected_text:
+			return selected_text
 		
-		except Exception as e_fallback:
-			self.logger.error(f"Ctrl+C fallback failed: {str(e_fallback)}")
-		finally:
-			try:
-				with winUser.openClipboard(gui.mainFrame.Handle):
-					winUser.emptyClipboard()
-					if original_clipboard_data:
-						winUser.setClipboardData(winUser.CF_UNICODETEXT, original_clipboard_data)
-			except Exception as e_restore:
-				self.logger.error(f"Failed to restore clipboard: {str(e_restore)}")
+		value_text = self._get_value_from_object(current_obj)
+		if value_text:
+			return value_text
 		
-		self.logger.info("No selected text found (2025).")
-		return None
-	
+		caret_text = self._get_text_from_caret(current_obj)
+		if caret_text:
+			return caret_text
+		
+		return self._fallback_ctrl_c()
+
 	def _get_selected_text_2026(self, obj_param):
-		self.logger.info("SimpleCopy: get_selected_text started (2026).")
 		current_obj = obj_param
 		selected_text = None
 		
@@ -124,16 +102,14 @@ class ClipboardHandler:
 						elif hasattr(sel, 'text'):
 							selected_text = sel.text
 						if selected_text:
-							self.logger.info(f"treeInterceptor.selection.clipboardText/text success: {repr(selected_text[:50])}")
 							return selected_text.replace('\r\n', '\n').replace('\r', '\n').strip()
 		except Exception as e:
-			self.logger.warning(f"treeInterceptor selection failed: {e}")
+			self._logger.warning(f"treeInterceptor selection failed: {e}")
 		
 		try:
 			target_obj_for_text = None
 			if hasattr(current_obj, 'treeInterceptor') and isinstance(current_obj.treeInterceptor, browseMode.BrowseModeDocumentTreeInterceptor):
 				target_obj_for_text = current_obj.treeInterceptor
-				self.logger.info("Using treeInterceptor for makeTextInfo.")
 			elif hasattr(current_obj, 'makeTextInfo'):
 				target_obj_for_text = current_obj
 			
@@ -146,36 +122,70 @@ class ClipboardHandler:
 						elif hasattr(info, 'text'):
 							selected_text = info.text
 						if selected_text:
-							self.logger.info(f"makeTextInfo.clipboardText/text success: {repr(selected_text[:50])}...")
 							return selected_text.replace('\r\n', '\n').replace('\r', '\n').strip()
 				except (RuntimeError, NotImplementedError) as e:
-					self.logger.warning(f"makeTextInfo selection failed: {str(e)}")
-			else:
-				self.logger.info("No makeTextInfo available.")
-		
+					self._logger.warning(f"makeTextInfo selection failed: {str(e)}")
 		except Exception as e_info:
-			self.logger.error(f"Error with makeTextInfo attempt: {str(e_info)}")
+			self._logger.error(f"Error with makeTextInfo attempt: {str(e_info)}")
 		
-		self.logger.info("Falling back to Ctrl+C method (2026).")
+		if selected_text:
+			return selected_text
+		
+		value_text = self._get_value_from_object(current_obj)
+		if value_text:
+			return value_text
+		
+		caret_text = self._get_text_from_caret(current_obj)
+		if caret_text:
+			return caret_text
+		
+		return self._fallback_ctrl_c()
+
+	def _get_value_from_object(self, obj):
+		try:
+			if hasattr(obj, 'value') and obj.value:
+				value_text = str(obj.value)
+				if value_text and len(value_text.strip()) > 0:
+					self._logger.info(f"Retrieved value from object: {value_text[:50]}...")
+					return value_text.strip()
+		except Exception as e:
+			self._logger.warning(f"Failed to get value from object: {e}")
+		return None
+
+	def _get_text_from_caret(self, obj):
+		try:
+			if hasattr(obj, 'makeTextInfo') and hasattr(textInfos, 'POSITION_CARET'):
+				caret_info = obj.makeTextInfo(textInfos.POSITION_CARET)
+				if caret_info and hasattr(caret_info, 'text'):
+					caret_text = caret_info.text
+					if caret_text and len(caret_text.strip()) > 0:
+						self._logger.info(f"Retrieved caret text: {caret_text[:50]}...")
+						return caret_text.strip()
+		except Exception as e:
+			self._logger.warning(f"Failed to get caret text: {e}")
+		return None
+
+	def _fallback_ctrl_c(self):
 		original_clipboard_data = ""
-		for attempt in range(3):
+		try:
+			with winUser.openClipboard(gui.mainFrame.Handle):
+				original_clipboard_data = winUser.getClipboardData(winUser.CF_UNICODETEXT) or ""
+				winUser.emptyClipboard()
+		except Exception as e:
+			self._logger.warning(f"Cannot access clipboard for backup: {e}")
+		
+		for attempt in range(2):
 			try:
-				with winUser.openClipboard(gui.mainFrame.Handle):
-					original_clipboard_data = winUser.getClipboardData(winUser.CF_UNICODETEXT) or ""
-					winUser.emptyClipboard()
-				
 				keyboardHandler.KeyboardInputGesture.fromName("control+c").send()
-				time.sleep(0.1)
+				time.sleep(0.08)
 				
 				with winUser.openClipboard(gui.mainFrame.Handle):
 					clipboard_text = winUser.getClipboardData(winUser.CF_UNICODETEXT) or ""
 				
 				if clipboard_text:
-					selected_text = clipboard_text
-					self.logger.info(f"Ctrl+C fallback attempt {attempt+1} retrieved: {repr(selected_text[:50])}...")
-					return selected_text.replace('\r\n', '\n').replace('\r', '\n').strip()
+					return clipboard_text.replace('\r\n', '\n').replace('\r', '\n').strip()
 			except Exception as e_fallback:
-				self.logger.warning(f"Ctrl+C fallback attempt {attempt+1} failed: {str(e_fallback)}")
+				self._logger.warning(f"Ctrl+C fallback attempt {attempt+1} failed: {str(e_fallback)}")
 				time.sleep(0.05)
 			finally:
 				try:
@@ -184,9 +194,8 @@ class ClipboardHandler:
 						if original_clipboard_data:
 							winUser.setClipboardData(winUser.CF_UNICODETEXT, original_clipboard_data)
 				except Exception as e_restore:
-					self.logger.warning(f"Failed to restore clipboard: {str(e_restore)}")
+					self._logger.warning(f"Failed to restore clipboard: {str(e_restore)}")
 		
-		self.logger.info("No selected text found (2026).")
 		return None
 	
 	def append_to_clipboard(self, text_to_append):
@@ -201,7 +210,7 @@ class ClipboardHandler:
 						"message": _("Cannot append to non-text clipboard content")
 					}
 		except Exception as e:
-			self.logger.error(f"Error reading clipboard: {str(e)}")
+			self._logger.error(f"Error reading clipboard: {str(e)}")
 			clipData = ""
 		
 		processed_text_to_append = text_to_append
@@ -225,7 +234,7 @@ class ClipboardHandler:
 				"message": _("Appended") if appended else _("Copied")
 			}
 		except Exception as e:
-			self.logger.error(f"Error writing to clipboard: {str(e)}")
+			self._logger.error(f"Error writing to clipboard: {str(e)}")
 			return {
 				"success": False,
 				"appended": False,
@@ -238,10 +247,10 @@ class ClipboardHandler:
 			with winUser.openClipboard(gui.mainFrame.Handle):
 				clipData = winUser.getClipboardData(winUser.CF_UNICODETEXT) or ""
 				if clipData and not isinstance(clipData, str):
-					self.logger.warning("Clipboard contains non-text data, cannot append")
+					self._logger.warning("Clipboard contains non-text data, cannot append")
 					return False
 		except Exception as e:
-			self.logger.error(f"append_text_silent: Error reading clipboard: {e}")
+			self._logger.error(f"append_text_silent: Error reading clipboard: {e}")
 			clipData = ""
 		
 		processed_text_to_append = text_to_append
@@ -259,5 +268,5 @@ class ClipboardHandler:
 				winUser.setClipboardData(winUser.CF_UNICODETEXT, newText.replace('\n', '\r\n'))
 			return True
 		except Exception as e:
-			self.logger.error(f"append_text_silent: Error writing to clipboard: {e}")
+			self._logger.error(f"append_text_silent: Error writing to clipboard: {e}")
 			return False

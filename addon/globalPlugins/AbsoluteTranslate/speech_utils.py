@@ -41,15 +41,20 @@ class SpeechHistoryHandler:
 		if self._orig_speak:
 			self._orig_speak(sequence, *args, **kwargs)
 		
-		# Filter out special commands
 		filtered_seq = [item for item in sequence if not isinstance(item, FocusLossCancellableSpeechCommand)]
 		text_parts = [item for item in filtered_seq if isinstance(item, str)]
 		text = speechViewer.SPEECH_ITEM_SEPARATOR.join(text_parts)
 		
-		if text:
+		if text and len(text.strip()) > 0:
 			self.history.appendleft(text)
 			if self.callback:
 				self.callback(text)
 
 	def get_latest(self):
 		return self.history[0] if self.history else ""
+	
+	def get_all_history(self):
+		return list(self.history)
+	
+	def clear_history(self):
+		self.history.clear()
