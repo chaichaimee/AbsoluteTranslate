@@ -10,23 +10,23 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: DevOn Addon\n"
+"X-Generator: Poedit 3.9\n"
 
 #: long_translation_dialog.py:141
-msgid "&Continue	Alt+C"
-msgstr "&Продовжити	Alt+C"
+msgid "&Continue\tAlt+C"
+msgstr "&Продовжити\tAlt+C"
 
 #: long_translation_dialog.py:275
-msgid "&Continue	Alt+C ({} / {})"
-msgstr "&Продовжити	Alt+C ({} / {})"
+msgid "&Continue\tAlt+C ({} / {})"
+msgstr "&Продовжити\tAlt+C ({} / {})"
 
 #: long_translation_dialog.py:146
-msgid "&Swap	Alt+S"
-msgstr "&Поміняти місцями	Alt+S"
+msgid "&Swap\tAlt+S"
+msgstr "&Поміняти місцями\tAlt+S"
 
 #: setting.py:79
 msgid "Absolute Translate"
-msgstr "Absolute Translate"
+msgstr "Абсолютний переклад"
 
 #: setting.py:134
 msgid "Append translations only in long translation (if text >2000 chars)"
@@ -38,11 +38,11 @@ msgstr "Додано"
 
 #: setting.py:104
 msgid "Automatically swap when source matches target"
-msgstr "Автоматично міняти місцями, якщо джерело збігається з ціллю"
+msgstr "Автозміна, якщо мова оригіналу збігається з мовою для перекладу"
 
 #: long_translation_dialog.py:151
-msgid "Cancel	Alt+X"
-msgstr "Скасувати	Alt+X"
+msgid "Cancel\tAlt+X"
+msgstr "Скасувати\tAlt+X"
 
 #: clipboard_utils.py:201
 msgid "Cannot append to non-text clipboard content"
@@ -53,8 +53,8 @@ msgid "Cannot open settings dialog"
 msgstr "Не вдалося відкрити діалог налаштувань"
 
 #: long_translation_dialog.py:287
-msgid "Close	Alt+X"
-msgstr "Закрити	Alt+X"
+msgid "Close\tAlt+X"
+msgstr "Закрити\tAlt+X"
 
 #: long_translation_dialog.py:18
 msgid "Continuous Translation"
@@ -70,7 +70,7 @@ msgstr "Скопійовано"
 
 #: long_translation_dialog.py:66
 msgid "Document language ({}) matches target. Auto-swapping to {}."
-msgstr "Мова документа ({}) збігається з ціллю. Автоматичне перемикання на {}."
+msgstr "Мова документа ({}) збігається з мовою перекладу. Автоматичне перемикання на {}."
 
 #: long_translation_dialog.py:279
 msgid "Error during translation process."
@@ -102,11 +102,11 @@ msgstr "Зберігати переклад у буфер обміну"
 
 #: setting.py:90
 msgid "Source language (Auto Detect = auto):"
-msgstr "Вихідна мова (Автовизначення = auto):"
+msgstr "Мова оригіналу (Автовизначення = авто):"
 
 #: setting.py:109
 msgid "Swap to language:"
-msgstr "Переключити на мову:"
+msgstr "Мова для зміни:"
 
 #: long_translation_dialog.py:201
 msgid "Swapped"
@@ -114,11 +114,11 @@ msgstr "Змінено"
 
 #: setting.py:97
 msgid "Target language:"
-msgstr "Цільова мова:"
+msgstr "Мова для перекладу:"
 
 #: __init__.py:187
 msgid "Translates Selected Text (Single Tap), Translates Last Speech (Double Tap), Open Absolute Translate Settings (Tripple Tap)"
-msgstr "Перекладає виділений текст (одне натискання), перекладає останню мову (подвійне натискання), відкриває налаштування Absolute Translate (потрійне натискання)"
+msgstr "Перекладає виділений текст (одне натискання), перекладає останню промовлену фразу (подвійне натискання), відкриває налаштування додатка(потрійне натискання)"
 
 #: long_translation_dialog.py:237
 msgid "Translation failed."
