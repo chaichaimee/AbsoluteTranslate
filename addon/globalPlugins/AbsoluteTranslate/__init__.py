@@ -2,6 +2,8 @@
 # Copyright (C) 2026 Chai Chaimee
 # Licensed under GNU General Public License. See COPYING.txt for details.
 
+import os
+import json
 import addonHandler
 import globalPluginHandler
 from scriptHandler import script
@@ -24,10 +26,6 @@ from .long_translation_dialog import LongTranslationDialog
 
 addonHandler.initTranslation()
 
-# Safety-net timeout: if a translation cycle never reports back (unexpected
-# exception inside a background thread, a hung dialog, etc.) the plugin would
-# otherwise stay locked in "Translation in progress" until NVDA is restarted.
-# This watchdog force-releases the lock after this many milliseconds.
 PROCESSING_WATCHDOG_MS = 45000
 
 
@@ -82,13 +80,6 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			pass
 		self._is_processing = False
 
-	# --- Processing-state helpers -------------------------------------------------
-	# Centralizing every mutation of `_is_processing` here fixes the root cause of
-	# the "Translation in progress, please wait" lock-up: previously several early
-	# `return` statements inside `_execute_translate_action` skipped resetting the
-	# flag entirely, so a single "no text selected" or "no spoken text" event was
-	# enough to permanently freeze the add-on until NVDA was restarted.
-
 	def _clear_processing_watchdog(self):
 		if self._processing_watchdog:
 			try:
@@ -117,24 +108,6 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		"""Safe to call from a background thread."""
 		self._is_processing = False
 		core.callLater(0, self._clear_processing_watchdog)
-
-	# --------------------------------------------------------------------------------
-
-	def _get_selected_text_async(self, callback):
-		def worker():
-			try:
-				obj = api.getFocusObject()
-				text = self.clipboard_handler.get_selected_text(obj)
-				core.callLater(0, callback, text)
-			except Exception as e:
-				log.error(f"Get selected text failed: {e}")
-				core.callLater(0, callback, "")
-
-		threading.Thread(target=worker, daemon=True).start()
-
-	def _get_selected_text(self):
-		obj = api.getFocusObject()
-		return self.clipboard_handler.get_selected_text(obj)
 
 	def _get_last_spoken_text(self):
 		text = self.speech_history.get_latest()
@@ -165,16 +138,35 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			except Exception as e:
 				log.error(f"Clipboard copy failed: {e}")
 
+	def _process_selected_text(self, full_text):
+		try:
+			if not full_text:
+				ui.message(_("No text selected."))
+				self._finish_processing()
+				return
+
+			src = setting.config.get("source_lang", "auto")
+			tgt = setting.config["target_lang"]
+			swap = setting.config.get("swap_lang", "en")
+			auto_swap = setting.config.get("auto_swap", False)
+			copy_mode = setting.config.get("copy_to_clipboard", False)
+			continuous = setting.config.get("continuous_translation", False)
+			append_mode = setting.config.get("append_translations", False)
+
+			if continuous and len(full_text) > 1500:
+				self._open_long_translation_async(full_text, tgt, src, swap, auto_swap, copy_mode, append_mode)
+			else:
+				self._translate_and_output(full_text, tgt, src, swap, auto_swap, copy_mode)
+		except Exception as e:
+			log.error(f"Process selected text failed: {e}")
+			self._finish_processing()
+
 	def _execute_translate_action(self):
 		if self._is_processing:
-			# Already busy: don't let a leftover tap count leak into the next
-			# legitimate attempt once processing finishes.
 			self._tap_count = 0
 			ui.message(_("Translation in progress, please wait."))
 			return
 
-		# Snapshot and clear the tap count immediately so a stray keypress that
-		# arrives while we're working can't corrupt the count read below.
 		tap_count = self._tap_count
 		self._tap_count = 0
 
@@ -185,38 +177,9 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		try:
 			if tap_count == 1:
 				log.info("Single tap: selected text")
-				full_text = self._get_selected_text()
-				if not full_text:
-					ui.message(_("No text selected."))
-					return
-
-				src = setting.config.get("source_lang", "auto")
-				tgt = setting.config["target_lang"]
-				swap = setting.config.get("swap_lang", "en")
-				auto_swap = setting.config.get("auto_swap", False)
-				copy_mode = setting.config.get("copy_to_clipboard", False)
-				continuous = setting.config.get("continuous_translation", False)
-				append_mode = setting.config.get("append_translations", False)
-
-				if continuous and len(full_text) > 1500:
-					def show_dialog():
-						try:
-							dlg = LongTranslationDialog(
-								None, [full_text], tgt, src, swap, auto_swap,
-								copy_mode, append_mode, self.clipboard_handler
-							)
-							dlg.start_translation()
-							dlg.ShowModal()
-						except Exception as e:
-							log.error(f"Long translation dialog failed: {e}")
-							ui.message(_("Cannot open translation window."))
-						finally:
-							self._finish_processing()
-					wx.CallAfter(show_dialog)
-					async_started = True
-				else:
-					self._translate_and_output(full_text, tgt, src, swap, auto_swap, copy_mode)
-					async_started = True
+				obj = api.getFocusObject()
+				self.clipboard_handler.get_selected_text_async(obj, self._process_selected_text)
+				async_started = True
 
 			elif tap_count == 2:
 				log.info("Double tap: last spoken")
@@ -241,8 +204,6 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		except Exception as e:
 			log.error(f"Execute translate action failed: {e}")
 		finally:
-			# Only auto-release here when nothing was handed off to a worker
-			# thread or dialog; those paths own the release from now on.
 			if not async_started:
 				self._finish_processing()
 
@@ -251,6 +212,12 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			try:
 				translated = translate.translate_text(text, target_lang, source_lang, swap_lang, auto_swap)
 				core.callLater(0, self._output_translation, translated, copy_mode, False)
+			except translate.TranslationRateLimitError:
+				log.error("Translation rate limited")
+				core.callLater(0, ui.message, _("Translation API blocked due to rate limits. Please try again later."))
+			except translate.TranslationError as e:
+				log.error(f"Translation worker failed: {e}")
+				core.callLater(0, ui.message, _("Translation failed: {error}").format(error=str(e)))
 			except Exception as e:
 				log.error(f"Translation worker failed: {e}")
 				core.callLater(0, ui.message, _("Translation failed. Please check your network connection."))
@@ -259,10 +226,67 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
 		threading.Thread(target=worker, daemon=True).start()
 
+	def _open_long_translation_async(self, full_text, target_lang, source_lang, swap_lang, auto_swap, copy_mode, append_mode):
+		def worker():
+			try:
+				cfg_dir = setting.get_config_dir()
+				if not cfg_dir:
+					user_config = os.path.join(os.environ.get("APPDATA", ""), "nvda")
+					cfg_dir = os.path.join(user_config, "ChaiChaimee", "AbsoluteTranslate")
+					os.makedirs(cfg_dir, exist_ok=True)
+
+				pairs_path = os.path.join(cfg_dir, "chunk_pairs_1.json")
+				pairs = [None]
+				if os.path.exists(pairs_path):
+					try:
+						with open(pairs_path, "r", encoding="utf-8") as f:
+							data = json.load(f)
+							if data.get("chunk_count") == 1:
+								loaded = data.get("pairs")
+								if loaded and len(loaded) == 1:
+									pairs = loaded
+					except Exception as e:
+						log.warning(f"Failed to load chunk pairs: {e}")
+
+				core.callLater(
+					0,
+					self._show_long_translation_dialog,
+					full_text, target_lang, source_lang, swap_lang, auto_swap,
+					copy_mode, append_mode, cfg_dir, pairs
+				)
+			except Exception as e:
+				log.error(f"Long translation preparation failed: {e}")
+				core.callLater(0, self._finish_processing)
+
+		threading.Thread(target=worker, daemon=True).start()
+
+	def _show_long_translation_dialog(self, full_text, target_lang, source_lang, swap_lang, auto_swap, copy_mode, append_mode, storage_dir, pairs):
+		try:
+			dlg = LongTranslationDialog(
+				None,
+				[full_text],
+				target_lang,
+				source_lang,
+				swap_lang,
+				auto_swap,
+				copy_mode,
+				append_mode,
+				self.clipboard_handler,
+				initial_pairs=pairs,
+				storage_dir=storage_dir
+			)
+			dlg.start_translation()
+			dlg.ShowModal()
+		except Exception as e:
+			log.error(f"Long translation dialog failed: {e}")
+			ui.message(_("Cannot open translation window."))
+		finally:
+			self._finish_processing()
+
 	def _open_settings(self):
 		try:
 			from .setting import AbsoluteTranslateSettingsPanel
-			wx.CallAfter(gui.mainFrame._popupSettingsDialog,
+			wx.CallAfter(gui.mainFrame.popupSettingsDialog,
 						 gui.settingsDialogs.NVDASettingsDialog,
 						 AbsoluteTranslateSettingsPanel)
 		except Exception as e:

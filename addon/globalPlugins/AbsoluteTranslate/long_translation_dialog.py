@@ -12,8 +12,9 @@ import globalVars
 from . import translate
 from . import setting
 
+
 class LongTranslationDialog(wx.Dialog):
-	def __init__(self, parent, chunks, target_lang, source_lang, swap_lang, auto_swap, copy_to_clipboard, append_translations, clipboard_handler):
+	def __init__(self, parent, chunks, target_lang, source_lang, swap_lang, auto_swap, copy_to_clipboard, append_translations, clipboard_handler, initial_pairs=None, storage_dir=None):
 		style = wx.DEFAULT_DIALOG_STYLE | wx.RESIZE_BORDER | wx.STAY_ON_TOP
 		super().__init__(parent, title=_("Continuous Translation"), style=style)
 		self.chunks = chunks
@@ -32,49 +33,50 @@ class LongTranslationDialog(wx.Dialog):
 		self.chunk_pairs = []
 		self.showing_original = False
 		self.line_indices = {}
-		
-		# Calculate effective source and target languages based on full document
+		self._initial_pairs = initial_pairs
+		self._storage_dir = storage_dir
+
 		self._calculate_effective_languages()
-		
-		self._init_storage()
+
+		if self._storage_dir:
+			self.storage_dir = self._storage_dir
+		else:
+			self._init_storage()
+
 		self._load_or_init_pairs()
 		self._create_ui()
 		self.CenterOnParent()
-		
+
 		self.Bind(wx.EVT_CLOSE, self._on_close)
 		self.Bind(wx.EVT_CHAR_HOOK, self._on_char_hook)
 		self.Bind(wx.EVT_SHOW, self._on_show)
 
 	def _calculate_effective_languages(self):
-		"""Determine the actual source and target languages for the entire document."""
 		full_text = "\n".join(self.chunks)
-		
+
 		if self.source_lang != "auto":
 			self.effective_source_lang = self.source_lang
 			self.effective_target_lang = self.target_lang
 			log.debug(f"Using manual source: {self.effective_source_lang}")
 			return
-		
-		# Auto-detect main language of the full document
+
 		detected_main = translate.detect_language(full_text)
 		log.info(f"Detected main document language: {detected_main}")
-		
+
 		if self.auto_swap and detected_main == self.target_lang:
-			# Document language matches target, swap to swap_lang
 			self.effective_source_lang = detected_main
 			self.effective_target_lang = self.swap_lang
-			ui.message(_("Document language ({}) matches target. Auto-swapping to {}.").format(
-				translate.LANGUAGES.get(detected_main, detected_main),
-				translate.LANGUAGES.get(self.swap_lang, self.swap_lang)
+			ui.message(_("Document language ({src}) matches target. Auto-swapping to {swap}.").format(
+				src=translate.LANGUAGES.get(detected_main, detected_main),
+				swap=translate.LANGUAGES.get(self.swap_lang, self.swap_lang)
 			))
 			log.info(f"Auto-swap triggered: source={detected_main}, target={self.swap_lang}")
 		else:
-			# Normal case: source is detected, target as configured
 			self.effective_source_lang = detected_main if detected_main != "auto" else "en"
 			self.effective_target_lang = self.target_lang
 			if self.auto_swap and detected_main != self.target_lang:
 				log.debug(f"No swap needed: detected={detected_main}, target={self.target_lang}")
-		
+
 		log.info(f"Effective languages for long translation: source={self.effective_source_lang}, target={self.effective_target_lang}")
 
 	def _on_show(self, event):
@@ -98,6 +100,10 @@ class LongTranslationDialog(wx.Dialog):
 		return os.path.join(self.storage_dir, f"chunk_pairs_{len(self.chunks)}.json")
 
 	def _load_or_init_pairs(self):
+		if self._initial_pairs is not None:
+			self.chunk_pairs = self._initial_pairs
+			return
+
 		path = self._get_pairs_path()
 		if os.path.exists(path):
 			try:
@@ -111,19 +117,30 @@ class LongTranslationDialog(wx.Dialog):
 		self.chunk_pairs = [None] * len(self.chunks)
 
 	def _save_pairs(self):
+		pairs_copy = list(self.chunk_pairs)
 		path = self._get_pairs_path()
-		try:
-			with open(path, "w", encoding="utf-8") as f:
-				data = {"chunk_count": len(self.chunks), "pairs": self.chunk_pairs}
-				json.dump(data, f)
-		except Exception as e:
-			log.error(f"Save pairs failed: {e}")
+
+		def worker():
+			try:
+				os.makedirs(os.path.dirname(path), exist_ok=True)
+				with open(path, "w", encoding="utf-8") as f:
+					data = {"chunk_count": len(self.chunks), "pairs": pairs_copy}
+					json.dump(data, f)
+			except Exception as e:
+				log.error(f"Save pairs failed: {e}")
+
+		threading.Thread(target=worker, daemon=True).start()
 
 	def _cleanup_files(self):
-		try:
-			os.remove(self._get_pairs_path())
-		except Exception:
-			pass
+		path = self._get_pairs_path()
+
+		def worker():
+			try:
+				os.remove(path)
+			except Exception:
+				pass
+
+		threading.Thread(target=worker, daemon=True).start()
 
 	def _on_char_hook(self, event):
 		if event.GetKeyCode() == wx.WXK_ESCAPE:
@@ -214,19 +231,20 @@ class LongTranslationDialog(wx.Dialog):
 		self.swap_btn.Enable(False)
 		self.current_chunk_index = index
 		self._update_status()
+
 		def worker():
 			try:
 				text = self.chunks[index]
-				# Use pre-calculated effective languages for consistency
 				src = self.effective_source_lang
 				target = self.effective_target_lang
-				res = translate.google_translate(text, target, src)
+				res = translate.translate_text(text, target, src)
 				if not self.closed:
 					wx.CallAfter(self._on_translation_complete, index, res, text)
 			except Exception as e:
 				log.error(f"Translation thread failed: {e}")
 				if not self.closed:
 					wx.CallAfter(self._on_error)
+
 		threading.Thread(target=worker, daemon=True).start()
 
 	def _on_translation_complete(self, index, translated, original):

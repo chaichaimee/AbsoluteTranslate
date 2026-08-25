@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: AbsoluteTranslate 2026.4.4\n"
+"Project-Id-Version: AbsoluteTranslate 2026.8.8\n"
 "Report-Msgid-Bugs-To: chaicm75@gmail.com\n"
-"POT-Creation-Date: 2026-04-20 08:29+0700\n"
+"POT-Creation-Date: 2026-08-25 10:38+0700\n"
 "PO-Revision-Date: \n"
 "Last-Translator: chaiBot and Malee Yamazaki\n"
 "Language-Team: Russian\n"
@@ -12,114 +12,154 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: DevOn Addon\n"
 
-#: long_translation_dialog.py:141
+#: long_translation_dialog.py:158
 msgid "&Continue	Alt+C"
-msgstr "&Продолжить	Alt+C"
+msgstr "Продолжить (&C)\tAlt+C"
 
-#: long_translation_dialog.py:275
+#: long_translation_dialog.py:293
 msgid "&Continue	Alt+C ({} / {})"
-msgstr "&Продолжить	Alt+C ({} / {})"
+msgstr "Продолжить (&C)\tAlt+C ({} / {})"
 
-#: long_translation_dialog.py:146
+#: long_translation_dialog.py:163
 msgid "&Swap	Alt+S"
-msgstr "&Поменять местами	Alt+S"
+msgstr "Поменять местами (&S)\tAlt+S"
 
-#: setting.py:79
+#: setting.py:108
 msgid "Absolute Translate"
 msgstr "Absolute Translate"
 
-#: setting.py:134
+#: setting.py:162
 msgid "Append translations only in long translation (if text >2000 chars)"
-msgstr "Добавлять перевод только при длинном переводе (если текст >2000 симв.)"
+msgstr "Добавлять перевод только при длинном переводе (если текст >2000 символов)"
 
-#: clipboard_utils.py:225
+#: clipboard_utils.py:217
 msgid "Appended"
 msgstr "Добавлено"
 
-#: setting.py:104
+#: setting.py:133
 msgid "Automatically swap when source matches target"
-msgstr "Автоматически менять местами, если источник совпадает с целью"
+msgstr "Автоматически менять местами, когда исходный язык совпадает с целевым"
 
-#: long_translation_dialog.py:151
+#: long_translation_dialog.py:168
 msgid "Cancel	Alt+X"
-msgstr "Отмена	Alt+X"
+msgstr "Отмена\tAlt+X"
 
-#: clipboard_utils.py:201
+#: clipboard_utils.py:193
 msgid "Cannot append to non-text clipboard content"
 msgstr "Невозможно добавить к нетекстовому содержимому буфера обмена"
 
-#: __init__.py:184
+#: __init__.py:294
 msgid "Cannot open settings dialog"
-msgstr "Не удалось открыть диалог настроек"
+msgstr "Не удается открыть диалоговое окно настроек"
 
-#: long_translation_dialog.py:287
+#: __init__.py:282
+msgid "Cannot open translation window."
+msgstr "Не удается открыть окно перевода."
+
+#: long_translation_dialog.py:305
 msgid "Close	Alt+X"
-msgstr "Закрыть	Alt+X"
+msgstr "Закрыть\tAlt+X"
 
-#: long_translation_dialog.py:18
+#: long_translation_dialog.py:19
 msgid "Continuous Translation"
 msgstr "Непрерывный перевод"
 
-#: setting.py:128
+#: setting.py:157
 msgid "Continuous translation"
 msgstr "Непрерывный перевод"
 
-#: clipboard_utils.py:225
+#: clipboard_utils.py:217
 msgid "Copied"
 msgstr "Скопировано"
 
-#: long_translation_dialog.py:66
-msgid "Document language ({}) matches target. Auto-swapping to {}."
-msgstr "Язык документа ({}) совпадает с целью. Автоматическое переключение на {}."
+#: long_translation_dialog.py:69
+msgid "Document language ({src}) matches target. Auto-swapping to {swap}."
+msgstr "Язык документа ({src}) совпадает с целевым. Автоматическое переключение на {swap}."
 
-#: long_translation_dialog.py:279
+#: long_translation_dialog.py:297
 msgid "Error during translation process."
 msgstr "Ошибка в процессе перевода."
 
-#: clipboard_utils.py:232
+#: clipboard_utils.py:224
 msgid "Error writing to clipboard"
 msgstr "Ошибка записи в буфер обмена"
 
-#: __init__.py:137
-msgid "No spoken text captured."
-msgstr "Голосовой ввод не обнаружен."
+#: setting.py:185
+msgid "Gemini model:"
+msgstr "Модель Gemini:"
 
-#: __init__.py:113
+#: setting.py:168
+msgid "Google AI Studio (Gemini)"
+msgstr "Google AI Studio (Gemini)"
+
+#: setting.py:179
+msgid "Google AI Studio API key:"
+msgstr "Ключ API Google AI Studio:"
+
+#: setting.py:168
+msgid "Google Translate"
+msgstr "Google Переводчик"
+
+#: __init__.py:188
+msgid "No spoken text captured."
+msgstr "Произнесенный текст не обнаружен."
+
+#: __init__.py:144
 msgid "No text selected."
 msgstr "Текст не выбран."
 
-#: __init__.py:166
-msgid "No text to translate."
-msgstr "Нет текста для перевода."
-
-#: __init__.py:87
+#: __init__.py:121
 msgid "No translation result."
 msgstr "Нет результата перевода."
 
-#: setting.py:121
+#: setting.py:150
 msgid "Save translations to clipboard"
-msgstr "Сохранять перевод в буфер обмена"
+msgstr "Сохранять переводы в буфер обмена"
 
-#: setting.py:90
+#: setting.py:119
 msgid "Source language (Auto Detect = auto):"
 msgstr "Исходный язык (Автоопределение = auto):"
 
-#: setting.py:109
+#: setting.py:138
 msgid "Swap to language:"
-msgstr "Переключить на язык:"
+msgstr "Поменять на язык:"
 
-#: long_translation_dialog.py:201
+#: long_translation_dialog.py:218
 msgid "Swapped"
-msgstr "Изменено"
+msgstr "Поменялись местами"
 
-#: setting.py:97
+#: setting.py:126
 msgid "Target language:"
 msgstr "Целевой язык:"
 
-#: __init__.py:187
+#: __init__.py:299
 msgid "Translates Selected Text (Single Tap), Translates Last Speech (Double Tap), Open Absolute Translate Settings (Tripple Tap)"
-msgstr "Переводит выделенный текст (одно нажатие), переводит последнюю речь (двойное нажатие), открывает настройки Absolute Translate (тройное нажатие)"
+msgstr "Переводит выделенный текст (одиночное нажатие), переводит последнюю речь (двойное нажатие), открывает настройки Absolute Translate (тройное нажатие)"
 
-#: long_translation_dialog.py:237
+#: __init__.py:217
+msgid "Translation API blocked due to rate limits. Please try again later."
+msgstr "API перевода заблокирован из-за ограничений частоты запросов. Повторите попытку позже."
+
+#: setting.py:170
+msgid "Translation engine:"
+msgstr "Движок перевода:"
+
+#: long_translation_dialog.py:255
 msgid "Translation failed."
-msgstr "Перевод не удался."
+msgstr "Ошибка перевода."
+
+#: __init__.py:223
+msgid "Translation failed. Please check your network connection."
+msgstr "Ошибка перевода. Проверьте сетевое подключение."
+
+#: __init__.py:220
+msgid "Translation failed: {error}"
+msgstr "Ошибка перевода: {error}"
+
+#: __init__.py:167
+msgid "Translation in progress, please wait."
+msgstr "Выполняется перевод, подождите."
+
+#: __init__.py:96
+msgid "Translation timed out."
+msgstr "Время ожидания перевода истекло."

@@ -23,6 +23,28 @@ config = {
 	"copy_to_clipboard": False,
 	"continuous_translation": False,
 	"append_translations": False,
+	"translation_engine": "google_translate",
+	"gemini_api_key": "",
+	"gemini_model": "gemini-3.5-flash-lite",
+}
+
+GEMINI_MODELS = [
+	"gemini-3.5-flash-lite",
+	"gemini-3.5-flash",
+	"gemini-3.6-flash",
+	"gemini-3.7-flash",
+	"gemini-3.1-pro",
+]
+
+# Models Google has retired; a saved config pointing at one of these is
+# silently migrated to the current default instead of failing every request.
+RETIRED_GEMINI_MODELS = {
+	"gemini-1.5-flash",
+	"gemini-1.5-pro",
+	"gemini-1.0-pro",
+	"gemini-2.0-flash-exp",
+	"gemini-2.0-flash",
+	"gemini-2.0-flash-lite",
 }
 
 def get_config_dir():
@@ -61,6 +83,13 @@ def load_config():
 			log.error(f"Load config failed: {e}")
 	else:
 		log.info("No config file, using defaults and creating new")
+		save_config()
+		return
+
+	if config.get("gemini_model") in RETIRED_GEMINI_MODELS:
+		old_model = config["gemini_model"]
+		config["gemini_model"] = "gemini-3.5-flash-lite"
+		log.warning(f"Saved Gemini model '{old_model}' has been retired; switched to '{config['gemini_model']}'")
 		save_config()
 
 def save_config():
@@ -129,15 +158,48 @@ class AbsoluteTranslateSettingsPanel(SettingsPanel):
 		)
 		self.continuous_translation_cb.SetValue(config.get("continuous_translation", False))
 
-		# Updated label to clarify this option only applies to long translation and requires text >2000 chars
 		self.append_translations_cb = helper.addItem(
 			wx.CheckBox(self, label=_("Append translations only in long translation (if text >2000 chars)"))
 		)
 		self.append_translations_cb.SetValue(config.get("append_translations", False))
 
+		helper.addItem(wx.StaticLine(self, wx.ID_ANY))
+
+		engine_choices = [_("Google Translate"), _("Google AI Studio (Gemini)")]
+		self.engine_ctrl = helper.addLabeledControl(
+			_("Translation engine:"),
+			wx.Choice, choices=engine_choices
+		)
+		current_engine = config.get("translation_engine", "google_translate")
+		self.engine_ctrl.SetSelection(0 if current_engine == "google_translate" else 1)
+		self.engine_ctrl.Bind(wx.EVT_CHOICE, self._on_engine_toggle)
+
+		self.gemini_container = wx.BoxSizer(wx.VERTICAL)
+
+		api_key_label = wx.StaticText(self, label=_("Google AI Studio API key:"))
+		self.gemini_api_key_ctrl = wx.TextCtrl(self, style=wx.TE_PASSWORD)
+		self.gemini_api_key_ctrl.SetValue(config.get("gemini_api_key", ""))
+		self.gemini_container.Add(api_key_label, 0, wx.ALL | wx.ALIGN_LEFT, 2)
+		self.gemini_container.Add(self.gemini_api_key_ctrl, 0, wx.EXPAND | wx.ALL, 2)
+
+		model_label = wx.StaticText(self, label=_("Gemini model:"))
+		self.gemini_model_ctrl = wx.ComboBox(self, choices=GEMINI_MODELS, style=wx.CB_DROPDOWN)
+		self.gemini_model_ctrl.SetValue(config.get("gemini_model", "gemini-3.5-flash-lite"))
+		self.gemini_container.Add(model_label, 0, wx.ALL | wx.ALIGN_LEFT, 2)
+		self.gemini_container.Add(self.gemini_model_ctrl, 0, wx.EXPAND | wx.ALL, 2)
+
+		helper.addItem(self.gemini_container)
+		self.gemini_container.ShowItems(current_engine != "google_translate")
+
 	def _on_auto_swap_toggle(self, event):
 		show = self.auto_swap_cb.GetValue()
 		self.swap_lang_container.ShowItems(show)
+		self.Layout()
+		self.GetSizer().Layout()
+
+	def _on_engine_toggle(self, event):
+		show_gemini = self.engine_ctrl.GetSelection() != 0
+		self.gemini_container.ShowItems(show_gemini)
 		self.Layout()
 		self.GetSizer().Layout()
 
@@ -153,4 +215,9 @@ class AbsoluteTranslateSettingsPanel(SettingsPanel):
 		config["copy_to_clipboard"] = self.copy_to_clipboard_cb.GetValue()
 		config["continuous_translation"] = self.continuous_translation_cb.GetValue()
 		config["append_translations"] = self.append_translations_cb.GetValue()
+
+		engine_index = self.engine_ctrl.GetSelection()
+		config["translation_engine"] = "google_translate" if engine_index == 0 else "gemini"
+		config["gemini_api_key"] = self.gemini_api_key_ctrl.GetValue().strip()
+		config["gemini_model"] = self.gemini_model_ctrl.GetValue().strip()
 		save_config()

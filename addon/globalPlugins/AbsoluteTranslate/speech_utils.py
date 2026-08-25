@@ -2,9 +2,11 @@
 
 import speech
 import speechViewer
+import threading
 from collections import deque
 from logHandler import log
 from eventHandler import FocusLossCancellableSpeechCommand
+
 
 class SpeechHistoryHandler:
 	def __init__(self, maxlen=50, callback=None):
@@ -12,6 +14,7 @@ class SpeechHistoryHandler:
 		self.callback = callback
 		self._orig_speak = None
 		self._patched = False
+		self.lock = threading.Lock()
 		self.patch_speech()
 
 	def patch_speech(self):
@@ -40,21 +43,25 @@ class SpeechHistoryHandler:
 	def _my_speak(self, sequence, *args, **kwargs):
 		if self._orig_speak:
 			self._orig_speak(sequence, *args, **kwargs)
-		
+
 		filtered_seq = [item for item in sequence if not isinstance(item, FocusLossCancellableSpeechCommand)]
 		text_parts = [item for item in filtered_seq if isinstance(item, str)]
 		text = speechViewer.SPEECH_ITEM_SEPARATOR.join(text_parts)
-		
+
 		if text and len(text.strip()) > 0:
-			self.history.appendleft(text)
+			with self.lock:
+				self.history.appendleft(text)
 			if self.callback:
 				self.callback(text)
 
 	def get_latest(self):
-		return self.history[0] if self.history else ""
-	
+		with self.lock:
+			return self.history[0] if self.history else ""
+
 	def get_all_history(self):
-		return list(self.history)
-	
+		with self.lock:
+			return list(self.history)
+
 	def clear_history(self):
-		self.history.clear()
+		with self.lock:
+			self.history.clear()
