@@ -27,6 +27,8 @@ from .long_translation_dialog import LongTranslationDialog
 addonHandler.initTranslation()
 
 PROCESSING_WATCHDOG_MS = 45000
+HISTORY_FILE_NAME = "AbsoluteTranslate_history.json"
+MAX_HISTORY_ENTRIES = 200
 
 
 class GlobalPlugin(globalPluginHandler.GlobalPlugin):
@@ -46,9 +48,12 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		self._action_timer = None
 		self._is_processing = False
 		self._processing_watchdog = None
+		self._translation_history = []
+		self._history_cursor = None
 
 		translate.load_cache()
 		setting.load_config()
+		self._clear_history_file()
 		self._register_settings_panel()
 
 		log.info("AbsoluteTranslate: Initialized successfully")
@@ -109,6 +114,61 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		self._is_processing = False
 		core.callLater(0, self._clear_processing_watchdog)
 
+	def _get_history_path(self):
+		cfg_dir = setting.get_config_dir()
+		if not cfg_dir:
+			return None
+		return os.path.join(cfg_dir, HISTORY_FILE_NAME)
+
+	def _clear_history_file(self):
+		"""History only covers the current NVDA session, so any file left
+		over from a previous run is discarded on startup."""
+		path = self._get_history_path()
+		if path and os.path.exists(path):
+			try:
+				os.remove(path)
+			except Exception as e:
+				log.error(f"Failed to clear history file: {e}")
+
+	def _save_history_file(self):
+		path = self._get_history_path()
+		if not path:
+			return
+		try:
+			with open(path, "w", encoding="utf-8") as f:
+				json.dump(self._translation_history, f, ensure_ascii=False, indent=2)
+		except Exception as e:
+			log.error(f"Failed to save history file: {e}")
+
+	def _add_to_history(self, translated_text):
+		if not translated_text:
+			return
+		self._translation_history.append(translated_text)
+		if len(self._translation_history) > MAX_HISTORY_ENTRIES:
+			self._translation_history = self._translation_history[-MAX_HISTORY_ENTRIES:]
+		self._history_cursor = None
+		threading.Thread(target=self._save_history_file, daemon=True).start()
+
+	def _speak_history_step(self):
+		"""Called on a single tap with no text selected: steps backward
+		through past translations, most recent first."""
+		if not self._translation_history:
+			ui.message(_("No translation history yet."))
+			return
+
+		if self._history_cursor is None:
+			self._history_cursor = len(self._translation_history) - 1
+		else:
+			if self._history_cursor <= 0:
+				ui.message(_("This is the oldest translation in history."))
+				return
+			self._history_cursor -= 1
+
+		entry = self._translation_history[self._history_cursor]
+		self._suppress_speech = True
+		ui.message(entry)
+		self._suppress_speech = False
+
 	def _get_last_spoken_text(self):
 		text = self.speech_history.get_latest()
 		if text:
@@ -124,6 +184,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		self._suppress_speech = True
 		ui.message(translated_text)
 		self._suppress_speech = False
+
+		self._add_to_history(translated_text)
 
 		if do_append:
 			try:
@@ -141,7 +203,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 	def _process_selected_text(self, full_text):
 		try:
 			if not full_text:
-				ui.message(_("No text selected."))
+				self._speak_history_step()
 				self._finish_processing()
 				return
 
@@ -152,8 +214,10 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			copy_mode = setting.config.get("copy_to_clipboard", False)
 			continuous = setting.config.get("continuous_translation", False)
 			append_mode = setting.config.get("append_translations", False)
+			engine = setting.config.get("translation_engine", "google_translate")
+			long_threshold = 1500 if engine == "google_translate" else 50000
 
-			if continuous and len(full_text) > 1500:
+			if continuous and len(full_text) > long_threshold:
 				self._open_long_translation_async(full_text, tgt, src, swap, auto_swap, copy_mode, append_mode)
 			else:
 				self._translate_and_output(full_text, tgt, src, swap, auto_swap, copy_mode)

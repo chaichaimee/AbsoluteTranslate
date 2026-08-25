@@ -12,7 +12,7 @@ import time
 import re
 
 LANGUAGES = {
-	"auto": "Auto Detect",
+	"auto": "All Languages (Auto Detect)",
 	"af": "Afrikaans", "ak": "Akan", "am": "Amharic", "ar": "Arabic",
 	"as": "Assamese", "ay": "Aymara", "az": "Azerbaijani", "be": "Belarusian",
 	"bg": "Bulgarian", "bho": "Bhojpuri", "bm": "Bambara", "bn": "Bengali",
@@ -49,19 +49,47 @@ LANGUAGES = {
 	"zh-CN": "Chinese (Simplified)", "zh-TW": "Chinese (Traditional)", "zu": "Zulu",
 }
 
-MAX_CHARS = 5000
+GEMINI_STYLES = {
+	"neutral": ("Neutral", ""),
+	"formal": ("Formal", "Use formal, polite, grammatically precise language suitable for official documents."),
+	"friendly": ("Friendly", "Use a warm, casual, friendly tone as if speaking to a close friend."),
+	"copywriter": ("Copywriter", "Use persuasive, catchy, professional advertising copywriter style."),
+	"literary": ("Literary", "Use rich literary language with vivid imagery and figures of speech, suitable for creative writing."),
+	"slang": ("Slang", "Use natural everyday slang and colloquial expressions appropriate to the target language and culture."),
+}
+
+# Character ranges used for lightweight, offline majority-script detection.
+# This drives the auto-swap decision when a selection mixes more than one
+# language, since a single short API-based guess is unreliable on mixed text.
+_SCRIPT_RANGES = (
+	("th", ((0x0E00, 0x0E7F),)),
+	("zh", ((0x4E00, 0x9FFF), (0x3400, 0x4DBF))),
+	("ja", ((0x3040, 0x30FF),)),
+	("ko", ((0xAC00, 0xD7A3),)),
+	("ar", ((0x0600, 0x06FF),)),
+	("ru", ((0x0400, 0x04FF),)),
+	("he", ((0x0590, 0x05FF),)),
+	("hi", ((0x0900, 0x097F),)),
+	("en", ((0x0041, 0x005A), (0x0061, 0x007A))),
+)
+
+MAX_CHARS_GOOGLE = 5000
+MAX_CHARS_GEMINI = 100000
 
 _cache = {}
 CACHE_PATH = None
 
 GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
 
-# translate.googleapis.com is the unofficial scraping endpoint and is the one most
-# commonly fingerprinted and blocked by DPI/firewall filters. translate.google.com
-# serves the same translate_a/single endpoint and acts as a genuine fallback domain
-# when the googleapis.com host is blocked at the network level.
-GOOGLE_TRANSLATE_URL = "https://translate.googleapis.com/translate_a/single?client=gtx&sl={sl}&tl={tl}&dt=t&q={q}&dj=1"
-GOOGLE_TRANSLATE_MIRROR_URL = "https://translate.google.com/translate_a/single?client=gtx&sl={sl}&tl={tl}&dt=t&q={q}&dj=1"
+# Modern Google Translate backend (same one used by Google's own web frontend).
+# Unlike the legacy translate_a/single scraping endpoint, this is the endpoint
+# actually served in production traffic, so it is far less likely to be
+# fingerprinted and blocked by network-level filters.
+GOOGLE_TRANSLATE_URL = "https://translate-pa.googleapis.com/v1/translate"
+GOOGLE_TRANSLATE_CLIENT = "gtx"
+# Public key embedded in Google's own web Translate frontend JavaScript; it is
+# not a private credential and is required to call the endpoint above.
+GOOGLE_TRANSLATE_API_KEY = "AIzaSyDLEeFI5OtFBwYBIoK_jj5m32rZK5CkCXA"
 
 # Ignore SSL certificate errors to avoid failures on some systems
 ssl._create_default_https_context = ssl._create_unverified_context
@@ -77,8 +105,6 @@ class TranslationRateLimitError(TranslationError):
 
 def _create_opener():
 	opener = urllibRequest.build_opener()
-	# A fuller, browser-like header set is less likely to be fingerprinted and
-	# blocked by network filters than a bare User-Agent string alone.
 	opener.addheaders = [
 		("User-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
 			"(KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"),
@@ -136,12 +162,46 @@ def _get_gemini_model():
 	return setting.config.get("gemini_model", "gemini-3.5-flash-lite").strip()
 
 
+def _get_gemini_style():
+	from . import setting
+	return setting.config.get("gemini_style", "neutral")
+
+
+def get_max_chunk_chars():
+	return MAX_CHARS_GEMINI if _get_translation_engine() == "gemini" else MAX_CHARS_GOOGLE
+
+
 def _clean_text_for_translate(text):
 	if not text:
 		return ""
 	cleaned = re.sub(r'[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]', '', text)
 	cleaned = cleaned.replace('\r\n', '\n').replace('\r', '\n')
 	return cleaned.strip()
+
+
+def detect_majority_language(text):
+	"""Counts characters by Unicode script to find the dominant language in
+	text that mixes more than one language or script. Returns (code, ratio)
+	where ratio is the dominant script's share of all recognized letters, or
+	(None, 0.0) if no recognized script characters are present.
+	"""
+	counts = {code: 0 for code, _ranges in _SCRIPT_RANGES}
+	total = 0
+	for ch in text:
+		if ch.isspace() or not ch.isalpha():
+			continue
+		codepoint = ord(ch)
+		for code, ranges in _SCRIPT_RANGES:
+			if any(start <= codepoint <= end for start, end in ranges):
+				counts[code] += 1
+				total += 1
+				break
+	if total == 0:
+		return None, 0.0
+	majority_code, majority_count = max(counts.items(), key=lambda item: item[1])
+	if majority_count == 0:
+		return None, 0.0
+	return majority_code, majority_count / total
 
 
 def _gemini_request(prompt, model, api_key):
@@ -204,7 +264,7 @@ def _gemini_detect_language(text, model, api_key):
 		return "auto"
 
 
-def gemini_translate(text, target_lang, source_lang="auto", model="gemini-3.5-flash-lite", api_key="", retry=2):
+def gemini_translate(text, target_lang, source_lang="auto", model="gemini-3.5-flash-lite", api_key="", style="neutral", retry=2):
 	if not text or not text.strip():
 		return text
 
@@ -214,15 +274,16 @@ def gemini_translate(text, target_lang, source_lang="auto", model="gemini-3.5-fl
 
 	target_name = LANGUAGES.get(target_lang, target_lang)
 	if source_lang == "auto":
-		source_name = "auto detected language"
+		source_name = "the source language, which may include more than one language mixed together"
 	else:
 		source_name = LANGUAGES.get(source_lang, source_lang)
 
-	prompt = (
-		f"Translate the following text from {source_name} to {target_name}. "
-		"Return only the translated text without explanations.\n\n"
-		f"{cleaned_text}"
-	)
+	style_instruction = GEMINI_STYLES.get(style, GEMINI_STYLES["neutral"])[1]
+
+	prompt = f"Translate the following text from {source_name} to {target_name}, translating the entire text."
+	if style_instruction:
+		prompt += f" {style_instruction}"
+	prompt += " Return only the translated text without explanations.\n\n" + cleaned_text
 
 	base_delay = 0.5
 	max_delay = 4.0
@@ -263,66 +324,59 @@ def gemini_translate(text, target_lang, source_lang="auto", model="gemini-3.5-fl
 	raise TranslationError("Gemini translation failed after retries")
 
 
-def detect_language(text):
-	"""Detects the language of text using the same Google endpoint as google_translate.
-	Falls back to "auto" if detection fails for any reason.
-	"""
-	cleaned_text = _clean_text_for_translate(text)
-	if not cleaned_text:
-		return "auto"
-
-	url = GOOGLE_TRANSLATE_URL.format(sl="auto", tl="en", q=urllibRequest.quote(cleaned_text.encode('utf-8')))
-	opener = _create_opener()
-	try:
-		response = opener.open(url, timeout=10)
-		data = json.loads(response.read().decode('utf-8'))
-		detected = data.get("src") if isinstance(data, dict) else None
-		if detected:
-			return detected
-	except Exception as e:
-		log.warning(f"Language detection failed: {e}")
-	return "auto"
-
-
 def _parse_google_response(data):
-	if isinstance(data, dict):
-		sentences = data.get("sentences", [])
-		translated_parts = [s.get("trans", "") for s in sentences if s.get("trans")]
-		return "".join(translated_parts)
-	if isinstance(data, list) and data[0]:
-		translated_parts = [part[0] for part in data[0] if part and part[0]]
-		return "".join(translated_parts)
-	return ""
+	"""Parses a translate-pa.googleapis.com response. The payload is a JSON
+	array: index 1 holds per-sentence translations, index 0 is a plain-text
+	fallback, and index 5 holds the detected source language when available.
+	"""
+	if not isinstance(data, list) or not data:
+		return "", None
+	sentences = data[1] if len(data) > 1 else None
+	if sentences:
+		translation = "".join(s[0] for s in sentences if s and s[0])
+	else:
+		translation = data[0] or ""
+	detected = data[5] if len(data) > 5 and data[5] else None
+	return translation, detected
 
 
 def google_translate(text, target_lang, source_lang="auto", retry=3):
+	"""Returns a (translation, detected_source_lang) tuple."""
 	if not text or not text.strip():
-		return text
+		return text, source_lang
 
 	cleaned_text = _clean_text_for_translate(text)
 	if not cleaned_text:
-		return text
+		return text, source_lang
 
-	urls = [
-		GOOGLE_TRANSLATE_URL.format(sl=source_lang, tl=target_lang, q=urllibRequest.quote(cleaned_text.encode('utf-8'))),
-		GOOGLE_TRANSLATE_MIRROR_URL.format(sl=source_lang, tl=target_lang, q=urllibRequest.quote(cleaned_text.encode('utf-8'))),
+	params = [
+		("params.client", GOOGLE_TRANSLATE_CLIENT),
+		("query.source_language", source_lang),
+		("query.target_language", target_lang),
+		("query.display_language", "en"),
+		("query.text", cleaned_text),
+		("key", GOOGLE_TRANSLATE_API_KEY),
+		("data_types", "TRANSLATION"),
+		("data_types", "SENTENCE_SPLITS"),
 	]
+	url = f"{GOOGLE_TRANSLATE_URL}?{urllib.parse.urlencode(params)}"
+	headers = {"Content-Type": "application/json+protobuf"}
+	opener = _create_opener()
 
 	base_delay = 0.5
 	max_delay = 4.0
-	opener = _create_opener()
 
 	for attempt in range(retry + 1):
 		delay = min(base_delay * (2 ** attempt), max_delay) + random.uniform(0, 0.3)
-		url = urls[attempt % len(urls)]
-		log.debug(f"Translating: {cleaned_text[:50]}... from {source_lang} to {target_lang} (attempt {attempt+1}, url index {attempt % len(urls)})")
+		log.debug(f"Translating: {cleaned_text[:50]}... from {source_lang} to {target_lang} (attempt {attempt+1})")
 		try:
-			response = opener.open(url, timeout=15)
+			req = urllibRequest.Request(url, headers=headers)
+			response = opener.open(req, timeout=15)
 			data = json.loads(response.read().decode('utf-8'))
-			result = _parse_google_response(data)
+			result, detected = _parse_google_response(data)
 			if result:
 				log.info(f"Translation successful: {result[:100]}...")
-				return result
+				return result, (detected or source_lang)
 			log.warning("Unexpected response format")
 			if attempt < retry:
 				time.sleep(delay)
@@ -369,6 +423,48 @@ def google_translate(text, target_lang, source_lang="auto", retry=3):
 	raise TranslationError("Translation failed after retries")
 
 
+def detect_language(text):
+	"""Best-effort remote language detection, used only as a fallback when
+	detect_majority_language() cannot make a determination locally (for
+	example, text with no recognized alphabetic script).
+	"""
+	cleaned_text = _clean_text_for_translate(text)
+	if not cleaned_text:
+		return "auto"
+	try:
+		_translation, detected = google_translate(cleaned_text[:200], "en", "auto", retry=1)
+		return detected or "auto"
+	except Exception as e:
+		log.warning(f"Language detection failed: {e}")
+		return "auto"
+
+
+def _resolve_auto_swap(text, target_lang, swap_lang, engine):
+	"""Decides the effective source/target language when auto-swap is on,
+	using local majority-script detection first (robust to text mixing more
+	than one language) and falling back to a remote API guess only when the
+	heuristic is inconclusive.
+	"""
+	detected, ratio = detect_majority_language(text)
+	if detected:
+		log.info(f"Auto-swap: majority language detected as '{detected}' ({ratio:.0%} of recognized script)")
+	else:
+		if engine == "gemini":
+			api_key = _get_gemini_api_key()
+			model = _get_gemini_model()
+			detected = _gemini_detect_language(text, model, api_key) if api_key else "auto"
+		else:
+			detected = detect_language(text)
+		log.info(f"Auto-swap: falling back to remote detection, got '{detected}'")
+
+	if not detected or detected == "auto":
+		return target_lang, "auto"
+
+	if detected == target_lang:
+		return swap_lang, "auto"
+	return target_lang, detected
+
+
 def translate_text(text, target_lang, source_lang="auto", swap_lang="en", auto_swap=False):
 	if not text or not text.strip():
 		return ""
@@ -377,43 +473,31 @@ def translate_text(text, target_lang, source_lang="auto", swap_lang="en", auto_s
 	actual_source = source_lang
 	actual_target = target_lang
 
+	if auto_swap and source_lang == "auto":
+		actual_target, actual_source = _resolve_auto_swap(text, target_lang, swap_lang, engine)
+
 	if engine == "gemini":
 		api_key = _get_gemini_api_key()
 		model = _get_gemini_model()
+		style = _get_gemini_style()
 		if not api_key:
 			raise TranslationError("Gemini API key is empty")
 
-		if auto_swap and source_lang == "auto":
-			detected = _gemini_detect_language(text, model, api_key)
-			if detected != "auto":
-				if detected == target_lang:
-					actual_target = swap_lang
-				else:
-					actual_source = detected
-
-		cache_key = f"gemini|{model}|{actual_source}|{actual_target}|{text}"
+		cache_key = f"gemini|{model}|{style}|{actual_source}|{actual_target}|{text}"
 		if cache_key in _cache:
 			log.debug("Using cached Gemini translation")
 			_cache[cache_key] = (_cache[cache_key][0], _cache[cache_key][1] + 1)
 			return _cache[cache_key][0]
 
-		result = gemini_translate(text, actual_target, actual_source, model, api_key)
+		result = gemini_translate(text, actual_target, actual_source, model, api_key, style)
 	else:
-		if auto_swap and source_lang == "auto":
-			detected = detect_language(text)
-			log.info(f"Detected: {detected}, target: {target_lang}, swap: {swap_lang}")
-			if detected == target_lang:
-				actual_target = swap_lang
-			else:
-				actual_source = detected
-
 		cache_key = f"google|{actual_source}|{actual_target}|{text}"
 		if cache_key in _cache:
 			log.debug("Using cached Google translation")
 			_cache[cache_key] = (_cache[cache_key][0], _cache[cache_key][1] + 1)
 			return _cache[cache_key][0]
 
-		result = google_translate(text, actual_target, actual_source)
+		result, _detected = google_translate(text, actual_target, actual_source)
 
 	if result and result != text:
 		_cache[cache_key] = (result, 0)
@@ -432,15 +516,15 @@ def get_effective_languages(text, target_lang, source_lang="auto", swap_lang="en
 	actual_source = source_lang
 	actual_target = target_lang
 	if auto_swap and source_lang == "auto":
-		detected = detect_language(text)
-		if detected == target_lang:
-			actual_target = swap_lang
-		else:
-			actual_source = detected
+		engine = _get_translation_engine()
+		actual_target, actual_source = _resolve_auto_swap(text, target_lang, swap_lang, engine)
 	return actual_source, actual_target
 
 
-def split_text_into_chunks(text, max_chars=MAX_CHARS):
+def split_text_into_chunks(text, max_chars=None):
+	if max_chars is None:
+		max_chars = get_max_chunk_chars()
+
 	if len(text) <= max_chars:
 		return [text]
 

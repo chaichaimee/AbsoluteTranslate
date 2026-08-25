@@ -26,6 +26,7 @@ config = {
 	"translation_engine": "google_translate",
 	"gemini_api_key": "",
 	"gemini_model": "gemini-3.5-flash-lite",
+	"gemini_style": "neutral",
 }
 
 GEMINI_MODELS = [
@@ -110,13 +111,14 @@ class AbsoluteTranslateSettingsPanel(SettingsPanel):
 	def makeSettings(self, settingsSizer):
 		helper = guiHelper.BoxSizerHelper(self, sizer=settingsSizer)
 
-		lang_items = [(translate.LANGUAGES[code], code) for code in translate.LANGUAGES]
+		lang_items = [(translate.LANGUAGES[code], code) for code in translate.LANGUAGES if code != "auto"]
 		lang_items.sort(key=lambda x: x[0])
+		lang_items.insert(0, (translate.LANGUAGES["auto"], "auto"))
 		lang_choices = [item[0] for item in lang_items]
 		lang_codes = [item[1] for item in lang_items]
 
 		self.source_lang_ctrl = helper.addLabeledControl(
-			_("Source language (Auto Detect = auto):"),
+			_("Source language:"),
 			wx.Choice, choices=lang_choices
 		)
 		src_idx = lang_codes.index(config.get("source_lang", "auto"))
@@ -188,6 +190,16 @@ class AbsoluteTranslateSettingsPanel(SettingsPanel):
 		self.gemini_container.Add(model_label, 0, wx.ALL | wx.ALIGN_LEFT, 2)
 		self.gemini_container.Add(self.gemini_model_ctrl, 0, wx.EXPAND | wx.ALL, 2)
 
+		style_label = wx.StaticText(self, label=_("Translation style:"))
+		self._gemini_style_keys = list(translate.GEMINI_STYLES.keys())
+		style_choices = [translate.GEMINI_STYLES[key][0] for key in self._gemini_style_keys]
+		self.gemini_style_ctrl = wx.Choice(self, choices=style_choices)
+		current_style = config.get("gemini_style", "neutral")
+		style_idx = self._gemini_style_keys.index(current_style) if current_style in self._gemini_style_keys else 0
+		self.gemini_style_ctrl.SetSelection(style_idx)
+		self.gemini_container.Add(style_label, 0, wx.ALL | wx.ALIGN_LEFT, 2)
+		self.gemini_container.Add(self.gemini_style_ctrl, 0, wx.EXPAND | wx.ALL, 2)
+
 		helper.addItem(self.gemini_container)
 		self.gemini_container.ShowItems(current_engine != "google_translate")
 
@@ -204,8 +216,9 @@ class AbsoluteTranslateSettingsPanel(SettingsPanel):
 		self.GetSizer().Layout()
 
 	def onSave(self):
-		lang_items = [(translate.LANGUAGES[code], code) for code in translate.LANGUAGES]
+		lang_items = [(translate.LANGUAGES[code], code) for code in translate.LANGUAGES if code != "auto"]
 		lang_items.sort(key=lambda x: x[0])
+		lang_items.insert(0, (translate.LANGUAGES["auto"], "auto"))
 		lang_codes = [item[1] for item in lang_items]
 
 		config["source_lang"] = lang_codes[self.source_lang_ctrl.GetSelection()]
@@ -220,4 +233,5 @@ class AbsoluteTranslateSettingsPanel(SettingsPanel):
 		config["translation_engine"] = "google_translate" if engine_index == 0 else "gemini"
 		config["gemini_api_key"] = self.gemini_api_key_ctrl.GetValue().strip()
 		config["gemini_model"] = self.gemini_model_ctrl.GetValue().strip()
+		config["gemini_style"] = self._gemini_style_keys[self.gemini_style_ctrl.GetSelection()]
 		save_config()
