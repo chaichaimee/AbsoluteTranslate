@@ -1,91 +1,114 @@
-<p align="center">
-  <img src="https://www.nvaccess.org/files/nvda/documentation/userGuide/images/nvda.ico" alt="NVDA Logo" width="120" />
-</p>
+<div align="center">
 
-<h1 align="center">Absolute Translate</h1>
+<img src="https://www.nvaccess.org/files/nvda/documentation/userGuide/images/nvda.ico" alt="NVDA Logo" width="120" style="display: block; margin: 0 auto 20px; height: auto;">
 
-<p align="center"><em>"Elevate your perspective: Instant translation, zero friction, absolute clarity."</em></p>
+# Absolute Translate
 
-<p align="center"><b>author:</b> chai chaimee</p>
-<p align="center"><b>url:</b> https://github.com/chaichaimee/AbsoluteTranslate</p>
+*"Elevate your perspective: Instant translation, zero friction, absolute clarity."*
 
----
+**Author:** Chai Chaimee
 
-## • Essential Setup
+**URL:** [https://github.com/chaichaimee/AbsoluteTranslate](https://github.com/chaichaimee/AbsoluteTranslate)
 
-Before harnessing the power of **Absolute Translate**, it is vital to configure your linguistic environment. You can quickly access the settings by performing a **Triple Tap** on the hotkey `Alt + Windows + T` or navigate via NVDA Menu > Preferences > Settings > **Absolute Translate**.
+</div>
 
-* **Primary Language Pair:** Set the Source Language to "Auto" for effortless detection and choose your preferred Target Language.
-* **The Swap System (Critical):** Define your secondary language here. When you need to translate back to the original source, the add‑on uses this to flip directions instantly.
-* **Auto Swap:** We highly recommend **Checking** this option. It allows the engine to intelligently flip translation directions based on the detected text without manual intervention.
-* **Response Handling:** Select "Copy to Clipboard" to save your results. If you enable **"Append"** mode, new translations will be added to the end of the existing clipboard content instead of overwriting it.
-* **Continuous Mode:** Keep this **Checked** to handle long‑form content through our specialized interface (automatic segmentation into chunks of up to 5,000 characters).
-* **Translation Engine:** Choose between **Google Translate** (free, no API key required) and **Google AI Studio (Gemini)**. If you experience issues with Google Translate (e.g. network blocks or rate limits), you can switch to Gemini for more stable and often higher‑quality translations. To use Gemini, you need a valid API key from [Google AI Studio](https://aistudio.google.com/apikey). Enter the key and select a model in the add‑on settings.
+<hr>
+
+## Introduction
+
+**Absolute Translate** is a high‑performance NVDA add‑on that brings instant, friction‑free translation directly into your screen reader. Whether you need to translate selected text, the last spoken utterance, or quickly revisit a previous translation, this add‑on does it with a single, intuitive multi‑tap gesture — no need to switch applications or interrupt your workflow.
+
+With support for two translation engines (Google Translate and Google Gemini), automatic language detection, intelligent clipboard management, and a powerful long‑document mode, Absolute Translate is the complete translation solution for NVDA users.
 
 <br>
 
-## • Description
+## Hotkey & Step‑by‑Step Operation
 
-Eliminate the friction of switching applications to understand the world. **Absolute Translate** is a high-performance bridge between you and global information. Integrated directly into your screen reader, it provides lightning-fast translations of on-screen text, keeping you focused and productive in any language.
+The entire functionality is controlled by a single hotkey: `Alt + Windows + T`. The action performed depends on the number of times you tap this key combination within a short interval (about 0.5 seconds). Follow these steps to get the most out of the add‑on:
+
+1. **Single Tap:**
+   * **If text is selected** on the screen (highlighted), the add‑on translates that selected text and speaks the result.
+   * **If no text is selected**, the add‑on speaks the **most recent translation** from the current NVDA session. Tapping *again* without selection cycles backward through the translation history, allowing you to review older translations one by one.
+
+   *Note:* The translation history is limited to 200 entries and is cleared each time NVDA restarts.
+
+2. **Double Tap:** Translates the **last text spoken by NVDA**. This is perfect for capturing system messages, notifications, or dialog boxes that cannot be selected with the mouse or cursor.
+
+3. **Triple Tap:** Opens the **Absolute Translate Settings** dialog directly, so you can adjust languages, engine preferences, or API keys without navigating through NVDA's menu tree.
+
+This step‑by‑step logic is designed to be fast and context‑sensitive — you never have to remember multiple gestures.
 
 <br>
 
-## • How to Use (The Multi-Tap Logic)
+## Essential Setup
 
-The add‑on uses a sophisticated single-key control system via `Alt + Windows + T`. The behavior adapts to your needs based on the number of taps:
+Before you start translating, configure your preferred language pair and other options. You can access the settings via **Triple Tap** or through *NVDA Menu → Preferences → Settings → Absolute Translate*.
 
-1. **Single Tap:** Translates the **Selected Text** (highlighted text) currently on your screen.
-2. **Double Tap:** Translates the **Last Spoken Text** by NVDA. Ideal for system notifications, error messages, or transient dialogs that cannot be highlighted.
-3. **Triple Tap:** Your ultimate shortcut to the **Settings Dialog**. Adjust your languages, engine preferences, or API keys instantly without digging through menus.
+* **Source Language:** Choose from a wide list of languages, or select **"Auto"** (now a dedicated option) to let the add‑on detect the source language automatically.
+* **Target Language:** Your desired output language.
+* **Swap Language:** The fallback language used when **Auto Swap** is enabled. This allows the add‑on to intelligently flip translation direction based on detected text.
+* **Auto Swap (recommended):** When checked, the add‑on will automatically swap source and target if the detected language matches the target. This is especially useful when working with mixed content.
+* **Copy to Clipboard:** Saves the translation result to the clipboard automatically.
+* **Append Translations:** When enabled, new translations are appended to the existing clipboard content instead of overwriting it.
+* **Continuous Translation:** Enables handling of long texts through a dedicated dialog (segmented into manageable chunks).
+* **Translation Engine:** Choose between **Google Translate** (free, no API key) and **Google AI Studio (Gemini)** (requires a free API key from [Google AI Studio](https://aistudio.google.com/apikey)).
+* **Gemini Style:** When using Gemini, you can select a stylistic tone for the output:
+  * **Neutral:** Balanced, standard translation.
+  * **Formal:** Professional and polite, suitable for business or academic contexts.
+  * **Friendly:** Warm and conversational, like a message to a friend.
+  * **Copywriter:** Persuasive and punchy, ideal for marketing content.
+  * **Literary:** Evocative and expressive, with a novel‑like quality.
+  * **Slang:** Informal and idiomatic, using current everyday language.
 
 <br>
 
-## • Advanced Features
+## Advanced Features
 
 ### Dual Translation Engines
 
-The add‑on now supports two translation backends: the classic **Google Translate** scraping endpoint and the official **Gemini API** from Google AI Studio. You can switch between them at any time in the settings.
+Absolute Translate now supports two backends: **Google Translate** (classic scraping endpoint) and the official **Gemini API**. You can switch between them in the settings at any time.
 
-* **Google Translate:** Free and does not require any API key. Works well for most everyday translations, but may occasionally be affected by network restrictions or rate limiting.
-* **Gemini:** Requires a free API key from Google AI Studio. It offers more reliable performance, better handling of long texts, and often superior translation quality. The add‑on automatically uses Gemini’s language detection when the source is set to “Auto”.
+* **Google Translate:** Free, no API key required. Works well for everyday translations, but may occasionally be affected by network restrictions or rate limits.
+* **Gemini:** Requires a free API key. Offers more reliable performance, better handling of long texts, and often superior quality. The add‑on uses Gemini's own language detection when source is set to "Auto".
 
-If you encounter issues with Google Translate, simply switch to Gemini without changing your workflow. The add‑on will cache translations to reduce API usage and speed up repeated requests.
+If you experience issues with Google Translate, simply switch to Gemini without changing your workflow. The add‑on caches translations to reduce API usage and speed up repeated requests.
 
-<br>
+### High‑Volume Content Management
 
-### High-Volume Content Management
+For texts longer than the threshold, the add‑on automatically triggers **Long Translation Mode** (or you can enable it manually via the Continuous setting). The threshold and chunk size depend on the selected engine:
 
-For extensive documents or long articles, the add‑on triggers **Long Translation Mode** automatically whenever the text exceeds **2,000 characters** (or when you use the continuous mode):
+* **With Google Translate:**
+  * Long mode activates when the text exceeds **1,500 characters**.
+  * The text is split into blocks of at most **5,000 characters** per translation request.
+* **With Gemini:**
+  * Long mode activates when the text exceeds **50,000 characters**.
+  * The text is split into blocks of at most **100,000 characters** per request — far more generous, thanks to Gemini's higher capacity.
 
-* **Smart Block Segmentation:** To maintain peak translation quality, the text is divided into manageable blocks of up to **5,000 characters**.
-* **Sequential Translation:** Use the **"Continue"** button (or Alt+C) to process and read the next block of text in the sequence.
-* **Intelligent Clipboard Integration:** If "Copy to Clipboard" is active, each block is saved. With **"Append"** enabled, the second block is seamlessly joined to the first in your clipboard, allowing you to capture a whole article in one go.
-* **Dual-View Swap (Alt+S):** Toggle between the "Original Source" and the "Translated Result" within the dialog to cross-reference context.
+Once in Long Translation mode, the dialog offers:
 
-<br>
+* **Sequential Translation:** Use the **Continue** button (or Alt+C) to process the next block.
+* **Intelligent Clipboard Integration:** If "Copy to Clipboard" is active, each block is saved. With **"Append"** enabled, blocks are joined together in the clipboard, letting you capture entire articles.
+* **Dual‑View Swap (Alt+S):** Toggle between original and translated text within the dialog to cross‑reference context.
 
 ### Contextual Intelligence
 
-* **Automatic Language Detection:** Let the add‑on identify the source language for you with high accuracy (supports both Google Translate and Gemini detection).
-* **Smart Clipboard Persistence:** Build a translated document silently in the background while you read.
-* **Optimized Audio Flow:** The add‑on manages NVDA's voice to prioritize translation results, ensuring you hear every word clearly.
+* **Automatic Language Detection:** High‑accuracy detection using either Google or Gemini (when selected).
+* **Smart Clipboard Persistence:** Build a translated document in the background while you read.
+* **Optimized Audio Flow:** Manages NVDA's speech to prioritize translation output, ensuring you hear every word clearly.
+* **Translation History:** Single‑tap without selection gives you instant access to the last translation, and repeated taps walk you backwards through the history.
 
 > **Idea Highlight:** Efficiency is about more than speed; it is about total comprehension. Absolute Translate ensures that every piece of information on your screen is accessible, regardless of the language it was written in.
 
-<br><br>
+<br>
 
 ## Support Me
 
 If this tool has streamlined your digital life, consider supporting its continued development with a small donation.
 
-<br>
-
 [![Support me](https://img.shields.io/badge/Donate-Support%20Me-blue?style=for-the-badge&logo=stripe)](https://buy.stripe.com/7sY3cwa4m3Ds5eZ6VK1VK00)
-
-<br>
 
 Your support means the world. Let's build something great together.
 
 <br>
 
-&copy; 2026 Chai Chaimee NVDA Add-on Released under GNU GPL v2+
+© 2026 Chai Chaimee NVDA Add‑on – Released under GNU GPL v2+
