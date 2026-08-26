@@ -1,0 +1,165 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: AbsoluteTranslate 2026.8.8\n"
+"Report-Msgid-Bugs-To: chaicm75@gmail.com\n"
+"POT-Creation-Date: 2026-08-25 10:38+0700\n"
+"PO-Revision-Date: \n"
+"Last-Translator: chaiBot and Malee Yamazaki\n"
+"Language-Team: Japanese\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: DevOn Addon\n"
+
+#: long_translation_dialog.py:158
+msgid "&Continue	Alt+C"
+msgstr "&続行	Alt+C"
+
+#: long_translation_dialog.py:293
+msgid "&Continue	Alt+C ({} / {})"
+msgstr "&続行	Alt+C ({} / {})"
+
+#: long_translation_dialog.py:163
+msgid "&Swap	Alt+S"
+msgstr "&入替え	Alt+S"
+
+#: setting.py:108
+msgid "Absolute Translate"
+msgstr "Absolute Translate"
+
+#: setting.py:162
+msgid "Append translations only in long translation (if text >2000 chars)"
+msgstr "長文翻訳時のみ翻訳を追加する (テキストが2000文字超の場合)"
+
+#: clipboard_utils.py:217
+msgid "Appended"
+msgstr "追加しました"
+
+#: setting.py:133
+msgid "Automatically swap when source matches target"
+msgstr "ソースと言語が一致した時に自動的に入替える"
+
+#: long_translation_dialog.py:168
+msgid "Cancel	Alt+X"
+msgstr "キャンセル	Alt+X"
+
+#: clipboard_utils.py:193
+msgid "Cannot append to non-text clipboard content"
+msgstr "テキスト以外のクリップボードの内容には追加できません"
+
+#: __init__.py:294
+msgid "Cannot open settings dialog"
+msgstr "設定ダイアログを開けません"
+
+#: __init__.py:282
+msgid "Cannot open translation window."
+msgstr "翻訳ウィンドウを開けません。"
+
+#: long_translation_dialog.py:305
+msgid "Close	Alt+X"
+msgstr "閉じる	Alt+X"
+
+#: long_translation_dialog.py:19
+msgid "Continuous Translation"
+msgstr "連続翻訳"
+
+#: setting.py:157
+msgid "Continuous translation"
+msgstr "連続翻訳"
+
+#: clipboard_utils.py:217
+msgid "Copied"
+msgstr "コピーしました"
+
+#: long_translation_dialog.py:69
+msgid "Document language ({src}) matches target. Auto-swapping to {swap}."
+msgstr "ドキュメントの言語 ({src}) がターゲットと一致しています。{swap} に自動入替えします。"
+
+#: long_translation_dialog.py:297
+msgid "Error during translation process."
+msgstr "翻訳処理中にエラーが発生しました。"
+
+#: clipboard_utils.py:224
+msgid "Error writing to clipboard"
+msgstr "クリップボードへの書き込みエラー"
+
+#: setting.py:185
+msgid "Gemini model:"
+msgstr "Geminiモデル:"
+
+#: setting.py:168
+msgid "Google AI Studio (Gemini)"
+msgstr "Google AI Studio (Gemini)"
+
+#: setting.py:179
+msgid "Google AI Studio API key:"
+msgstr "Google AI Studio APIキー:"
+
+#: setting.py:168
+msgid "Google Translate"
+msgstr "Google 翻訳"
+
+#: __init__.py:188
+msgid "No spoken text captured."
+msgstr "音声テキストが取得できませんでした。"
+
+#: __init__.py:144
+msgid "No text selected."
+msgstr "テキストが選択されていません。"
+
+#: __init__.py:121
+msgid "No translation result."
+msgstr "翻訳結果がありません。"
+
+#: setting.py:150
+msgid "Save translations to clipboard"
+msgstr "翻訳をクリップボードに保存する"
+
+#: setting.py:119
+msgid "Source language (Auto Detect = auto):"
+msgstr "ソース言語 (自動検出 = auto):"
+
+#: setting.py:138
+msgid "Swap to language:"
+msgstr "入替え先の言語:"
+
+#: long_translation_dialog.py:218
+msgid "Swapped"
+msgstr "入替えました"
+
+#: setting.py:126
+msgid "Target language:"
+msgstr "ターゲット言語:"
+
+#: __init__.py:299
+msgid "Translates Selected Text (Single Tap), Translates Last Speech (Double Tap), Open Absolute Translate Settings (Tripple Tap)"
+msgstr "選択したテキストを翻訳 (1回タップ)、最後の音声を翻訳 (2回タップ)、Absolute Translate設定を開く (3回タップ)"
+
+#: __init__.py:217
+msgid "Translation API blocked due to rate limits. Please try again later."
+msgstr "レート制限により翻訳APIがブロックされました。後ほどもう一度お試しください。"
+
+#: setting.py:170
+msgid "Translation engine:"
+msgstr "翻訳エンジン:"
+
+#: long_translation_dialog.py:255
+msgid "Translation failed."
+msgstr "翻訳に失敗しました。"
+
+#: __init__.py:223
+msgid "Translation failed. Please check your network connection."
+msgstr "翻訳に失敗しました。ネットワーク接続を確認してください。"
+
+#: __init__.py:220
+msgid "Translation failed: {error}"
+msgstr "翻訳に失敗しました: {error}"
+
+#: __init__.py:167
+msgid "Translation in progress, please wait."
+msgstr "翻訳中です。しばらくお待ちください。"
+
+#: __init__.py:96
+msgid "Translation timed out."
+msgstr "翻訳がタイムアウトしました。"

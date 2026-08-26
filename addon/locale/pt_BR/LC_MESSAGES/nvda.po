@@ -1,0 +1,165 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: AbsoluteTranslate 2026.8.8\n"
+"Report-Msgid-Bugs-To: chaicm75@gmail.com\n"
+"POT-Creation-Date: 2026-08-25 10:38+0700\n"
+"PO-Revision-Date: \n"
+"Last-Translator: chaiBot and Malee Yamazaki\n"
+"Language-Team: Portuguese (Brazil)\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: DevOn Addon\n"
+
+#: long_translation_dialog.py:158
+msgid "&Continue	Alt+C"
+msgstr "&Continuar	Alt+C"
+
+#: long_translation_dialog.py:293
+msgid "&Continue	Alt+C ({} / {})"
+msgstr "&Continuar	Alt+C ({} / {})"
+
+#: long_translation_dialog.py:163
+msgid "&Swap	Alt+S"
+msgstr "&Inverter	Alt+S"
+
+#: setting.py:108
+msgid "Absolute Translate"
+msgstr "Absolute Translate"
+
+#: setting.py:162
+msgid "Append translations only in long translation (if text >2000 chars)"
+msgstr "Adicionar traduções apenas em traduções longas (se o texto tiver >2000 caracteres)"
+
+#: clipboard_utils.py:217
+msgid "Appended"
+msgstr "Adicionado"
+
+#: setting.py:133
+msgid "Automatically swap when source matches target"
+msgstr "Inverter automaticamente quando a origem corresponder ao destino"
+
+#: long_translation_dialog.py:168
+msgid "Cancel	Alt+X"
+msgstr "Cancelar	Alt+X"
+
+#: clipboard_utils.py:193
+msgid "Cannot append to non-text clipboard content"
+msgstr "Não é possível adicionar a conteúdo da área de transferência que não seja texto"
+
+#: __init__.py:294
+msgid "Cannot open settings dialog"
+msgstr "Não é possível abrir a caixa de diálogo de configurações"
+
+#: __init__.py:282
+msgid "Cannot open translation window."
+msgstr "Não é possível abrir a janela de tradução."
+
+#: long_translation_dialog.py:305
+msgid "Close	Alt+X"
+msgstr "Fechar	Alt+X"
+
+#: long_translation_dialog.py:19
+msgid "Continuous Translation"
+msgstr "Tradução Contínua"
+
+#: setting.py:157
+msgid "Continuous translation"
+msgstr "Tradução contínua"
+
+#: clipboard_utils.py:217
+msgid "Copied"
+msgstr "Copiado"
+
+#: long_translation_dialog.py:69
+msgid "Document language ({src}) matches target. Auto-swapping to {swap}."
+msgstr "O idioma do documento ({src}) corresponde ao destino. Invertendo automaticamente para {swap}."
+
+#: long_translation_dialog.py:297
+msgid "Error during translation process."
+msgstr "Erro durante o processo de tradução."
+
+#: clipboard_utils.py:224
+msgid "Error writing to clipboard"
+msgstr "Erro ao gravar na área de transferência"
+
+#: setting.py:185
+msgid "Gemini model:"
+msgstr "Modelo Gemini:"
+
+#: setting.py:168
+msgid "Google AI Studio (Gemini)"
+msgstr "Google AI Studio (Gemini)"
+
+#: setting.py:179
+msgid "Google AI Studio API key:"
+msgstr "Chave de API do Google AI Studio:"
+
+#: setting.py:168
+msgid "Google Translate"
+msgstr "Google Tradutor"
+
+#: __init__.py:188
+msgid "No spoken text captured."
+msgstr "Nenhum texto falado capturado."
+
+#: __init__.py:144
+msgid "No text selected."
+msgstr "Nenhum texto selecionado."
+
+#: __init__.py:121
+msgid "No translation result."
+msgstr "Nenhum resultado de tradução."
+
+#: setting.py:150
+msgid "Save translations to clipboard"
+msgstr "Salvar traduções na área de transferência"
+
+#: setting.py:119
+msgid "Source language (Auto Detect = auto):"
+msgstr "Idioma de origem (Detecção automática = auto):"
+
+#: setting.py:138
+msgid "Swap to language:"
+msgstr "Inverter para o idioma:"
+
+#: long_translation_dialog.py:218
+msgid "Swapped"
+msgstr "Invertido"
+
+#: setting.py:126
+msgid "Target language:"
+msgstr "Idioma de destino:"
+
+#: __init__.py:299
+msgid "Translates Selected Text (Single Tap), Translates Last Speech (Double Tap), Open Absolute Translate Settings (Tripple Tap)"
+msgstr "Traduz o texto selecionado (um toque), traduz a última fala (dois toques), abre as configurações do Absolute Translate (três toques)"
+
+#: __init__.py:217
+msgid "Translation API blocked due to rate limits. Please try again later."
+msgstr "API de tradução bloqueada devido a limites de taxa. Tente novamente mais tarde."
+
+#: setting.py:170
+msgid "Translation engine:"
+msgstr "Mecanismo de tradução:"
+
+#: long_translation_dialog.py:255
+msgid "Translation failed."
+msgstr "Falha na tradução."
+
+#: __init__.py:223
+msgid "Translation failed. Please check your network connection."
+msgstr "Falha na tradução. Verifique sua conexão de rede."
+
+#: __init__.py:220
+msgid "Translation failed: {error}"
+msgstr "Falha na tradução: {error}"
+
+#: __init__.py:167
+msgid "Translation in progress, please wait."
+msgstr "Tradução em andamento, aguarde."
+
+#: __init__.py:96
+msgid "Translation timed out."
+msgstr "Tempo limite de tradução esgotado."
