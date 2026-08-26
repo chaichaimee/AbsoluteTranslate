@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: AbsoluteTranslate 2026.8.8\n"
+"Project-Id-Version: AbsoluteTranslate 2026.8.11\n"
 "Report-Msgid-Bugs-To: chaicm75@gmail.com\n"
-"POT-Creation-Date: 2026-08-25 10:38+0700\n"
+"POT-Creation-Date: 2026-08-26 12:55+0700\n"
 "PO-Revision-Date: \n"
 "Last-Translator: chaiBot and Malee Yamazaki\n"
 "Language-Team: Chinese (Traditional)\n"
@@ -12,59 +12,59 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: DevOn Addon\n"
 
-#: long_translation_dialog.py:158
+#: long_translation_dialog.py:133
 msgid "&Continue	Alt+C"
-msgstr "繼續(&C)\tAlt+C"
+msgstr "&Continue	Alt+C"
 
-#: long_translation_dialog.py:293
+#: long_translation_dialog.py:283
 msgid "&Continue	Alt+C ({} / {})"
-msgstr "繼續(&C)\tAlt+C ({} / {})"
+msgstr "&繼續	Alt+C ({} / {})"
 
-#: long_translation_dialog.py:163
+#: long_translation_dialog.py:138
 msgid "&Swap	Alt+S"
-msgstr "交換(&S)\tAlt+S"
+msgstr "&Swap	Alt+S"
 
-#: setting.py:108
+#: setting.py:109
 msgid "Absolute Translate"
 msgstr "Absolute Translate"
 
-#: setting.py:162
+#: setting.py:164
 msgid "Append translations only in long translation (if text >2000 chars)"
-msgstr "僅在長文本翻譯中附加翻譯 (若文本 >2000 字元)"
+msgstr "僅在長翻譯（若文字大於 2000 個字元）中附加翻譯"
 
 #: clipboard_utils.py:217
 msgid "Appended"
 msgstr "已附加"
 
-#: setting.py:133
+#: setting.py:135
 msgid "Automatically swap when source matches target"
-msgstr "當來源語言與目標語言相同时自動交換"
+msgstr "當來源與目標相符時自動交換"
 
-#: long_translation_dialog.py:168
+#: long_translation_dialog.py:143
 msgid "Cancel	Alt+X"
-msgstr "取消\tAlt+X"
+msgstr "取消	Alt+X"
 
 #: clipboard_utils.py:193
 msgid "Cannot append to non-text clipboard content"
-msgstr "無法附加到非文字剪貼簿內容"
+msgstr "無法附加到非文字的剪貼簿內容"
 
-#: __init__.py:294
+#: __init__.py:338
 msgid "Cannot open settings dialog"
-msgstr "無法開啟設定對話方塊"
+msgstr "無法開啟設定對話框"
 
-#: __init__.py:282
+#: __init__.py:326
 msgid "Cannot open translation window."
 msgstr "無法開啟翻譯視窗。"
 
-#: long_translation_dialog.py:305
+#: long_translation_dialog.py:295
 msgid "Close	Alt+X"
-msgstr "關閉\tAlt+X"
+msgstr "關閉(&X)\\tAlt+X"
 
-#: long_translation_dialog.py:19
+#: long_translation_dialog.py:18
 msgid "Continuous Translation"
 msgstr "連續翻譯"
 
-#: setting.py:157
+#: setting.py:159
 msgid "Continuous translation"
 msgstr "連續翻譯"
 
@@ -72,94 +72,104 @@ msgstr "連續翻譯"
 msgid "Copied"
 msgstr "已複製"
 
-#: long_translation_dialog.py:69
-msgid "Document language ({src}) matches target. Auto-swapping to {swap}."
-msgstr "文件語言 ({src}) 與目標語言相符。正在自動交換為 {swap}。"
+#: long_translation_dialog.py:65
+msgid "Document language matches target. Auto-swapping to {}."
+msgstr "文件語言與目標語言相符。已自動切換為 {}。"
 
-#: long_translation_dialog.py:297
+#: long_translation_dialog.py:287
 msgid "Error during translation process."
-msgstr "翻譯過程中發生錯誤。"
+msgstr "翻譯過程發生錯誤。"
 
 #: clipboard_utils.py:224
 msgid "Error writing to clipboard"
 msgstr "寫入剪貼簿時發生錯誤"
 
-#: setting.py:185
+#: setting.py:187
 msgid "Gemini model:"
-msgstr "Gemini 模型:"
+msgstr "Gemini 模型："
 
-#: setting.py:168
+#: setting.py:170
 msgid "Google AI Studio (Gemini)"
 msgstr "Google AI Studio (Gemini)"
 
-#: setting.py:179
+#: setting.py:181
 msgid "Google AI Studio API key:"
-msgstr "Google AI Studio API 金鑰:"
+msgstr "Google AI Studio API 金鑰："
 
-#: setting.py:168
+#: setting.py:170
 msgid "Google Translate"
 msgstr "Google 翻譯"
 
-#: __init__.py:188
+#: __init__.py:252
 msgid "No spoken text captured."
 msgstr "未擷取到語音文字。"
 
-#: __init__.py:144
-msgid "No text selected."
-msgstr "未選取文字。"
+#: __init__.py:156
+msgid "No translation history yet."
+msgstr "尚無翻譯記錄。"
 
-#: __init__.py:121
+#: __init__.py:181
 msgid "No translation result."
-msgstr "沒有翻譯結果。"
+msgstr "無翻譯結果。"
 
-#: setting.py:150
+#: setting.py:152
 msgid "Save translations to clipboard"
-msgstr "將翻譯儲存到剪貼簿"
+msgstr "將翻譯儲存至剪貼簿"
 
-#: setting.py:119
-msgid "Source language (Auto Detect = auto):"
-msgstr "來源語言 (自動偵測 = auto):"
+#: setting.py:121
+msgid "Source language:"
+msgstr "來源語言："
 
-#: setting.py:138
+#: setting.py:140
 msgid "Swap to language:"
-msgstr "交換為語言:"
+msgstr "切換至語言："
 
-#: long_translation_dialog.py:218
+#: long_translation_dialog.py:193
 msgid "Swapped"
-msgstr "已交換"
+msgstr "已切換"
 
-#: setting.py:126
+#: setting.py:128
 msgid "Target language:"
-msgstr "目標語言:"
+msgstr "目標語言："
 
-#: __init__.py:299
+#: __init__.py:163
+msgid "This is the oldest translation in history."
+msgstr "這是歷史上最舊的翻譯。"
+
+#: __init__.py:343
 msgid "Translates Selected Text (Single Tap), Translates Last Speech (Double Tap), Open Absolute Translate Settings (Tripple Tap)"
-msgstr "翻譯選取文字（單擊）、翻譯最後語音（雙擊）、開啟 Absolute Translate 設定（三擊）"
+msgstr "翻譯所選文字 (單擊)、翻譯最後語音 (雙擊)、開啟絕對翻譯設定 (三擊)"
 
-#: __init__.py:217
+#: __init__.py:281
+#: long_translation_dialog.py:229
 msgid "Translation API blocked due to rate limits. Please try again later."
-msgstr "翻譯 API 因速率限制而被封鎖。請稍後重試。"
+msgstr "翻譯 API 因速率限制遭到封鎖。請稍後再試。"
 
-#: setting.py:170
+#: setting.py:172
 msgid "Translation engine:"
-msgstr "翻譯引擎:"
+msgstr "翻譯引擎："
 
-#: long_translation_dialog.py:255
+#: long_translation_dialog.py:245
 msgid "Translation failed."
 msgstr "翻譯失敗。"
 
-#: __init__.py:223
+#: __init__.py:287
 msgid "Translation failed. Please check your network connection."
-msgstr "翻譯失敗。請檢查您的網路連線。"
+msgstr "翻譯失敗，請檢查您的網路連線。"
 
-#: __init__.py:220
+#: __init__.py:284
+#: long_translation_dialog.py:233
 msgid "Translation failed: {error}"
-msgstr "翻譯失敗: {error}"
+msgstr "翻譯失敗：{error}"
 
-#: __init__.py:167
+#: __init__.py:231
 msgid "Translation in progress, please wait."
-msgstr "正在翻譯，請稍候。"
+msgstr "翻譯進行中，請稍候。"
 
-#: __init__.py:96
+#: setting.py:193
+msgid "Translation style:"
+msgstr "翻譯風格："
+
+#: __init__.py:101
 msgid "Translation timed out."
 msgstr "翻譯逾時。"

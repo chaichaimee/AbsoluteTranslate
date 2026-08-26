@@ -51,11 +51,38 @@ LANGUAGES = {
 
 GEMINI_STYLES = {
 	"neutral": ("Neutral", ""),
-	"formal": ("Formal", "Use formal, polite, grammatically precise language suitable for official documents."),
-	"friendly": ("Friendly", "Use a warm, casual, friendly tone as if speaking to a close friend."),
-	"copywriter": ("Copywriter", "Use persuasive, catchy, professional advertising copywriter style."),
-	"literary": ("Literary", "Use rich literary language with vivid imagery and figures of speech, suitable for creative writing."),
-	"slang": ("Slang", "Use natural everyday slang and colloquial expressions appropriate to the target language and culture."),
+	"formal": (
+		"Formal",
+		"Write in a formal, professional register suitable for official correspondence or business "
+		"documents: precise word choice, complete grammatical sentences, no contractions, no slang, "
+		"and a respectful, measured tone throughout."
+	),
+	"friendly": (
+		"Friendly",
+		"Write as if texting a close friend: warm, casual, upbeat, and personal. Use contractions, "
+		"everyday conversational phrasing, and a relaxed sentence rhythm. It should sound like natural "
+		"spoken conversation between people who know each other well, not like written prose."
+	),
+	"copywriter": (
+		"Copywriter",
+		"Write like an advertising copywriter crafting marketing copy: punchy, persuasive, and "
+		"attention-grabbing. Favor short, energetic sentences, strong action verbs, and emotionally "
+		"compelling phrasing that would fit a slogan, product description, or promotional post — not "
+		"a plain, literal rendering of the source text."
+	),
+	"literary": (
+		"Literary",
+		"Write like literary prose from a novel or short story: evocative, image-rich language, "
+		"varied and sometimes longer sentence structures, careful rhythm, and figurative expressions "
+		"(metaphor, simile, sensory detail) where they fit naturally. Prioritize artistic, expressive "
+		"wording over a plain word-for-word rendering, while preserving the original meaning."
+	),
+	"slang": (
+		"Slang",
+		"Write using natural, current everyday slang and colloquial expressions that a native speaker "
+		"of the target language would actually use with friends — including informal contractions, "
+		"filler words, and idiomatic slang terms where appropriate, avoiding textbook-correct phrasing."
+	),
 }
 
 # Character ranges used for lightweight, offline majority-script detection.
@@ -190,8 +217,6 @@ def detect_majority_language(text):
 	counts = {code: 0 for code, _ranges in _SCRIPT_RANGES}
 	total = 0
 	for ch in text:
-		if ch.isspace() or not ch.isalpha():
-			continue
 		codepoint = ord(ch)
 		for code, ranges in _SCRIPT_RANGES:
 			if any(start <= codepoint <= end for start, end in ranges):
@@ -249,8 +274,12 @@ def _gemini_request(prompt, model, api_key):
 
 def _gemini_detect_language(text, model, api_key):
 	prompt = (
-		"Detect the language of the following text. "
-		"Return only the language code from ISO 639-1, for example en, th, ja. "
+		"Identify the primary language of the following text: the language that forms its main "
+		"grammatical structure, sentence connectors, and overall meaning. A sentence can contain "
+		"foreign proper nouns, brand names, technical terms, or quoted phrases in another language "
+		"without that making the sentence itself written in that language; ignore such embedded "
+		"insertions when they are not the language carrying the sentence's own grammar. "
+		"Return only the ISO 639-1 language code, for example en, th, ja. "
 		"If the language is Chinese, return zh. "
 		"Do not include any explanation.\n\n"
 		f"{text[:1000]}"
@@ -442,22 +471,38 @@ def detect_language(text):
 
 
 def _resolve_auto_swap(text, target_lang, swap_lang, engine):
-	"""Decides the effective source/target language when auto-swap is on,
-	using local majority-script detection first (robust to text mixing more
-	than one language) and falling back to a remote API guess only when the
-	heuristic is inconclusive.
+	"""Decides the effective source/target language when auto-swap is on.
+	Prefers the configured engine's own language understanding (a real
+	semantic judgment of the text's host/matrix language, correctly looking
+	past embedded foreign proper nouns or technical terms) over local
+	script-counting, since no offline character or word count can tell a
+	sentence's true host language from a handful of inserted foreign terms.
+	Local majority-script detection is used only when the remote call is
+	unavailable or fails.
 	"""
-	detected, ratio = detect_majority_language(text)
-	if detected:
-		log.info(f"Auto-swap: majority language detected as '{detected}' ({ratio:.0%} of recognized script)")
-	else:
+	detected = None
+	try:
 		if engine == "gemini":
 			api_key = _get_gemini_api_key()
 			model = _get_gemini_model()
-			detected = _gemini_detect_language(text, model, api_key) if api_key else "auto"
+			if api_key:
+				detected = _gemini_detect_language(text, model, api_key)
 		else:
 			detected = detect_language(text)
-		log.info(f"Auto-swap: falling back to remote detection, got '{detected}'")
+		if detected == "auto":
+			detected = None
+	except Exception as e:
+		log.warning(f"Remote language detection failed: {e}")
+		detected = None
+
+	if detected:
+		log.info(f"Auto-swap: '{engine}' engine identified host language as '{detected}'")
+	else:
+		detected, ratio = detect_majority_language(text)
+		if detected:
+			log.info(f"Auto-swap: remote detection unavailable, local script heuristic gives '{detected}' ({ratio:.0%})")
+		else:
+			log.info("Auto-swap: no language could be determined")
 
 	if not detected or detected == "auto":
 		return target_lang, "auto"
