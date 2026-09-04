@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: AbsoluteTranslate 2026.8.11\n"
+"Project-Id-Version: AbsoluteTranslate 2026.9.3\n"
 "Report-Msgid-Bugs-To: chaicm75@gmail.com\n"
-"POT-Creation-Date: 2026-08-26 12:55+0700\n"
+"POT-Creation-Date: 2026-09-04 13:47+0700\n"
 "PO-Revision-Date: \n"
 "Last-Translator: chaiBot and Malee Yamazaki\n"
 "Language-Team: Chinese (Traditional)\n"
@@ -12,25 +12,29 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: DevOn Addon\n"
 
-#: long_translation_dialog.py:133
+#: long_translation_dialog.py:136
 msgid "&Continue	Alt+C"
-msgstr "&Continue	Alt+C"
+msgstr "繼續(&C)	Alt+C"
 
-#: long_translation_dialog.py:283
+#: long_translation_dialog.py:381
 msgid "&Continue	Alt+C ({} / {})"
-msgstr "&繼續	Alt+C ({} / {})"
+msgstr "繼續(&C)	Alt+C ({} / {})"
 
-#: long_translation_dialog.py:138
+#: long_translation_dialog.py:141
 msgid "&Swap	Alt+S"
-msgstr "&Swap	Alt+S"
+msgstr "對調(&S)	Alt+S"
 
 #: setting.py:109
 msgid "Absolute Translate"
 msgstr "Absolute Translate"
 
+#: long_translation_dialog.py:276
+msgid "All chunks were already translated in a previous run."
+msgstr "所有區塊已在先前的執行中翻譯完成。"
+
 #: setting.py:164
 msgid "Append translations only in long translation (if text >2000 chars)"
-msgstr "僅在長翻譯（若文字大於 2000 個字元）中附加翻譯"
+msgstr "僅在長文字翻譯時附加翻譯結果（當文字超過 2000 字元時）"
 
 #: clipboard_utils.py:217
 msgid "Appended"
@@ -38,29 +42,33 @@ msgstr "已附加"
 
 #: setting.py:135
 msgid "Automatically swap when source matches target"
-msgstr "當來源與目標相符時自動交換"
+msgstr "當來源語言與目標語言相同時自動對調"
 
-#: long_translation_dialog.py:143
+#: long_translation_dialog.py:146
 msgid "Cancel	Alt+X"
-msgstr "取消	Alt+X"
+msgstr "取消(&X)	Alt+X"
 
 #: clipboard_utils.py:193
 msgid "Cannot append to non-text clipboard content"
-msgstr "無法附加到非文字的剪貼簿內容"
+msgstr "無法附加至非文字內容的剪貼簿"
 
-#: __init__.py:338
+#: __init__.py:382
 msgid "Cannot open settings dialog"
-msgstr "無法開啟設定對話框"
+msgstr "無法開啟設定對話方塊"
 
-#: __init__.py:326
+#: __init__.py:371
 msgid "Cannot open translation window."
 msgstr "無法開啟翻譯視窗。"
 
-#: long_translation_dialog.py:295
+#: long_translation_dialog.py:403
 msgid "Close	Alt+X"
-msgstr "關閉(&X)\\tAlt+X"
+msgstr "關閉(&X)	Alt+X"
 
-#: long_translation_dialog.py:18
+#: long_translation_dialog.py:178
+msgid "Continue	Alt+C"
+msgstr "繼續	Alt+C"
+
+#: long_translation_dialog.py:16
 msgid "Continuous Translation"
 msgstr "連續翻譯"
 
@@ -72,17 +80,29 @@ msgstr "連續翻譯"
 msgid "Copied"
 msgstr "已複製"
 
-#: long_translation_dialog.py:65
-msgid "Document language matches target. Auto-swapping to {}."
-msgstr "文件語言與目標語言相符。已自動切換為 {}。"
+#: long_translation_dialog.py:172
+msgid "Copy	Ctrl+C"
+msgstr "複製	Ctrl+C"
 
-#: long_translation_dialog.py:287
+#: __init__.py:325
+msgid "Document language matches target. Auto-swapping to {}."
+msgstr "文件語言與目標語言相同。已自動對調為 {}。"
+
+#: long_translation_dialog.py:385
 msgid "Error during translation process."
-msgstr "翻譯過程發生錯誤。"
+msgstr "翻譯過程中發生錯誤。"
 
 #: clipboard_utils.py:224
 msgid "Error writing to clipboard"
 msgstr "寫入剪貼簿時發生錯誤"
+
+#: __init__.py:292
+msgid "Gemini daily quota exceeded. Please wait until the quota resets before translating again."
+msgstr "已超出 Gemini 每日配額。請等待配額重置後再進行翻譯。"
+
+#: long_translation_dialog.py:314
+msgid "Gemini daily quota exceeded. Translation paused before chunk {current} of {total} to avoid replacing untranslated text with English text. Progress has been saved - run this translation again after the quota resets to continue where it left off."
+msgstr "已超出 Gemini 每日配額。翻譯已在第 {current} / {total} 個區塊前暫停，以避免未翻譯的文字被替換為英文。進度已儲存 - 配額重置後請再次執行此翻譯以繼續進行。"
 
 #: setting.py:187
 msgid "Gemini model:"
@@ -98,78 +118,97 @@ msgstr "Google AI Studio API 金鑰："
 
 #: setting.py:170
 msgid "Google Translate"
-msgstr "Google 翻譯"
+msgstr "Google Translate"
 
-#: __init__.py:252
+#: __init__.py:251
 msgid "No spoken text captured."
-msgstr "未擷取到語音文字。"
+msgstr "未擷取到語音朗讀文字。"
 
-#: __init__.py:156
+#: __init__.py:155
 msgid "No translation history yet."
-msgstr "尚無翻譯記錄。"
+msgstr "尚無翻譯歷史紀錄。"
 
-#: __init__.py:181
+#: __init__.py:180
 msgid "No translation result."
 msgstr "無翻譯結果。"
 
+#: long_translation_dialog.py:280
+msgid "Resuming saved progress: chunk {current} of {total} already translated."
+msgstr "正在恢復已儲存的進度：第 {current} / {total} 個區塊已翻譯。"
+
 #: setting.py:152
 msgid "Save translations to clipboard"
-msgstr "將翻譯儲存至剪貼簿"
+msgstr "將翻譯結果儲存至剪貼簿"
+
+#: long_translation_dialog.py:169
+msgid "Select All	Ctrl+A"
+msgstr "全選	Ctrl+A"
 
 #: setting.py:121
 msgid "Source language:"
 msgstr "來源語言："
 
+#: long_translation_dialog.py:182
+msgid "Swap	Alt+S"
+msgstr "對調	Alt+S"
+
 #: setting.py:140
 msgid "Swap to language:"
-msgstr "切換至語言："
+msgstr "對調為語言："
 
-#: long_translation_dialog.py:193
+#: long_translation_dialog.py:246
 msgid "Swapped"
-msgstr "已切換"
+msgstr "已對調"
 
 #: setting.py:128
 msgid "Target language:"
 msgstr "目標語言："
 
-#: __init__.py:163
-msgid "This is the oldest translation in history."
-msgstr "這是歷史上最舊的翻譯。"
-
-#: __init__.py:343
-msgid "Translates Selected Text (Single Tap), Translates Last Speech (Double Tap), Open Absolute Translate Settings (Tripple Tap)"
-msgstr "翻譯所選文字 (單擊)、翻譯最後語音 (雙擊)、開啟絕對翻譯設定 (三擊)"
-
-#: __init__.py:281
 #: long_translation_dialog.py:229
+msgid "This chunk is still translating, please wait."
+msgstr "此區塊仍在翻譯中，請稍候。"
+
+#: __init__.py:162
+msgid "This is the oldest translation in history."
+msgstr "這是歷史紀錄中最久遠的一筆翻譯。"
+
+#: __init__.py:387
+msgid "Translates Selected Text (Single Tap), Translates Last Speech (Double Tap), Open Absolute Translate Settings (Triple Tap), Toggle Translation Engine (Quadruple Tap)"
+msgstr "翻譯選取文字（按一次），翻譯最後朗讀內容（按兩次），開啟 Absolute Translate 設定（按三次），切換翻譯引擎（按四次）"
+
+#: __init__.py:297
 msgid "Translation API blocked due to rate limits. Please try again later."
-msgstr "翻譯 API 因速率限制遭到封鎖。請稍後再試。"
+msgstr "由於請求頻率限制，翻譯 API 已被封鎖。請稍後重試。"
 
 #: setting.py:172
 msgid "Translation engine:"
 msgstr "翻譯引擎："
 
-#: long_translation_dialog.py:245
+#: long_translation_dialog.py:343
 msgid "Translation failed."
 msgstr "翻譯失敗。"
 
-#: __init__.py:287
+#: __init__.py:303
 msgid "Translation failed. Please check your network connection."
-msgstr "翻譯失敗，請檢查您的網路連線。"
+msgstr "翻譯失敗。請檢查您的網路連線。"
 
-#: __init__.py:284
-#: long_translation_dialog.py:233
+#: __init__.py:300
+#: long_translation_dialog.py:331
 msgid "Translation failed: {error}"
 msgstr "翻譯失敗：{error}"
 
-#: __init__.py:231
+#: __init__.py:230
 msgid "Translation in progress, please wait."
-msgstr "翻譯進行中，請稍候。"
+msgstr "正在翻譯中，請稍候。"
+
+#: long_translation_dialog.py:323
+msgid "Translation service is rate limited. Translation paused before chunk {current} of {total} to avoid replacing untranslated text with English text. Progress has been saved - run this translation again shortly to continue where it left off."
+msgstr "翻譯服務受到速率限制。翻譯已在第 {current} / {total} 個區塊前暫停，以避免未翻譯的文字被替換為英文。進度已儲存 - 請稍後再次執行此翻譯以繼續進行。"
 
 #: setting.py:193
 msgid "Translation style:"
 msgstr "翻譯風格："
 
-#: __init__.py:101
+#: __init__.py:100
 msgid "Translation timed out."
 msgstr "翻譯逾時。"

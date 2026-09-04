@@ -1,4 +1,3 @@
-# translate.py
 
 import json
 import os
@@ -10,6 +9,7 @@ import urllib.error
 from logHandler import log
 import time
 import re
+import threading
 
 LANGUAGES = {
 	"auto": "All Languages (Auto Detect)",
@@ -132,6 +132,68 @@ class TranslationRateLimitError(TranslationError):
 	"""Raised when the upstream translation API returns HTTP 429."""
 
 
+class TranslationQuotaExceededError(TranslationRateLimitError):
+	"""Raised when a 429 response specifically indicates a per-day quota has
+	been exhausted, rather than a short-lived per-minute rate limit. Retrying
+	within the same run cannot help this case; the caller must wait for the
+	daily reset."""
+
+
+# --- Gemini request pacing / rate-limit penalty box -------------------------
+# Long-document translation makes many sequential Gemini calls in a row.
+# Without a shared minimum gap between calls, a burst of chunk requests can
+# trip the API's per-minute quota; without a penalty that persists across
+# calls, a chunk that already exhausted its own local retries against a
+# still-exhausted quota just gets hammered again immediately by the very
+# next chunk. Both are tracked here, process-wide.
+_rate_limit_lock = threading.Lock()
+_last_gemini_request_time = 0.0
+_consecutive_gemini_rate_limit_failures = 0
+_MIN_GEMINI_REQUEST_INTERVAL = 1.5  # seconds between the start of any two requests
+_MAX_GEMINI_PENALTY_SECONDS = 60.0
+
+_DAILY_QUOTA_MARKERS = (
+	"perday", "per day", "requestsperdayperprojectpermodel",
+	"generaterequestsperdayperprojectpermodel", "daily quota", "daily limit",
+)
+
+
+def _wait_for_gemini_request_slot():
+	global _last_gemini_request_time
+	with _rate_limit_lock:
+		now = time.monotonic()
+		wait = _last_gemini_request_time + _MIN_GEMINI_REQUEST_INTERVAL - now
+		if wait > 0:
+			time.sleep(wait)
+		_last_gemini_request_time = time.monotonic()
+
+
+def _note_gemini_request_succeeded():
+	global _consecutive_gemini_rate_limit_failures
+	with _rate_limit_lock:
+		_consecutive_gemini_rate_limit_failures = 0
+
+
+def _note_gemini_rate_limit_exhausted():
+	"""Called once a single Gemini request has already exhausted its own
+	local retries against HTTP 429. Applies an escalating cool-down so the
+	next call (the next chunk in a long translation) does not immediately
+	re-hit a quota that has not had time to recover."""
+	global _consecutive_gemini_rate_limit_failures
+	with _rate_limit_lock:
+		_consecutive_gemini_rate_limit_failures += 1
+		penalty = min(10.0 * _consecutive_gemini_rate_limit_failures, _MAX_GEMINI_PENALTY_SECONDS)
+	log.warning(f"Gemini still rate limited; cooling down for {penalty:.0f}s before continuing")
+	time.sleep(penalty)
+
+
+def _looks_like_daily_quota_error(body_text):
+	if not body_text:
+		return False
+	lowered = body_text.lower()
+	return any(marker in lowered for marker in _DAILY_QUOTA_MARKERS)
+
+
 def _create_opener():
 	opener = urllibRequest.build_opener()
 	opener.addheaders = [
@@ -249,6 +311,7 @@ def _gemini_request(prompt, model, api_key):
 		headers={"Content-Type": "application/json"}
 	)
 	opener = _create_opener()
+	_wait_for_gemini_request_slot()
 	try:
 		with opener.open(req, timeout=20) as resp:
 			response_data = json.loads(resp.read().decode('utf-8'))
@@ -258,6 +321,14 @@ def _gemini_request(prompt, model, api_key):
 				f"Gemini model '{model}' is not available. It may have been "
 				"retired by Google; pick a current model in the add-on settings."
 			) from e
+		if e.code == 429:
+			error_body = ""
+			try:
+				error_body = e.read().decode('utf-8', errors='replace')
+			except Exception:
+				pass
+			if _looks_like_daily_quota_error(error_body):
+				raise TranslationQuotaExceededError("Gemini daily quota exceeded") from e
 		raise
 	candidates = response_data.get("candidates")
 	if not candidates:
@@ -321,7 +392,14 @@ def gemini_translate(text, target_lang, source_lang="auto", model="gemini-3.5-fl
 	for attempt in range(retry + 1):
 		delay = min(base_delay * (2 ** attempt), max_delay)
 		try:
-			return _gemini_request(prompt, model, api_key)
+			result = _gemini_request(prompt, model, api_key)
+			_note_gemini_request_succeeded()
+			return result
+		except TranslationQuotaExceededError:
+			# A per-day quota cannot be fixed by retrying within this run;
+			# fail immediately rather than burning the local retry budget.
+			log.error("Gemini daily quota exceeded")
+			raise
 		except urllib.error.HTTPError as e:
 			if e.code == 429:
 				if attempt < retry:
@@ -329,6 +407,7 @@ def gemini_translate(text, target_lang, source_lang="auto", model="gemini-3.5-fl
 					time.sleep(delay)
 					continue
 				log.error("Gemini rate limited after retries")
+				_note_gemini_rate_limit_exhausted()
 				raise TranslationRateLimitError("HTTP 429 Too Many Requests") from e
 			log.error(f"Gemini HTTPError {e.code}: {e.reason}")
 			if e.code in (400, 401, 403):
@@ -397,12 +476,28 @@ def google_translate(text, target_lang, source_lang="auto", retry=3):
 	base_delay = 0.5
 	max_delay = 4.0
 
+	# Hard cap on total wall-clock time spent across every attempt, including
+	# per-attempt socket waits and backoff sleeps (Section 5.7: a capped total
+	# wait time, a few tens of seconds, not more). Previously the per-attempt
+	# timeout=15 combined with retry=3 (4 attempts) meant a genuinely stalled
+	# connection could block the caller for up to 60+ seconds - this is the
+	# exact duration of a freeze observed in production, where this call runs
+	# on a background thread that a modal dialog is effectively waiting on.
+	MAX_TOTAL_WAIT_SECONDS = 30
+	start_time = time.monotonic()
+
 	for attempt in range(retry + 1):
-		delay = min(base_delay * (2 ** attempt), max_delay) + random.uniform(0, 0.3)
+		remaining = MAX_TOTAL_WAIT_SECONDS - (time.monotonic() - start_time)
+		if remaining <= 0:
+			log.error(f"Translation aborted: exceeded {MAX_TOTAL_WAIT_SECONDS}s total wait cap")
+			raise TranslationError(f"Translation timed out after {MAX_TOTAL_WAIT_SECONDS} seconds")
+
+		attempt_timeout = min(15, remaining)
+		delay = min(min(base_delay * (2 ** attempt), max_delay) + random.uniform(0, 0.3), remaining)
 		log.debug(f"Translating: {cleaned_text[:50]}... from {source_lang} to {target_lang} (attempt {attempt+1})")
 		try:
 			req = urllibRequest.Request(url, headers=headers)
-			response = opener.open(req, timeout=15)
+			response = opener.open(req, timeout=attempt_timeout)
 			data = json.loads(response.read().decode('utf-8'))
 			result, detected = _parse_google_response(data)
 			if result:
@@ -419,7 +514,7 @@ def google_translate(text, target_lang, source_lang="auto", retry=3):
 				retry_after = e.headers.get("Retry-After") if e.headers else None
 				if retry_after:
 					try:
-						delay = max(delay, float(retry_after))
+						delay = min(max(delay, float(retry_after)), remaining)
 					except ValueError:
 						pass
 				if attempt < retry:
@@ -602,3 +697,4 @@ def split_text_into_chunks(text, max_chars=None):
 		chunks.append(current_chunk)
 
 	return chunks
+

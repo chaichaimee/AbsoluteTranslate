@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: AbsoluteTranslate 2026.8.11\n"
+"Project-Id-Version: AbsoluteTranslate 2026.9.3\n"
 "Report-Msgid-Bugs-To: chaicm75@gmail.com\n"
-"POT-Creation-Date: 2026-08-26 12:55+0700\n"
+"POT-Creation-Date: 2026-09-04 13:47+0700\n"
 "PO-Revision-Date: \n"
 "Last-Translator: chaiBot and Malee Yamazaki\n"
 "Language-Team: Indonesian\n"
@@ -12,21 +12,25 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: DevOn Addon\n"
 
-#: long_translation_dialog.py:133
+#: long_translation_dialog.py:136
 msgid "&Continue	Alt+C"
-msgstr "&Lanjutkan	Alt+L"
+msgstr "&Lanjutkan	Alt+C"
 
-#: long_translation_dialog.py:283
+#: long_translation_dialog.py:381
 msgid "&Continue	Alt+C ({} / {})"
-msgstr "&Lanjutkan	Alt+L ({} / {})"
+msgstr "&Lanjutkan	Alt+C ({} / {})"
 
-#: long_translation_dialog.py:138
+#: long_translation_dialog.py:141
 msgid "&Swap	Alt+S"
-msgstr "&Tukar	Alt+T"
+msgstr "T&ukar	Alt+S"
 
 #: setting.py:109
 msgid "Absolute Translate"
-msgstr "Terjemahan Mutlak"
+msgstr "Absolute Translate"
+
+#: long_translation_dialog.py:276
+msgid "All chunks were already translated in a previous run."
+msgstr "Semua bagian sudah diterjemahkan pada sesi sebelumnya."
 
 #: setting.py:164
 msgid "Append translations only in long translation (if text >2000 chars)"
@@ -38,51 +42,67 @@ msgstr "Ditambahkan"
 
 #: setting.py:135
 msgid "Automatically swap when source matches target"
-msgstr "Tukar otomatis saat sumber cocok dengan target"
+msgstr "Tukar secara otomatis jika bahasa asal cocok dengan target"
 
-#: long_translation_dialog.py:143
+#: long_translation_dialog.py:146
 msgid "Cancel	Alt+X"
-msgstr "Batal	Alt+B"
+msgstr "&Batal	Alt+X"
 
 #: clipboard_utils.py:193
 msgid "Cannot append to non-text clipboard content"
-msgstr "Tidak dapat menambahkan ke konten papan klip non-teks"
+msgstr "Tidak dapat menambahkan ke konten papan klip yang bukan teks"
 
-#: __init__.py:338
+#: __init__.py:382
 msgid "Cannot open settings dialog"
 msgstr "Tidak dapat membuka dialog pengaturan"
 
-#: __init__.py:326
+#: __init__.py:371
 msgid "Cannot open translation window."
 msgstr "Tidak dapat membuka jendela terjemahan."
 
-#: long_translation_dialog.py:295
+#: long_translation_dialog.py:403
 msgid "Close	Alt+X"
-msgstr "Tutup	Alt+T"
+msgstr "&Tutup	Alt+X"
 
-#: long_translation_dialog.py:18
+#: long_translation_dialog.py:178
+msgid "Continue	Alt+C"
+msgstr "Lanjutkan	Alt+C"
+
+#: long_translation_dialog.py:16
 msgid "Continuous Translation"
-msgstr "Terjemahan Berkelanjutan"
+msgstr "Penerjemahan Berkelanjutan"
 
 #: setting.py:159
 msgid "Continuous translation"
-msgstr "Terjemahan berkelanjutan"
+msgstr "Penerjemahan berkelanjutan"
 
 #: clipboard_utils.py:217
 msgid "Copied"
 msgstr "Disalin"
 
-#: long_translation_dialog.py:65
-msgid "Document language matches target. Auto-swapping to {}."
-msgstr "Bahasa dokumen cocok dengan target. Otomatis beralih ke {}."
+#: long_translation_dialog.py:172
+msgid "Copy	Ctrl+C"
+msgstr "Salin	Ctrl+C"
 
-#: long_translation_dialog.py:287
+#: __init__.py:325
+msgid "Document language matches target. Auto-swapping to {}."
+msgstr "Bahasa dokumen cocok dengan target. Menukar secara otomatis ke {}."
+
+#: long_translation_dialog.py:385
 msgid "Error during translation process."
-msgstr "Terjadi kesalahan selama proses terjemahan."
+msgstr "Galat selama proses penerjemahan."
 
 #: clipboard_utils.py:224
 msgid "Error writing to clipboard"
-msgstr "Gagal menulis ke papan klip"
+msgstr "Galat saat menulis ke papan klip"
+
+#: __init__.py:292
+msgid "Gemini daily quota exceeded. Please wait until the quota resets before translating again."
+msgstr "Kuota harian Gemini telah terlampaui. Harap tunggu hingga kuota diatur ulang sebelum menerjemahkan lagi."
+
+#: long_translation_dialog.py:314
+msgid "Gemini daily quota exceeded. Translation paused before chunk {current} of {total} to avoid replacing untranslated text with English text. Progress has been saved - run this translation again after the quota resets to continue where it left off."
+msgstr "Kuota harian Gemini telah terlampaui. Penerjemahan dijedakan sebelum bagian {current} dari {total} untuk menghindari penggantian teks yang belum diterjemahkan dengan teks bahasa Inggris. Kemajuan telah disimpan - jalankan penerjemahan ini lagi setelah kuota diatur ulang untuk melanjutkan."
 
 #: setting.py:187
 msgid "Gemini model:"
@@ -100,76 +120,95 @@ msgstr "Kunci API Google AI Studio:"
 msgid "Google Translate"
 msgstr "Google Translate"
 
-#: __init__.py:252
+#: __init__.py:251
 msgid "No spoken text captured."
-msgstr "Teks yang diucapkan tidak tertangkap."
+msgstr "Tidak ada teks ucapan yang tertangkap."
 
-#: __init__.py:156
+#: __init__.py:155
 msgid "No translation history yet."
-msgstr "No translation history yet."
+msgstr "Belum ada riwayat terjemahan."
 
-#: __init__.py:181
+#: __init__.py:180
 msgid "No translation result."
-msgstr "No translation result."
+msgstr "Tidak ada hasil terjemahan."
+
+#: long_translation_dialog.py:280
+msgid "Resuming saved progress: chunk {current} of {total} already translated."
+msgstr "Melanjutkan kemajuan yang disimpan: bagian {current} dari {total} telah diterjemahkan."
 
 #: setting.py:152
 msgid "Save translations to clipboard"
 msgstr "Simpan terjemahan ke papan klip"
 
+#: long_translation_dialog.py:169
+msgid "Select All	Ctrl+A"
+msgstr "Pilih Semua	Ctrl+A"
+
 #: setting.py:121
 msgid "Source language:"
-msgstr "Bahasa Sumber"
+msgstr "Bahasa asal:"
+
+#: long_translation_dialog.py:182
+msgid "Swap	Alt+S"
+msgstr "Tukar	Alt+S"
 
 #: setting.py:140
 msgid "Swap to language:"
-msgstr "Ganti ke bahasa:"
+msgstr "Tukar ke bahasa:"
 
-#: long_translation_dialog.py:193
+#: long_translation_dialog.py:246
 msgid "Swapped"
 msgstr "Ditukar"
 
 #: setting.py:128
 msgid "Target language:"
-msgstr "Bahasa Sasaran:"
+msgstr "Bahasa target:"
 
-#: __init__.py:163
-msgid "This is the oldest translation in history."
-msgstr "Ini adalah terjemahan tertua dalam sejarah."
-
-#: __init__.py:343
-msgid "Translates Selected Text (Single Tap), Translates Last Speech (Double Tap), Open Absolute Translate Settings (Tripple Tap)"
-msgstr "Terjemahkan Teks Terpilih (Ketuk Sekali), Terjemahkan Ucapan Terakhir (Ketuk Dua Kali), Buka Pengaturan Absolute Translate (Ketuk Tiga Kali)"
-
-#: __init__.py:281
 #: long_translation_dialog.py:229
+msgid "This chunk is still translating, please wait."
+msgstr "Bagian ini masih diterjemahkan, harap tunggu."
+
+#: __init__.py:162
+msgid "This is the oldest translation in history."
+msgstr "Ini adalah terjemahan tertua dalam riwayat."
+
+#: __init__.py:387
+msgid "Translates Selected Text (Single Tap), Translates Last Speech (Double Tap), Open Absolute Translate Settings (Triple Tap), Toggle Translation Engine (Quadruple Tap)"
+msgstr "Menerjemahkan Teks Terpilih (Tekan Sekali), Menerjemahkan Ucapan Terakhir (Tekan Dua Kali), Membuka Pengaturan Absolute Translate (Tekan Tiga Kali), Mengubah Mesin Penerjemah (Tekan Empat Kali)"
+
+#: __init__.py:297
 msgid "Translation API blocked due to rate limits. Please try again later."
-msgstr "API terjemahan diblokir karena batasan tingkat. Silakan coba lagi nanti."
+msgstr "API Penerjemahan diblokir karena batas laju permintaan. Silakan coba lagi nanti."
 
 #: setting.py:172
 msgid "Translation engine:"
-msgstr "Mesin terjemahan:"
+msgstr "Mesin penerjemah:"
 
-#: long_translation_dialog.py:245
+#: long_translation_dialog.py:343
 msgid "Translation failed."
-msgstr "Terjemahan gagal."
+msgstr "Penerjemahan gagal."
 
-#: __init__.py:287
+#: __init__.py:303
 msgid "Translation failed. Please check your network connection."
-msgstr "Terjemahan gagal. Periksa koneksi jaringan Anda."
+msgstr "Penerjemahan gagal. Harap periksa koneksi jaringan Anda."
 
-#: __init__.py:284
-#: long_translation_dialog.py:233
+#: __init__.py:300
+#: long_translation_dialog.py:331
 msgid "Translation failed: {error}"
-msgstr "Terjemahan gagal: {error}"
+msgstr "Penerjemahan gagal: {error}"
 
-#: __init__.py:231
+#: __init__.py:230
 msgid "Translation in progress, please wait."
-msgstr "Terjemahan sedang berlangsung, mohon tunggu."
+msgstr "Penerjemahan sedang berlangsung, harap tunggu."
+
+#: long_translation_dialog.py:323
+msgid "Translation service is rate limited. Translation paused before chunk {current} of {total} to avoid replacing untranslated text with English text. Progress has been saved - run this translation again shortly to continue where it left off."
+msgstr "Layanan penerjemahan dibatasi lajunya. Penerjemahan dijedakan sebelum bagian {current} dari {total} untuk menghindari penggantian teks yang belum diterjemahkan dengan teks bahasa Inggris. Kemajuan telah disimpan - jalankan penerjemahan ini lagi sesaat lagi untuk melanjutkan."
 
 #: setting.py:193
 msgid "Translation style:"
-msgstr "Gaya terjemahan:"
+msgstr "Gaya penerjemahan:"
 
-#: __init__.py:101
+#: __init__.py:100
 msgid "Translation timed out."
-msgstr "Waktu terjemahan habis."
+msgstr "Waktu penerjemahan habis."

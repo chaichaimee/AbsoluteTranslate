@@ -1,5 +1,3 @@
-# long_translation_dialog.py
-
 import wx
 import threading
 import winsound
@@ -13,7 +11,7 @@ from . import translate
 from . import setting
 
 class LongTranslationDialog(wx.Dialog):
-	def __init__(self, parent, chunks, target_lang, source_lang, swap_lang, auto_swap, copy_to_clipboard, append_translations, clipboard_handler):
+	def __init__(self, parent, chunks, target_lang, source_lang, swap_lang, auto_swap, copy_to_clipboard, append_translations, clipboard_handler, on_close=None):
 		style = wx.DEFAULT_DIALOG_STYLE | wx.RESIZE_BORDER | wx.STAY_ON_TOP
 		super().__init__(parent, title=_("Continuous Translation"), style=style)
 		self.chunks = chunks
@@ -25,6 +23,7 @@ class LongTranslationDialog(wx.Dialog):
 		self.copy_to_clipboard = copy_to_clipboard
 		self.append_translations = append_translations
 		self.clipboard_handler = clipboard_handler
+		self._on_close_callback = on_close
 		self.translation_in_progress = False
 		self.cancelled = False
 		self.closed = False
@@ -46,28 +45,16 @@ class LongTranslationDialog(wx.Dialog):
 		self.Bind(wx.EVT_SHOW, self._on_show)
 
 	def _calculate_effective_languages(self):
-		"""Determine the actual source and target languages for the entire
-		document, using the same majority-script detection and engine-aware
-		logic as single-shot translations so behavior is consistent."""
-		full_text = "\n".join(self.chunks)
-
-		if self.source_lang != "auto":
-			self.effective_source_lang = self.source_lang
-			self.effective_target_lang = self.target_lang
-			log.debug(f"Using manual source: {self.effective_source_lang}")
-			return
-
-		self.effective_source_lang, self.effective_target_lang = translate.get_effective_languages(
-			full_text, self.target_lang, self.source_lang, self.swap_lang, self.auto_swap
-		)
-
-		if self.auto_swap and self.effective_target_lang != self.target_lang:
-			ui.message(_("Document language matches target. Auto-swapping to {}.").format(
-				translate.LANGUAGES.get(self.effective_target_lang, self.effective_target_lang)
-			))
-			log.info(f"Auto-swap triggered: source={self.effective_source_lang}, target={self.effective_target_lang}")
-
-		log.info(f"Effective languages for long translation: source={self.effective_source_lang}, target={self.effective_target_lang}")
+		"""Effective source/target languages are resolved by the caller
+		(GlobalPlugin._open_long_translation_async) on a background thread
+		before this dialog is ever constructed. Auto-swap detection can
+		involve a network call, and doing that here - in __init__, on the
+		main thread - blocked the main thread before the dialog could even
+		appear (Section 5.1). This method must never perform network I/O;
+		it only records the values it was given."""
+		self.effective_source_lang = self.source_lang
+		self.effective_target_lang = self.target_lang
+		log.debug(f"Using pre-resolved languages: source={self.effective_source_lang}, target={self.effective_target_lang}")
 
 	def _on_show(self, event):
 		if event.IsShown():
@@ -118,8 +105,23 @@ class LongTranslationDialog(wx.Dialog):
 			pass
 
 	def _on_char_hook(self, event):
-		if event.GetKeyCode() == wx.WXK_ESCAPE:
+		keyCode = event.GetKeyCode()
+		if keyCode == wx.WXK_ESCAPE:
 			self._on_cancel(None)
+		elif keyCode in (wx.WXK_MENU, wx.WXK_WINDOWS_MENU) or (keyCode == wx.WXK_F10 and event.ShiftDown()):
+			# wx.TextCtrl backed by the native Windows RichEdit control
+			# (TE_RICH2) is a long-confirmed wx/MSW limitation: it does not
+			# reliably deliver EVT_CONTEXT_MENU, because the native control's
+			# own WM_CONTEXTMENU handling intercepts the Menu key / Shift+F10
+			# / right-click before wx can translate it into that event - so
+			# the custom menu bound there never actually replaced the native
+			# Undo/Copy/Paste one. Catch the keyboard-triggered case here
+			# instead, ahead of the native control, and consume it (no
+			# event.Skip()) so the native menu never gets a chance to show.
+			if self.FindFocus() is self.text_ctrl:
+				self._show_text_context_menu()
+				return
+			event.Skip()
 		else:
 			event.Skip()
 
@@ -127,6 +129,7 @@ class LongTranslationDialog(wx.Dialog):
 		main_layout = wx.BoxSizer(wx.VERTICAL)
 		self.text_ctrl = wx.TextCtrl(self, style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2)
 		self.text_ctrl.SetMinSize((600, 400))
+		self.text_ctrl.Bind(wx.EVT_CONTEXT_MENU, self._on_text_context_menu)
 		main_layout.Add(self.text_ctrl, 1, wx.EXPAND | wx.ALL, 10)
 
 		btn_layout = wx.BoxSizer(wx.HORIZONTAL)
@@ -147,6 +150,47 @@ class LongTranslationDialog(wx.Dialog):
 		main_layout.Add(btn_layout, 0, wx.ALIGN_CENTER_HORIZONTAL | wx.BOTTOM, 10)
 		self.SetSizer(main_layout)
 		self.Fit()
+
+	def _on_text_context_menu(self, event):
+		# Kept bound as a fallback in case EVT_CONTEXT_MENU does fire on some
+		# system/build - the reliable path for the Menu key / Shift+F10 is
+		# the interception in _on_char_hook, since this event is not
+		# guaranteed to fire at all for a TE_RICH2 control (see notes there).
+		self._show_text_context_menu(event.GetPosition())
+
+	def _show_text_context_menu(self, screenPos=None):
+		"""Custom context menu on the translation display. The control is
+		read-only, so the standard Undo/Redo/Cut/Paste/Delete items are
+		always unavailable here and just add noise - replaced with Select
+		All/Copy plus the two actions requested as faster to reach than
+		tabbing down to the buttons: Continue and Swap."""
+		menu = wx.Menu()
+
+		select_all_item = menu.Append(wx.ID_ANY, _("Select All\tCtrl+A"))
+		self.text_ctrl.Bind(wx.EVT_MENU, lambda evt: self.text_ctrl.SelectAll(), select_all_item)
+
+		copy_item = menu.Append(wx.ID_ANY, _("Copy\tCtrl+C"))
+		copy_item.Enable(bool(self.text_ctrl.GetStringSelection()))
+		self.text_ctrl.Bind(wx.EVT_MENU, lambda evt: self.text_ctrl.Copy(), copy_item)
+
+		menu.AppendSeparator()
+
+		continue_item = menu.Append(wx.ID_ANY, _("Continue\tAlt+C"))
+		continue_item.Enable(self.continue_btn.IsEnabled())
+		self.text_ctrl.Bind(wx.EVT_MENU, self._on_continue, continue_item)
+
+		swap_item = menu.Append(wx.ID_ANY, _("Swap\tAlt+S"))
+		swap_item.Enable(self.swap_btn.IsEnabled())
+		self.text_ctrl.Bind(wx.EVT_MENU, self._on_swap_language, swap_item)
+
+		# A keyboard-invoked menu (from _on_char_hook, or a mouse event
+		# reporting DefaultPosition) has no screen coordinate; let PopupMenu
+		# pick its own default placement rather than guessing one.
+		if screenPos is None or screenPos == wx.DefaultPosition:
+			self.text_ctrl.PopupMenu(menu)
+		else:
+			self.text_ctrl.PopupMenu(menu, self.text_ctrl.ScreenToClient(screenPos))
+		menu.Destroy()
 
 	def _save_current_line(self):
 		if self.current_chunk_index is None:
@@ -174,6 +218,15 @@ class LongTranslationDialog(wx.Dialog):
 
 	def _on_swap_language(self, event):
 		if not self.chunk_pairs or self.chunk_pairs[self.current_chunk_index] is None:
+			# The Swap button can become reachable/enabled while the current
+			# chunk is still translating in the background (it's enabled
+			# ahead of the previous chunk's display, not gated on the current
+			# one finishing). Previously this returned silently, which is
+			# indistinguishable from the button doing nothing at all -
+			# reported as "swapping doesn't work" - so speak the actual
+			# reason instead of staying quiet (Section 5.11 spirit: no
+			# silent failures where a blind user gets zero feedback).
+			ui.message(_("This chunk is still translating, please wait."))
 			return
 		try:
 			self._save_current_line()
@@ -195,7 +248,39 @@ class LongTranslationDialog(wx.Dialog):
 			log.error(f"Swap failed: {e}")
 
 	def start_translation(self):
-		self._translate_chunk(0)
+		resume_index = next(
+			(i for i, pair in enumerate(self.chunk_pairs) if pair is None),
+			len(self.chunks)
+		)
+		if resume_index <= 0:
+			self._translate_chunk(0)
+			return
+		self._resume_from_saved_progress(resume_index)
+
+	def _resume_from_saved_progress(self, resume_index):
+		"""Restores the view to the last chunk translated in a previous,
+		interrupted run (e.g. one stopped by a rate limit or an exhausted
+		daily quota), then continues from the first untranslated chunk
+		instead of re-translating and re-spending quota on work already
+		done."""
+		last_done_index = resume_index - 1
+		pair = self.chunk_pairs[last_done_index]
+		self.current_chunk_index = last_done_index
+		self.showing_original = False
+		self.text_ctrl.SetValue(pair['translated'])
+		self.text_ctrl.SetInsertionPoint(0)
+		self.line_indices[last_done_index] = {'original': 0, 'translated': 0}
+		self.swap_btn.Enable(True)
+
+		if resume_index >= len(self.chunks):
+			ui.message(_("All chunks were already translated in a previous run."))
+			self._finish_translation()
+			return
+
+		ui.message(_("Resuming saved progress: chunk {current} of {total} already translated.").format(
+			current=resume_index, total=len(self.chunks)
+		))
+		self._translate_chunk(resume_index)
 
 	def _translate_chunk(self, index):
 		if index >= len(self.chunks) or self.cancelled or self.closed:
@@ -223,10 +308,23 @@ class LongTranslationDialog(wx.Dialog):
 					res, _detected = translate.google_translate(text, target, src)
 				if not self.closed:
 					wx.CallAfter(self._on_translation_complete, index, res, text)
-			except translate.TranslationRateLimitError:
-				log.error("Long translation rate limited")
+			except translate.TranslationQuotaExceededError:
+				log.error(f"Long translation stopped at chunk {index}: Gemini daily quota exceeded")
 				if not self.closed:
-					wx.CallAfter(self._on_error, _("Translation API blocked due to rate limits. Please try again later."))
+					wx.CallAfter(self._on_translation_blocked, _(
+						"Gemini daily quota exceeded. Translation paused before chunk {current} of "
+						"{total} to avoid replacing untranslated text with English text. Progress has "
+						"been saved - run this translation again after the quota resets to continue "
+						"where it left off."
+					).format(current=index + 1, total=len(self.chunks)))
+			except translate.TranslationRateLimitError:
+				log.error(f"Long translation rate limited at chunk {index}")
+				if not self.closed:
+					wx.CallAfter(self._on_translation_blocked, _(
+						"Translation service is rate limited. Translation paused before chunk {current} "
+						"of {total} to avoid replacing untranslated text with English text. Progress has "
+						"been saved - run this translation again shortly to continue where it left off."
+					).format(current=index + 1, total=len(self.chunks)))
 			except translate.TranslationError as e:
 				log.error(f"Long translation failed: {e}")
 				if not self.closed:
@@ -287,14 +385,25 @@ class LongTranslationDialog(wx.Dialog):
 		ui.message(message or _("Error during translation process."))
 		self._finish_translation()
 
-	def _finish_translation(self):
+	def _on_translation_blocked(self, message):
+		"""Handles a stop caused by a 429 rate limit or an exhausted Gemini
+		daily quota. Unlike _on_error, the saved chunk progress is kept on
+		disk (cleanup=False) so the run can resume without re-translating,
+		and re-spending quota on, chunks already completed."""
+		self.translation_in_progress = False
+		ui.message(message)
+		winsound.Beep(220, 400)
+		self._finish_translation(cleanup=False)
+
+	def _finish_translation(self, cleanup=True):
 		if self.closed:
 			return
 		self.continue_btn.Enable(False)
 		self.swap_btn.Enable(True)
 		self.cancel_btn.SetLabel(_("Close\tAlt+X"))
 		self.text_ctrl.SetFocus()
-		self._cleanup_files()
+		if cleanup:
+			self._cleanup_files()
 
 	def _on_continue(self, event):
 		if not self.translation_in_progress and self.current_chunk_index + 1 < len(self.chunks):
@@ -305,6 +414,12 @@ class LongTranslationDialog(wx.Dialog):
 		self.closed = True
 		self._cleanup_files()
 		self.Destroy()
+		if self._on_close_callback:
+			callback = self._on_close_callback
+			self._on_close_callback = None
+			callback()
 
 	def _on_close(self, event):
 		self._on_cancel(None)
+
+

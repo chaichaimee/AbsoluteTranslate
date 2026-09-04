@@ -1,4 +1,3 @@
-# __init__.py
 # Copyright (C) 2026 Chai Chaimee
 # Licensed under GNU General Public License. See COPYING.txt for details.
 
@@ -261,21 +260,38 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 				self._translate_and_output(full_text, tgt, src, swap, auto_swap, copy_mode)
 				async_started = True
 
-			elif tap_count >= 3:
+			elif tap_count == 3:
 				log.info("Triple tap: open settings")
 				self._open_settings()
 				async_started = True
+
+			elif tap_count >= 4:
+				log.info("Quadruple tap: toggle translation engine")
+				self._toggle_engine()
 		except Exception as e:
 			log.error(f"Execute translate action failed: {e}")
 		finally:
 			if not async_started:
 				self._finish_processing()
 
+	def _toggle_engine(self):
+		current = setting.config.get("translation_engine", "google_translate")
+		new_engine = "gemini" if current == "google_translate" else "google_translate"
+		setting.config["translation_engine"] = new_engine
+		setting.save_config()
+		label = "Gemini" if new_engine == "gemini" else "Google Translate"
+		ui.message(label)
+
 	def _translate_and_output(self, text, target_lang, source_lang, swap_lang, auto_swap, copy_mode):
 		def worker():
 			try:
 				translated = translate.translate_text(text, target_lang, source_lang, swap_lang, auto_swap)
 				core.callLater(0, self._output_translation, translated, copy_mode, False)
+			except translate.TranslationQuotaExceededError:
+				log.error("Gemini daily quota exceeded")
+				core.callLater(0, ui.message, _(
+					"Gemini daily quota exceeded. Please wait until the quota resets before translating again."
+				))
 			except translate.TranslationRateLimitError:
 				log.error("Translation rate limited")
 				core.callLater(0, ui.message, _("Translation API blocked due to rate limits. Please try again later."))
@@ -294,10 +310,27 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		def worker():
 			try:
 				chunks = translate.split_text_into_chunks(full_text)
+
+				# Resolve the effective source/target languages here, off the
+				# main thread. Auto-swap detection can make a network call
+				# (translate.detect_language / gemini detection); doing that
+				# inside LongTranslationDialog.__init__ blocked the main
+				# thread before the dialog could even appear (Section 5.1 -
+				# this was the root cause of "the long transcript dialog
+				# doesn't open, nothing happens").
+				effective_source_lang, effective_target_lang = translate.get_effective_languages(
+					full_text, target_lang, source_lang, swap_lang, auto_swap
+				)
+				if auto_swap and source_lang == "auto" and effective_target_lang != target_lang:
+					core.callLater(0, ui.message, _(
+						"Document language matches target. Auto-swapping to {}."
+					).format(translate.LANGUAGES.get(effective_target_lang, effective_target_lang)))
+					log.info(f"Auto-swap triggered: source={effective_source_lang}, target={effective_target_lang}")
+
 				core.callLater(
 					0,
 					self._show_long_translation_dialog,
-					chunks, target_lang, source_lang, swap_lang, auto_swap,
+					chunks, effective_target_lang, effective_source_lang, swap_lang, auto_swap,
 					copy_mode, append_mode
 				)
 			except Exception as e:
@@ -307,6 +340,17 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		threading.Thread(target=worker, daemon=True).start()
 
 	def _show_long_translation_dialog(self, chunks, target_lang, source_lang, swap_lang, auto_swap, copy_mode, append_mode):
+		# Show() rather than ShowModal(): this dialog's content is populated
+		# asynchronously over what can be an extended, unpredictable duration
+		# (one network round-trip per chunk, each with its own retry/backoff).
+		# ShowModal() nests wx's event loop inside NVDA's own top-level
+		# core.pyc message pump for the dialog's entire lifetime - observed in
+		# production as an escalating "Core frozen in stack!" watchdog report
+		# tied to dlg.ShowModal() specifically, growing in lockstep with the
+		# watchdog's own recheck interval until the dialog finally closed.
+		# Show() keeps NVDA's core loop running normally regardless of how
+		# long translation takes, since the dialog already updates itself
+		# asynchronously via wx.CallAfter from its background worker threads.
 		try:
 			dlg = LongTranslationDialog(
 				None,
@@ -318,13 +362,13 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 				copy_mode,
 				append_mode,
 				self.clipboard_handler,
+				on_close=self._finish_processing,
 			)
 			dlg.start_translation()
-			dlg.ShowModal()
+			dlg.Show()
 		except Exception as e:
 			log.error(f"Long translation dialog failed: {e}")
 			ui.message(_("Cannot open translation window."))
-		finally:
 			self._finish_processing()
 
 	def _open_settings(self):
@@ -340,7 +384,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			self._finish_processing()
 
 	@script(
-		description=_("Translates Selected Text (Single Tap), Translates Last Speech (Double Tap), Open Absolute Translate Settings (Tripple Tap)"),
+		description=_("Translates Selected Text (Single Tap), Translates Last Speech (Double Tap), "
+			"Open Absolute Translate Settings (Triple Tap), Toggle Translation Engine (Quadruple Tap)"),
 		gesture="kb:alt+windows+t",
 		category=scriptCategory
 	)
@@ -356,3 +401,5 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			int(self._double_tap_threshold * 1000),
 			self._execute_translate_action
 		)
+
+

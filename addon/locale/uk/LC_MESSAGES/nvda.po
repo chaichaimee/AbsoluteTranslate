@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: AbsoluteTranslate 2026.8.11\n"
+"Project-Id-Version: AbsoluteTranslate 2026.9.3\n"
 "Report-Msgid-Bugs-To: chaicm75@gmail.com\n"
-"POT-Creation-Date: 2026-08-26 12:55+0700\n"
+"POT-Creation-Date: 2026-09-04 13:47+0700\n"
 "PO-Revision-Date: \n"
 "Last-Translator: chaiBot and Malee Yamazaki\n"
 "Language-Team: Ukrainian\n"
@@ -12,25 +12,29 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: DevOn Addon\n"
 
-#: long_translation_dialog.py:133
+#: long_translation_dialog.py:136
 msgid "&Continue	Alt+C"
-msgstr "&Продовжити	Alt+C"
+msgstr "П&родовжити	Alt+C"
 
-#: long_translation_dialog.py:283
+#: long_translation_dialog.py:381
 msgid "&Continue	Alt+C ({} / {})"
-msgstr "&Продовжити	Alt+C ({} / {})"
+msgstr "П&родовжити	Alt+C ({} / {})"
 
-#: long_translation_dialog.py:138
+#: long_translation_dialog.py:141
 msgid "&Swap	Alt+S"
-msgstr "&Поміняти місцями	Alt+S"
+msgstr "По&міняти місцями	Alt+S"
 
 #: setting.py:109
 msgid "Absolute Translate"
-msgstr "Абсолютний переклад"
+msgstr "Absolute Translate"
+
+#: long_translation_dialog.py:276
+msgid "All chunks were already translated in a previous run."
+msgstr "Усі фрагменти вже були перекладені під час попереднього запуску."
 
 #: setting.py:164
 msgid "Append translations only in long translation (if text >2000 chars)"
-msgstr "Додавати переклади лише для довгих текстів (якщо текст >2000 символів)"
+msgstr "Додавати переклад знизу лише при довгому перекладі (якщо текст >2000 символів)"
 
 #: clipboard_utils.py:217
 msgid "Appended"
@@ -38,29 +42,33 @@ msgstr "Додано"
 
 #: setting.py:135
 msgid "Automatically swap when source matches target"
-msgstr "Автоматично міняти місцями, коли джерело збігається з ціллю"
+msgstr "Автоматично міняти місцями, якщо початкова мова збігається з цільовою"
 
-#: long_translation_dialog.py:143
+#: long_translation_dialog.py:146
 msgid "Cancel	Alt+X"
-msgstr "Скасувати	Alt+X"
+msgstr "Ска&сувати	Alt+X"
 
 #: clipboard_utils.py:193
 msgid "Cannot append to non-text clipboard content"
 msgstr "Неможливо додати до нетекстового вмісту буфера обміну"
 
-#: __init__.py:338
+#: __init__.py:382
 msgid "Cannot open settings dialog"
-msgstr "Не вдається відкрити діалог налаштувань"
+msgstr "Не вдалося відкрити діалог налаштувань"
 
-#: __init__.py:326
+#: __init__.py:371
 msgid "Cannot open translation window."
-msgstr "Не вдається відкрити вікно перекладу."
+msgstr "Не вдалося відкрити вікно перекладу."
 
-#: long_translation_dialog.py:295
+#: long_translation_dialog.py:403
 msgid "Close	Alt+X"
-msgstr "Закрити	Alt+X"
+msgstr "З&акрити	Alt+X"
 
-#: long_translation_dialog.py:18
+#: long_translation_dialog.py:178
+msgid "Continue	Alt+C"
+msgstr "Продовжити	Alt+C"
+
+#: long_translation_dialog.py:16
 msgid "Continuous Translation"
 msgstr "Безперервний переклад"
 
@@ -72,17 +80,29 @@ msgstr "Безперервний переклад"
 msgid "Copied"
 msgstr "Скопійовано"
 
-#: long_translation_dialog.py:65
-msgid "Document language matches target. Auto-swapping to {}."
-msgstr "Мова документа збігається з цільовою. Автоматичне перемикання на {}."
+#: long_translation_dialog.py:172
+msgid "Copy	Ctrl+C"
+msgstr "Копіювати	Ctrl+C"
 
-#: long_translation_dialog.py:287
+#: __init__.py:325
+msgid "Document language matches target. Auto-swapping to {}."
+msgstr "Мова документа збігається з цільовою. Автоматична зміна на {}."
+
+#: long_translation_dialog.py:385
 msgid "Error during translation process."
 msgstr "Помилка під час процесу перекладу."
 
 #: clipboard_utils.py:224
 msgid "Error writing to clipboard"
 msgstr "Помилка запису в буфер обміну"
+
+#: __init__.py:292
+msgid "Gemini daily quota exceeded. Please wait until the quota resets before translating again."
+msgstr "Денну квоту Gemini перевищено. Будь ласка, зачекайте на скидання квоти перед повторним перекладом."
+
+#: long_translation_dialog.py:314
+msgid "Gemini daily quota exceeded. Translation paused before chunk {current} of {total} to avoid replacing untranslated text with English text. Progress has been saved - run this translation again after the quota resets to continue where it left off."
+msgstr "Денну квоту Gemini перевищено. Переклад призупинено перед фрагментом {current} з {total}, щоб уникнути заміни неперекладеного тексту англійським. Прогрес збережено — запустіть цей переклад знову після скидання квоти, щоб продовжити з місця зупинки."
 
 #: setting.py:187
 msgid "Gemini model:"
@@ -98,78 +118,97 @@ msgstr "Ключ API Google AI Studio:"
 
 #: setting.py:170
 msgid "Google Translate"
-msgstr "Перекладач Google"
+msgstr "Google Translate"
 
-#: __init__.py:252
+#: __init__.py:251
 msgid "No spoken text captured."
-msgstr "Не озвучено жодного тексту."
+msgstr "Мовленнєвий текст не захоплено."
 
-#: __init__.py:156
+#: __init__.py:155
 msgid "No translation history yet."
-msgstr "Історія перекладів порожня."
+msgstr "Історія перекладу поки порожня."
 
-#: __init__.py:181
+#: __init__.py:180
 msgid "No translation result."
 msgstr "Немає результату перекладу."
+
+#: long_translation_dialog.py:280
+msgid "Resuming saved progress: chunk {current} of {total} already translated."
+msgstr "Відновлення збереженого прогресу: фрагмент {current} з {total} вже перекладено."
 
 #: setting.py:152
 msgid "Save translations to clipboard"
 msgstr "Зберігати переклади в буфер обміну"
 
+#: long_translation_dialog.py:169
+msgid "Select All	Ctrl+A"
+msgstr "Виділити все	Ctrl+A"
+
 #: setting.py:121
 msgid "Source language:"
-msgstr "Мова оригіналу:"
+msgstr "Початкова мова:"
+
+#: long_translation_dialog.py:182
+msgid "Swap	Alt+S"
+msgstr "Поміняти місцями	Alt+S"
 
 #: setting.py:140
 msgid "Swap to language:"
-msgstr "Змінити мову на:"
+msgstr "Переключити на мову:"
 
-#: long_translation_dialog.py:193
+#: long_translation_dialog.py:246
 msgid "Swapped"
-msgstr "Мови змінено"
+msgstr "Поміняно місцями"
 
 #: setting.py:128
 msgid "Target language:"
 msgstr "Цільова мова:"
 
-#: __init__.py:163
-msgid "This is the oldest translation in history."
-msgstr "This is the oldest translation in history."
-
-#: __init__.py:343
-msgid "Translates Selected Text (Single Tap), Translates Last Speech (Double Tap), Open Absolute Translate Settings (Tripple Tap)"
-msgstr "Translates Selected Text (Single Tap), Translates Last Speech (Double Tap), Open Absolute Translate Settings (Tripple Tap)"
-
-#: __init__.py:281
 #: long_translation_dialog.py:229
+msgid "This chunk is still translating, please wait."
+msgstr "Цей фрагмент все ще перекладається, зачекайте, будь ласка."
+
+#: __init__.py:162
+msgid "This is the oldest translation in history."
+msgstr "Це найстаріший переклад в історії."
+
+#: __init__.py:387
+msgid "Translates Selected Text (Single Tap), Translates Last Speech (Double Tap), Open Absolute Translate Settings (Triple Tap), Toggle Translation Engine (Quadruple Tap)"
+msgstr "Переклад виділеного тексту (одне натискання), переклад останньої фрази (подвійне натискання), відкрити налаштування Absolute Translate (потрійне натискання), переключити рушій перекладу (потрійне+одне натискання)"
+
+#: __init__.py:297
 msgid "Translation API blocked due to rate limits. Please try again later."
-msgstr "Translation API blocked due to rate limits. Please try again later."
+msgstr "API перекладу заблоковано через обмеження частоти запитів. Будь ласка, спробуйте пізніше."
 
 #: setting.py:172
 msgid "Translation engine:"
 msgstr "Рушій перекладу:"
 
-#: long_translation_dialog.py:245
+#: long_translation_dialog.py:343
 msgid "Translation failed."
-msgstr "Не вдалося перекласти."
+msgstr "Збій перекладу."
 
-#: __init__.py:287
+#: __init__.py:303
 msgid "Translation failed. Please check your network connection."
-msgstr "Помилка перевірки. Перевірте підключення до мережі."
+msgstr "Збій перекладу. Будь ласка, перевірте мережеве з'єднання."
 
-#: __init__.py:284
-#: long_translation_dialog.py:233
+#: __init__.py:300
+#: long_translation_dialog.py:331
 msgid "Translation failed: {error}"
-msgstr "Не вдалося перекласти: {error}"
+msgstr "Збій перекладу: {error}"
 
-#: __init__.py:231
+#: __init__.py:230
 msgid "Translation in progress, please wait."
-msgstr "Триває переклад, зачекайте."
+msgstr "Триває переклад, будь ласка, зачекайте."
+
+#: long_translation_dialog.py:323
+msgid "Translation service is rate limited. Translation paused before chunk {current} of {total} to avoid replacing untranslated text with English text. Progress has been saved - run this translation again shortly to continue where it left off."
+msgstr "Служба перекладу обмежила частоту запитів. Переклад призупинено перед фрагментом {current} з {total}, щоб уникнути заміни неперекладеного тексту англійським. Прогрес збережено — запустіть цей переклад знову незабаром, щоб продовжити з місця зупинки."
 
 #: setting.py:193
 msgid "Translation style:"
 msgstr "Стиль перекладу:"
 
-#: __init__.py:101
+#: __init__.py:100
 msgid "Translation timed out."
-msgstr "Час очікування перекладу вичерпано."
+msgstr "Перевищено час очікування перекладу."

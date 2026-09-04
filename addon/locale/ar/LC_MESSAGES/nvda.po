@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: AbsoluteTranslate 2026.8.11\n"
+"Project-Id-Version: AbsoluteTranslate 2026.9.3\n"
 "Report-Msgid-Bugs-To: chaicm75@gmail.com\n"
-"POT-Creation-Date: 2026-08-26 12:55+0700\n"
+"POT-Creation-Date: 2026-09-04 13:47+0700\n"
 "PO-Revision-Date: \n"
 "Last-Translator: chaiBot and Malee Yamazaki\n"
 "Language-Team: Arabic\n"
@@ -12,25 +12,29 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: DevOn Addon\n"
 
-#: long_translation_dialog.py:133
+#: long_translation_dialog.py:136
 msgid "&Continue	Alt+C"
-msgstr "&استمرار	Alt+C"
+msgstr "م&تابعة	Alt+C"
 
-#: long_translation_dialog.py:283
+#: long_translation_dialog.py:381
 msgid "&Continue	Alt+C ({} / {})"
-msgstr "&استمرار	Alt+C ({} / {})"
+msgstr "م&تابعة	Alt+C ({} / {})"
 
-#: long_translation_dialog.py:138
+#: long_translation_dialog.py:141
 msgid "&Swap	Alt+S"
-msgstr "&تبديل	Alt+S"
+msgstr "تب&ديل	Alt+S"
 
 #: setting.py:109
 msgid "Absolute Translate"
-msgstr "ترجمة مطلقة"
+msgstr "Absolute Translate"
+
+#: long_translation_dialog.py:276
+msgid "All chunks were already translated in a previous run."
+msgstr "تمت ترجمة جميع الأجزاء بالفعل في تشغيل سابق."
 
 #: setting.py:164
 msgid "Append translations only in long translation (if text >2000 chars)"
-msgstr "إلحاق الترجمات فقط في الترجمات الطويلة (إذا كان النص > 2000 حرف)"
+msgstr "إلحاق الترجمات فقط في الترجمة الطويلة (إذا كان النص أكثر من 2000 حرف)"
 
 #: clipboard_utils.py:217
 msgid "Appended"
@@ -38,55 +42,71 @@ msgstr "تم الإلحاق"
 
 #: setting.py:135
 msgid "Automatically swap when source matches target"
-msgstr "تبديل تلقائي عندما يطابق المصدر الهدف"
+msgstr "تبديل تلقائي عندما تتطابق اللغة المصدر مع الهدف"
 
-#: long_translation_dialog.py:143
+#: long_translation_dialog.py:146
 msgid "Cancel	Alt+X"
-msgstr "إلغاء	Alt+X"
+msgstr "إل&غاء	Alt+X"
 
 #: clipboard_utils.py:193
 msgid "Cannot append to non-text clipboard content"
-msgstr "تعذر الإلحاق بمحتوى الحافظة غير النصي"
+msgstr "لا يمكن الإلحاق بمحتوى الحافظة غير النصي"
 
-#: __init__.py:338
+#: __init__.py:382
 msgid "Cannot open settings dialog"
-msgstr "تعذر فتح نافذة الإعدادات"
+msgstr "تعذر فتح مربع حوار الإعدادات"
 
-#: __init__.py:326
+#: __init__.py:371
 msgid "Cannot open translation window."
-msgstr "لا يمكن فتح نافذة الترجمة."
+msgstr "تعذر فتح نافذة الترجمة."
 
-#: long_translation_dialog.py:295
+#: long_translation_dialog.py:403
 msgid "Close	Alt+X"
-msgstr "إغلاق	Alt+X"
+msgstr "إغ&لاق	Alt+X"
 
-#: long_translation_dialog.py:18
+#: long_translation_dialog.py:178
+msgid "Continue	Alt+C"
+msgstr "متابعة	Alt+C"
+
+#: long_translation_dialog.py:16
 msgid "Continuous Translation"
-msgstr "الترجمة المستمرة"
+msgstr "ترجمة مستمرة"
 
 #: setting.py:159
 msgid "Continuous translation"
-msgstr "الترجمة المستمرة"
+msgstr "ترجمة مستمرة"
 
 #: clipboard_utils.py:217
 msgid "Copied"
 msgstr "تم النسخ"
 
-#: long_translation_dialog.py:65
-msgid "Document language matches target. Auto-swapping to {}."
-msgstr "لغة المستند تطابق اللغة المستهدفة. يتم التبديل تلقائياً إلى {}."
+#: long_translation_dialog.py:172
+msgid "Copy	Ctrl+C"
+msgstr "نسخ	Ctrl+C"
 
-#: long_translation_dialog.py:287
+#: __init__.py:325
+msgid "Document language matches target. Auto-swapping to {}."
+msgstr "لغة المستند تطابق اللغة الهدف. جاري التبديل التلقائي إلى {}."
+
+#: long_translation_dialog.py:385
 msgid "Error during translation process."
-msgstr "خطأ أثناء عملية الترجمة."
+msgstr "حدث خطأ أثناء عملية الترجمة."
 
 #: clipboard_utils.py:224
 msgid "Error writing to clipboard"
 msgstr "خطأ أثناء الكتابة إلى الحافظة"
 
+#: __init__.py:292
+msgid "Gemini daily quota exceeded. Please wait until the quota resets before translating again."
+msgstr "تم تجاوز الحصة اليومية لـ Gemini. يرجى الانتظار حتى إعادة ضبط الحصة قبل الترجمة مرة أخرى."
+
+#: long_translation_dialog.py:314
+msgid "Gemini daily quota exceeded. Translation paused before chunk {current} of {total} to avoid replacing untranslated text with English text. Progress has been saved - run this translation again after the quota resets to continue where it left off."
+msgstr "تم تجاوز الحصة اليومية لـ Gemini. تم إيقاف الترجمة مؤقتًا قبل الجزء {current} من {total} لتجنب استبدال النص غير المترجم بالنص الإنكليزي. تم حفظ التقدم - قم بتشغيل هذه الترجمة مرة أخرى بعد إعادة ضبط الحصة للمتابعة من حيث توقفت."
+
 #: setting.py:187
 msgid "Gemini model:"
-msgstr "نموذج جيميني:"
+msgstr "نموذج Gemini:"
 
 #: setting.py:170
 msgid "Google AI Studio (Gemini)"
@@ -94,37 +114,49 @@ msgstr "Google AI Studio (Gemini)"
 
 #: setting.py:181
 msgid "Google AI Studio API key:"
-msgstr "مفتاح واجهة برمجة تطبيقات Google AI Studio:"
+msgstr "مفتاح API لـ Google AI Studio:"
 
 #: setting.py:170
 msgid "Google Translate"
-msgstr "ترجمة Google"
+msgstr "Google Translate"
 
-#: __init__.py:252
+#: __init__.py:251
 msgid "No spoken text captured."
-msgstr "لم يتم التقاط نص منطوق."
+msgstr "لم يتم التقاط أي نص منطوق."
 
-#: __init__.py:156
+#: __init__.py:155
 msgid "No translation history yet."
-msgstr "لا يوجد سجل ترجمات بعد."
+msgstr "لا يوجد سجِل ترجمة بعد."
 
-#: __init__.py:181
+#: __init__.py:180
 msgid "No translation result."
-msgstr "لا توجد نتيجة ترجمة."
+msgstr "لا توجد نتيجة للترجمة."
+
+#: long_translation_dialog.py:280
+msgid "Resuming saved progress: chunk {current} of {total} already translated."
+msgstr "استئناف التقدم المحفوظ: الجزء {current} من {total} تم ترجمته بالفعل."
 
 #: setting.py:152
 msgid "Save translations to clipboard"
-msgstr "حفظ الترجمات إلى الحافظة"
+msgstr "حفظ الترجمات في الحافظة"
+
+#: long_translation_dialog.py:169
+msgid "Select All	Ctrl+A"
+msgstr "تحديد الكل	Ctrl+A"
 
 #: setting.py:121
 msgid "Source language:"
 msgstr "اللغة المصدر:"
 
+#: long_translation_dialog.py:182
+msgid "Swap	Alt+S"
+msgstr "تبديل	Alt+S"
+
 #: setting.py:140
 msgid "Swap to language:"
 msgstr "التبديل إلى اللغة:"
 
-#: long_translation_dialog.py:193
+#: long_translation_dialog.py:246
 msgid "Swapped"
 msgstr "تم التبديل"
 
@@ -132,44 +164,51 @@ msgstr "تم التبديل"
 msgid "Target language:"
 msgstr "اللغة الهدف:"
 
-#: __init__.py:163
-msgid "This is the oldest translation in history."
-msgstr "هذه أقدم ترجمة في التاريخ."
-
-#: __init__.py:343
-msgid "Translates Selected Text (Single Tap), Translates Last Speech (Double Tap), Open Absolute Translate Settings (Tripple Tap)"
-msgstr "ترجمة النص المحدد (نقرة واحدة)، ترجمة آخر كلام منطوق (نقرتان)، فتح إعدادات الترجمة المطلقة (ثلاث نقرات)"
-
-#: __init__.py:281
 #: long_translation_dialog.py:229
+msgid "This chunk is still translating, please wait."
+msgstr "هذا الجزء قيد الترجمة حاليًا، يرجى الانتظار."
+
+#: __init__.py:162
+msgid "This is the oldest translation in history."
+msgstr "هذه أقدم ترجمة في السجِل."
+
+#: __init__.py:387
+msgid "Translates Selected Text (Single Tap), Translates Last Speech (Double Tap), Open Absolute Translate Settings (Triple Tap), Toggle Translation Engine (Quadruple Tap)"
+msgstr "ترجمة النص المحدد (ضغطة واحدة)، ترجمة آخر نص منطوق (ضغطتان)، فتح إعدادات Absolute Translate (3 ضغطات)، تبديل محرك الترجمة (4 ضغطات)"
+
+#: __init__.py:297
 msgid "Translation API blocked due to rate limits. Please try again later."
-msgstr "تم حظر واجهة برمجة تطبيقات الترجمة بسبب تجاوز حد الاستخدام. يرجى المحاولة مرة أخرى لاحقاً."
+msgstr "تم حظر واجهة برمجة تطبيقات الترجمة بسبب تجاوز حد المعدل. يرجى المحاولة مرة أخرى لاحقًا."
 
 #: setting.py:172
 msgid "Translation engine:"
 msgstr "محرك الترجمة:"
 
-#: long_translation_dialog.py:245
+#: long_translation_dialog.py:343
 msgid "Translation failed."
 msgstr "فشلت الترجمة."
 
-#: __init__.py:287
+#: __init__.py:303
 msgid "Translation failed. Please check your network connection."
-msgstr "فشلت الترجمة. يرجى التحقق من اتصالك بالإنترنت."
+msgstr "فشلت الترجمة. يرجى التحقق من اتصال الشبكة لديك."
 
-#: __init__.py:284
-#: long_translation_dialog.py:233
+#: __init__.py:300
+#: long_translation_dialog.py:331
 msgid "Translation failed: {error}"
 msgstr "فشلت الترجمة: {error}"
 
-#: __init__.py:231
+#: __init__.py:230
 msgid "Translation in progress, please wait."
-msgstr "الترجمة جارية، يرجى الانتظار."
+msgstr "الترجمة قيد التقدم، يرجى الانتظار."
+
+#: long_translation_dialog.py:323
+msgid "Translation service is rate limited. Translation paused before chunk {current} of {total} to avoid replacing untranslated text with English text. Progress has been saved - run this translation again shortly to continue where it left off."
+msgstr "تم تقييد خدمة الترجمة بسبب حد المعدل. تم إيقاف الترجمة مؤقتًا قبل الجزء {current} من {total} لتجنب استبدال النص غير المترجم بالنص الإنكليزي. تم حفظ التقدم - قم بتشغيل هذه الترجمة مرة أخرى بعد قليل للمتابعة من حيث توقفت."
 
 #: setting.py:193
 msgid "Translation style:"
 msgstr "أسلوب الترجمة:"
 
-#: __init__.py:101
+#: __init__.py:100
 msgid "Translation timed out."
 msgstr "انتهت مهلة الترجمة."

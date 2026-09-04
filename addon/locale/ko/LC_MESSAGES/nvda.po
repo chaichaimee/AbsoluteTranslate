@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: AbsoluteTranslate 2026.8.11\n"
+"Project-Id-Version: AbsoluteTranslate 2026.9.3\n"
 "Report-Msgid-Bugs-To: chaicm75@gmail.com\n"
-"POT-Creation-Date: 2026-08-26 12:55+0700\n"
+"POT-Creation-Date: 2026-09-04 13:47+0700\n"
 "PO-Revision-Date: \n"
 "Last-Translator: chaiBot and Malee Yamazaki\n"
 "Language-Team: Korean\n"
@@ -12,25 +12,29 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: DevOn Addon\n"
 
-#: long_translation_dialog.py:133
+#: long_translation_dialog.py:136
 msgid "&Continue	Alt+C"
 msgstr "계속(&C)	Alt+C"
 
-#: long_translation_dialog.py:283
+#: long_translation_dialog.py:381
 msgid "&Continue	Alt+C ({} / {})"
 msgstr "계속(&C)	Alt+C ({} / {})"
 
-#: long_translation_dialog.py:138
+#: long_translation_dialog.py:141
 msgid "&Swap	Alt+S"
 msgstr "전환(&S)	Alt+S"
 
 #: setting.py:109
 msgid "Absolute Translate"
-msgstr "절대 번역"
+msgstr "Absolute Translate"
+
+#: long_translation_dialog.py:276
+msgid "All chunks were already translated in a previous run."
+msgstr "이전 작업에서 모든 조각이 이미 번역되었습니다."
 
 #: setting.py:164
 msgid "Append translations only in long translation (if text >2000 chars)"
-msgstr "긴 번역의 경우에만 번역 추가 (텍스트가 2000자를 초과하는 경우)"
+msgstr "긴 번역에서만 번역 추가 (텍스트가 2000자 초과인 경우)"
 
 #: clipboard_utils.py:217
 msgid "Appended"
@@ -38,29 +42,33 @@ msgstr "추가됨"
 
 #: setting.py:135
 msgid "Automatically swap when source matches target"
-msgstr "원문이 대상 언어와 일치할 때 자동으로 전환"
+msgstr "원본 언어와 대상 언어가 일치할 때 자동으로 전환"
 
-#: long_translation_dialog.py:143
+#: long_translation_dialog.py:146
 msgid "Cancel	Alt+X"
 msgstr "취소(&X)	Alt+X"
 
 #: clipboard_utils.py:193
 msgid "Cannot append to non-text clipboard content"
-msgstr "텍스트가 아닌 클립보드 내용에는 추가할 수 없습니다."
+msgstr "텍스트가 아닌 클립보드 내용에는 추가할 수 없습니다"
 
-#: __init__.py:338
+#: __init__.py:382
 msgid "Cannot open settings dialog"
-msgstr "설정 대화상자를 열 수 없습니다."
+msgstr "설정 대화 상자를 열 수 없습니다"
 
-#: __init__.py:326
+#: __init__.py:371
 msgid "Cannot open translation window."
 msgstr "번역 창을 열 수 없습니다."
 
-#: long_translation_dialog.py:295
+#: long_translation_dialog.py:403
 msgid "Close	Alt+X"
-msgstr "닫기	Alt+X"
+msgstr "닫기(&X)	Alt+X"
 
-#: long_translation_dialog.py:18
+#: long_translation_dialog.py:178
+msgid "Continue	Alt+C"
+msgstr "계속	Alt+C"
+
+#: long_translation_dialog.py:16
 msgid "Continuous Translation"
 msgstr "연속 번역"
 
@@ -72,17 +80,29 @@ msgstr "연속 번역"
 msgid "Copied"
 msgstr "복사됨"
 
-#: long_translation_dialog.py:65
-msgid "Document language matches target. Auto-swapping to {}."
-msgstr "문서 언어가 대상 언어와 일치합니다. {} (으)로 자동 전환합니다."
+#: long_translation_dialog.py:172
+msgid "Copy	Ctrl+C"
+msgstr "복사	Ctrl+C"
 
-#: long_translation_dialog.py:287
+#: __init__.py:325
+msgid "Document language matches target. Auto-swapping to {}."
+msgstr "문서 언어가 대상 언어와 일치합니다. {}로 자동 전환합니다."
+
+#: long_translation_dialog.py:385
 msgid "Error during translation process."
-msgstr "번역 중 오류가 발생했습니다."
+msgstr "번역 과정 중 오류가 발생했습니다."
 
 #: clipboard_utils.py:224
 msgid "Error writing to clipboard"
-msgstr "클립보드에 쓰는 중 오류 발생"
+msgstr "클립보드에 쓰는 중 오류가 발생했습니다"
+
+#: __init__.py:292
+msgid "Gemini daily quota exceeded. Please wait until the quota resets before translating again."
+msgstr "Gemini 일일 할당량이 초과되었습니다. 다시 번역하기 전에 할당량이 재설정될 때까지 기다려 주세요."
+
+#: long_translation_dialog.py:314
+msgid "Gemini daily quota exceeded. Translation paused before chunk {current} of {total} to avoid replacing untranslated text with English text. Progress has been saved - run this translation again after the quota resets to continue where it left off."
+msgstr "Gemini 일일 할당량이 초과되었습니다. 번역되지 않은 텍스트가 영어로 대체되는 것을 방지하기 위해 전체 {total}개 중 {current}번째 조각 앞에서 번역이 일시 중지되었습니다. 진행 상황이 저장되었습니다. 할당량이 재설정된 후 이 번역을 다시 실행하여 중단된 위치부터 계속하세요."
 
 #: setting.py:187
 msgid "Gemini model:"
@@ -94,37 +114,49 @@ msgstr "Google AI Studio (Gemini)"
 
 #: setting.py:181
 msgid "Google AI Studio API key:"
-msgstr "구글 AI Studio API 키:"
+msgstr "Google AI Studio API 키:"
 
 #: setting.py:170
 msgid "Google Translate"
-msgstr "Google 번역"
+msgstr "Google Translate"
 
-#: __init__.py:252
+#: __init__.py:251
 msgid "No spoken text captured."
-msgstr "음성 텍스트가 캡처되지 않았습니다."
+msgstr "캡처된 음성 텍스트가 없습니다."
 
-#: __init__.py:156
+#: __init__.py:155
 msgid "No translation history yet."
-msgstr "번역 내역이 없습니다."
+msgstr "아직 번역 기록이 없습니다."
 
-#: __init__.py:181
+#: __init__.py:180
 msgid "No translation result."
 msgstr "번역 결과가 없습니다."
 
+#: long_translation_dialog.py:280
+msgid "Resuming saved progress: chunk {current} of {total} already translated."
+msgstr "저장된 진행 상황을 다시 시작합니다: 전체 {total}개 중 {current}번째 조각이 이미 번역되었습니다."
+
 #: setting.py:152
 msgid "Save translations to clipboard"
-msgstr "클립보드에 번역 저장"
+msgstr "번역 결과를 클립보드에 저장"
+
+#: long_translation_dialog.py:169
+msgid "Select All	Ctrl+A"
+msgstr "모두 선택	Ctrl+A"
 
 #: setting.py:121
 msgid "Source language:"
 msgstr "원본 언어:"
 
+#: long_translation_dialog.py:182
+msgid "Swap	Alt+S"
+msgstr "전환	Alt+S"
+
 #: setting.py:140
 msgid "Swap to language:"
-msgstr "바꿀 언어:"
+msgstr "전환할 언어:"
 
-#: long_translation_dialog.py:193
+#: long_translation_dialog.py:246
 msgid "Swapped"
 msgstr "전환됨"
 
@@ -132,44 +164,51 @@ msgstr "전환됨"
 msgid "Target language:"
 msgstr "대상 언어:"
 
-#: __init__.py:163
-msgid "This is the oldest translation in history."
-msgstr "이것은 역사상 가장 오래된 번역입니다."
-
-#: __init__.py:343
-msgid "Translates Selected Text (Single Tap), Translates Last Speech (Double Tap), Open Absolute Translate Settings (Tripple Tap)"
-msgstr "선택한 텍스트 번역(한 번 탭), 마지막 음성 번역(두 번 탭), 절대 번역 설정 열기(세 번 탭)"
-
-#: __init__.py:281
 #: long_translation_dialog.py:229
+msgid "This chunk is still translating, please wait."
+msgstr "이 조각은 아직 번역 중입니다. 잠시만 기다려 주세요."
+
+#: __init__.py:162
+msgid "This is the oldest translation in history."
+msgstr "기록 중 가장 오래된 번역입니다."
+
+#: __init__.py:387
+msgid "Translates Selected Text (Single Tap), Translates Last Speech (Double Tap), Open Absolute Translate Settings (Triple Tap), Toggle Translation Engine (Quadruple Tap)"
+msgstr "선택한 텍스트 번역 (한 번 누름), 마지막 음성 번역 (두 번 누름), Absolute Translate 설정 열기 (세 번 누름), 번역 엔진 전환 (네 번 누름)"
+
+#: __init__.py:297
 msgid "Translation API blocked due to rate limits. Please try again later."
-msgstr "사용량 제한으로 인해 번역 API가 차단되었습니다. 나중에 다시 시도해 주세요."
+msgstr "요청 제한으로 인해 번역 API가 차단되었습니다. 나중에 다시 시도해 주세요."
 
 #: setting.py:172
 msgid "Translation engine:"
 msgstr "번역 엔진:"
 
-#: long_translation_dialog.py:245
+#: long_translation_dialog.py:343
 msgid "Translation failed."
 msgstr "번역에 실패했습니다."
 
-#: __init__.py:287
+#: __init__.py:303
 msgid "Translation failed. Please check your network connection."
 msgstr "번역에 실패했습니다. 네트워크 연결을 확인해 주세요."
 
-#: __init__.py:284
-#: long_translation_dialog.py:233
+#: __init__.py:300
+#: long_translation_dialog.py:331
 msgid "Translation failed: {error}"
 msgstr "번역 실패: {error}"
 
-#: __init__.py:231
+#: __init__.py:230
 msgid "Translation in progress, please wait."
-msgstr "번역 중입니다. 잠시만 기다려 주세요."
+msgstr "번역이 진행 중입니다. 잠시만 기다려 주세요."
+
+#: long_translation_dialog.py:323
+msgid "Translation service is rate limited. Translation paused before chunk {current} of {total} to avoid replacing untranslated text with English text. Progress has been saved - run this translation again shortly to continue where it left off."
+msgstr "번역 서비스의 요청 속도가 제한되었습니다. 번역되지 않은 텍스트가 영어로 대체되는 것을 방지하기 위해 전체 {total}개 중 {current}번째 조각 앞에서 번역이 일시 중지되었습니다. 진행 상황이 저장되었습니다. 잠시 후 이 번역을 다시 실행하여 중단된 위치부터 계속하세요."
 
 #: setting.py:193
 msgid "Translation style:"
 msgstr "번역 스타일:"
 
-#: __init__.py:101
+#: __init__.py:100
 msgid "Translation timed out."
 msgstr "번역 시간이 초과되었습니다."
